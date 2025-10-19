@@ -1,0 +1,667 @@
+<!doctype html>
+<html lang="en" translate="no">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google" content="notranslate">
+<meta http-equiv="Content-Language" content="en">
+<title>Knowledge Detail - VALARZAI</title>
+<meta name="description" content="Knowledge item detail - VALARZAI Knowledge Base">
+<link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<meta name="theme-color" content="#667eea">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/knowledge.css">
+<style>
+    /* 详情页样式 */
+    .detail-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+    }
+
+    .detail-card {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border-radius: 1rem;
+        padding: 2.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    }
+
+    .detail-header {
+        margin-bottom: 2rem;
+    }
+
+    .detail-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+        font-size: 0.9rem;
+        color: #9ca3af;
+    }
+
+    .detail-meta-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .detail-category {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        background: rgba(102, 126, 234, 0.2);
+        border-radius: 2rem;
+        font-size: 0.9rem;
+        color: #a5b4fc;
+    }
+
+    .detail-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin: 1rem 0;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .detail-source {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #6b7280;
+        font-size: 0.95rem;
+        margin-top: 1rem;
+        padding: 1rem;
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 0.5rem;
+        border-left: 3px solid #667eea;
+    }
+
+    .detail-content {
+        line-height: 1.8;
+        color: #e5e7eb;
+        font-size: 1.05rem;
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        white-space: pre-wrap;
+        word-wrap: break-word;
+    }
+
+    .detail-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 2rem;
+    }
+
+    .detail-tag {
+        padding: 0.5rem 1rem;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 2rem;
+        font-size: 0.85rem;
+        color: #d1d5db;
+    }
+
+    .detail-actions {
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .btn-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 0.5rem;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .btn-back:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateX(-5px);
+    }
+
+    .loading-state {
+        text-align: center;
+        padding: 4rem 2rem;
+    }
+
+    .spinner {
+        width: 50px;
+        height: 50px;
+        border: 4px solid rgba(255, 255, 255, 0.1);
+        border-top-color: #667eea;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 1rem;
+    }
+
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+
+    .error-state {
+        text-align: center;
+        padding: 4rem 2rem;
+        color: #ef4444;
+    }
+
+    .error-icon {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+    }
+
+    /* Markdown Content Styles */
+    .markdown-content {
+        line-height: 1.8;
+        color: #e5e7eb;
+    }
+
+    .markdown-content h1,
+    .markdown-content h2,
+    .markdown-content h3 {
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        font-weight: 600;
+        color: #f9fafb;
+    }
+
+    .markdown-content h1 {
+        font-size: 2rem;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        padding-bottom: 0.5rem;
+    }
+
+    .markdown-content h2 {
+        font-size: 1.75rem;
+    }
+
+    .markdown-content h3 {
+        font-size: 1.5rem;
+    }
+
+    .markdown-content p {
+        margin-bottom: 1.25rem;
+        color: #e5e7eb;
+    }
+
+    .markdown-content ul,
+    .markdown-content ol {
+        margin-left: 1.5rem;
+        margin-bottom: 1.25rem;
+        padding-left: 0.5rem;
+    }
+
+    .markdown-content li {
+        margin-bottom: 0.5rem;
+        color: #e5e7eb;
+    }
+
+    .markdown-content strong {
+        font-weight: 600;
+        color: #f9fafb;
+    }
+
+    .markdown-content em {
+        font-style: italic;
+        color: #d1d5db;
+    }
+
+    .markdown-content a {
+        color: #667eea;
+        text-decoration: underline;
+        transition: color 0.3s;
+    }
+
+    .markdown-content a:hover {
+        color: #764ba2;
+    }
+
+    .markdown-content blockquote {
+        border-left: 4px solid #667eea;
+        padding-left: 1rem;
+        margin: 1.5rem 0;
+        color: #9ca3af;
+        font-style: italic;
+        background: rgba(102, 126, 234, 0.1);
+        padding: 1rem;
+        border-radius: 0.5rem;
+    }
+
+    .markdown-content code {
+        background: rgba(0, 0, 0, 0.3);
+        padding: 0.2rem 0.4rem;
+        border-radius: 0.25rem;
+        font-family: 'Courier New', monospace;
+        font-size: 0.9em;
+        color: #fbbf24;
+    }
+
+    .markdown-content pre {
+        background: rgba(0, 0, 0, 0.4);
+        padding: 1rem;
+        border-radius: 0.5rem;
+        overflow-x: auto;
+        margin: 1rem 0;
+    }
+
+    .markdown-content pre code {
+        background: none;
+        padding: 0;
+        color: #e5e7eb;
+    }
+
+    @media (max-width: 768px) {
+        .detail-card {
+            padding: 1.5rem;
+        }
+
+        .detail-title {
+            font-size: 1.8rem;
+        }
+
+        .detail-content {
+            font-size: 1rem;
+        }
+
+        .markdown-content h1 {
+            font-size: 1.75rem;
+        }
+
+        .markdown-content h2 {
+            font-size: 1.5rem;
+        }
+
+        .markdown-content h3 {
+            font-size: 1.25rem;
+        }
+    }
+</style>
+</head>
+<body class="notranslate" translate="no">
+    <!-- Background: Nebula and Fluid -->
+    <div class="bg-container">
+        <canvas id="canvas"></canvas>
+        <canvas id="fluidCanvas"></canvas>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">VALARZAI</a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="/pages/hobby.html" class="nav-link">Hobby</a></li>
+                <li class="nav-item"><a href="/pages/niche.html" class="nav-link">Niche</a></li>
+                <li class="nav-item"><a href="/pages/blog.html" class="nav-link">Blog</a></li>
+                <li class="nav-item"><a href="/pages/about.html" class="nav-link">About</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="detail-container">
+            <!-- Loading State -->
+            <div id="loadingState" class="loading-state">
+                <div class="spinner"></div>
+                <p style="color: #9ca3af;">Loading knowledge item...</p>
+            </div>
+
+            <!-- Error State -->
+            <div id="errorState" class="error-state" style="display: none;">
+                <div class="error-icon">⚠️</div>
+                <h2>Failed to Load Content</h2>
+                <p>Unable to load the requested knowledge item.</p>
+                <a href="javascript:history.back()" class="btn-back" style="display: inline-flex; margin-top: 1rem;">
+                    ← Go Back
+                </a>
+            </div>
+
+            <!-- Detail Content -->
+            <div id="detailContent" class="detail-card" style="display: none;">
+                <div class="detail-header">
+                    <div class="detail-meta">
+                        <div class="detail-meta-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" stroke-width="2"/>
+                                <line x1="16" y1="2" x2="16" y2="6" stroke-width="2" stroke-linecap="round"/>
+                                <line x1="8" y1="2" x2="8" y2="6" stroke-width="2" stroke-linecap="round"/>
+                                <line x1="3" y1="10" x2="21" y2="10" stroke-width="2"/>
+                            </svg>
+                            <span id="detailDate">Loading...</span>
+                        </div>
+                        <div class="detail-meta-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke-width="2"/>
+                                <circle cx="12" cy="12" r="3" stroke-width="2"/>
+                            </svg>
+                            <span id="detailViews">0 views</span>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+                        <div id="detailCategory" class="detail-category">
+                            📁 Category
+                        </div>
+                        <div id="aiBadge" style="display: none; padding: 0.5rem 1rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 2rem; font-size: 0.85rem; font-weight: 600; color: white;">
+                            ✨ AI Enhanced
+                        </div>
+                        <div id="aiConfidence" style="display: none; font-size: 0.85rem; color: #9ca3af;">
+                            <span>📊</span>
+                            <span id="confidenceValue"></span>
+                        </div>
+                    </div>
+                    
+                    <h1 id="detailTitle" class="detail-title">Loading...</h1>
+                    
+                    <div id="detailSource" class="detail-source">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <circle cx="12" cy="12" r="10" stroke-width="2"/>
+                            <path d="M12 16v-4M12 8h.01" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        <span>Source: <strong id="sourceText">Unknown</strong></span>
+                    </div>
+
+                    <!-- AI Tags -->
+                    <div id="aiTags" class="detail-tags" style="display: none; margin-top: 1rem;">
+                        <!-- AI tags will be inserted here -->
+                    </div>
+
+                    <!-- Content Toggle (for AI-processed items) -->
+                    <div id="contentToggle" class="content-toggle" style="display: none; margin-top: 1.5rem; border-bottom: 2px solid rgba(255, 255, 255, 0.1);">
+                        <button class="toggle-btn active" data-view="ai" onclick="switchContentView('ai')" style="padding: 0.75rem 1.5rem; border: none; background: transparent; color: #667eea; cursor: pointer; font-size: 1rem; font-weight: 600; border-bottom: 2px solid #667eea; margin-bottom: -2px; transition: all 0.3s;">
+                            ✨ AI Article
+                        </button>
+                        <button class="toggle-btn" data-view="original" onclick="switchContentView('original')" style="padding: 0.75rem 1.5rem; border: none; background: transparent; color: #9ca3af; cursor: pointer; font-size: 1rem; font-weight: 600; transition: all 0.3s;">
+                            📧 Original
+                        </button>
+                    </div>
+                </div>
+
+                <!-- AI Content View -->
+                <div id="aiContentView" class="detail-content" style="display: none;">
+                    <div id="aiArticle" class="markdown-content"></div>
+                </div>
+
+                <!-- Original Content View -->
+                <div id="originalContentView" class="detail-content">
+                    <div id="detailContentText">Loading content...</div>
+                </div>
+
+                <div id="detailTags" class="detail-tags" style="display: none;">
+                    <!-- Tags will be inserted here -->
+                </div>
+
+                <div class="detail-actions">
+                    <a href="javascript:history.back()" class="btn-back">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <line x1="19" y1="12" x2="5" y2="12" stroke-width="2" stroke-linecap="round"/>
+                            <polyline points="12 19 5 12 12 5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Back to List
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 VALARZAI. All rights reserved.</p>
+            <p class="footer-tagline">Built with passion and technology</p>
+        </div>
+    </footer>
+
+    <script src="../js/galaxy.js"></script>
+    <script src="../js/fluid.js"></script>
+    <script src="../js/nav.js"></script>
+    <script>
+        // Set API URL - must be loaded before api-service.js
+        window.API_URL = 'https://api.valarzai.com/api';
+    </script>
+    <script src="../js/api-service.js?v=2.0"></script>
+    <script>
+        // 知识详情页脚本
+        (async function() {
+            'use strict';
+
+            const loadingState = document.getElementById('loadingState');
+            const errorState = document.getElementById('errorState');
+            const detailContent = document.getElementById('detailContent');
+
+            // 从 URL 获取 ID
+            const urlParams = new URLSearchParams(window.location.search);
+            const itemId = urlParams.get('id');
+
+            if (!itemId) {
+                showError('No item ID provided');
+                return;
+            }
+
+            // 加载知识条目
+            await loadKnowledgeItem(itemId);
+
+            async function loadKnowledgeItem(id) {
+                try {
+                    // 首先尝试从 sessionStorage 获取
+                    const cached = sessionStorage.getItem('currentKnowledgeItem');
+                    if (cached) {
+                        const item = JSON.parse(cached);
+                        if (item.id == id) {
+                            renderKnowledgeItem(item);
+                            // 异步获取最新数据
+                            fetchLatestData(id);
+                            return;
+                        }
+                    }
+
+                    // 从 API 获取
+                    await fetchLatestData(id);
+                } catch (error) {
+                    console.error('Failed to load knowledge item:', error);
+                    showError(error.message || 'Failed to load content');
+                }
+            }
+
+            async function fetchLatestData(id) {
+                if (!window.apiService) {
+                    throw new Error('API service not available');
+                }
+
+                const response = await window.apiService.getKnowledgeItem(id);
+                
+                if (response.success) {
+                    renderKnowledgeItem(response.data);
+                } else {
+                    throw new Error(response.error || 'Failed to fetch data');
+                }
+            }
+
+            function renderKnowledgeItem(item) {
+                // 隐藏加载状态
+                loadingState.style.display = 'none';
+                detailContent.style.display = 'block';
+
+                // 设置标题
+                document.getElementById('detailTitle').textContent = item.title || 'Untitled';
+                document.title = `${item.title || 'Untitled'} - VALARZAI`;
+
+                // 设置日期
+                const date = new Date(item.created_at);
+                document.getElementById('detailDate').textContent = date.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+
+                // 设置浏览次数
+                document.getElementById('detailViews').textContent = `${item.view_count || 0} views`;
+
+                // 设置分类（如果有）
+                const categoryElement = document.getElementById('detailCategory');
+                if (item.category_name) {
+                    const icon = item.category_icon || '📁';
+                    categoryElement.innerHTML = `${icon} ${escapeHtml(item.category_name)}`;
+                } else {
+                    categoryElement.style.display = 'none';
+                }
+
+                // Check if AI processed
+                const isAIProcessed = item.processing_status === 'completed' && item.ai_article;
+
+                // Show AI badge and confidence if AI processed
+                if (isAIProcessed) {
+                    document.getElementById('aiBadge').style.display = 'block';
+                    
+                    if (item.ai_confidence) {
+                        const confidencePercent = Math.round(item.ai_confidence * 100);
+                        document.getElementById('aiConfidence').style.display = 'block';
+                        document.getElementById('confidenceValue').textContent = `${confidencePercent}% confidence`;
+                    }
+
+                    // Show AI tags if available
+                    if (item.ai_tags && item.ai_tags.length > 0) {
+                        const aiTagsContainer = document.getElementById('aiTags');
+                        aiTagsContainer.style.display = 'flex';
+                        aiTagsContainer.innerHTML = item.ai_tags.map(tag => 
+                            `<span class="detail-tag" style="background: rgba(102, 126, 234, 0.2); border: 1px solid rgba(102, 126, 234, 0.3); color: #a5b4fc;">${escapeHtml(tag)}</span>`
+                        ).join('');
+                    }
+
+                    // Show content toggle
+                    document.getElementById('contentToggle').style.display = 'flex';
+
+                    // Render AI article
+                    document.getElementById('aiArticle').innerHTML = renderMarkdown(item.ai_article);
+                    document.getElementById('aiContentView').style.display = 'block';
+                    document.getElementById('originalContentView').style.display = 'none';
+                } else {
+                    // Show original content only
+                    document.getElementById('aiContentView').style.display = 'none';
+                    document.getElementById('originalContentView').style.display = 'block';
+                    document.getElementById('contentToggle').style.display = 'none';
+                }
+
+                // 设置来源
+                if (item.source) {
+                    const isGmail = item.source.includes('Gmail');
+                    const sourceIcon = isGmail ? '📧' : '';
+                    document.getElementById('sourceText').textContent = `${sourceIcon} ${item.source}`;
+                } else {
+                    document.getElementById('detailSource').style.display = 'none';
+                }
+
+                // 设置原始内容
+                document.getElementById('detailContentText').textContent = item.original_content || item.content || 'No content available';
+
+                // 设置标签 (原始标签)
+                if (item.tags && item.tags.length > 0 && !isAIProcessed) {
+                    const tagsContainer = document.getElementById('detailTags');
+                    tagsContainer.style.display = 'flex';
+                    tagsContainer.innerHTML = item.tags.map(tag => 
+                        `<span class="detail-tag">${escapeHtml(tag)}</span>`
+                    ).join('');
+                }
+            }
+
+            // Content view switcher
+            window.switchContentView = function(view) {
+                const aiView = document.getElementById('aiContentView');
+                const originalView = document.getElementById('originalContentView');
+                const toggleBtns = document.querySelectorAll('.toggle-btn');
+
+                toggleBtns.forEach(btn => {
+                    if (btn.dataset.view === view) {
+                        btn.classList.add('active');
+                        btn.style.color = '#667eea';
+                        btn.style.borderBottom = '2px solid #667eea';
+                        btn.style.marginBottom = '-2px';
+                    } else {
+                        btn.classList.remove('active');
+                        btn.style.color = '#9ca3af';
+                        btn.style.borderBottom = 'none';
+                        btn.style.marginBottom = '0';
+                    }
+                });
+
+                if (view === 'ai') {
+                    aiView.style.display = 'block';
+                    originalView.style.display = 'none';
+                } else {
+                    aiView.style.display = 'none';
+                    originalView.style.display = 'block';
+                }
+            };
+
+            // Simple Markdown renderer (basic implementation)
+            function renderMarkdown(markdown) {
+                if (!markdown) return '';
+                
+                let html = markdown
+                    // Headers
+                    .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+                    .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+                    .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+                    // Bold
+                    .replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>')
+                    // Italic
+                    .replace(/\*(.*?)\*/gim, '<em>$1</em>')
+                    // Links
+                    .replace(/\[(.*?)\]\((.*?)\)/gim, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
+                    // Lists
+                    .replace(/^\* (.*$)/gim, '<li>$1</li>')
+                    .replace(/^\- (.*$)/gim, '<li>$1</li>')
+                    // Line breaks
+                    .replace(/\n\n/g, '</p><p>')
+                    .replace(/\n/g, '<br>');
+
+                // Wrap in paragraph tags
+                html = '<p>' + html + '</p>';
+
+                // Fix list items
+                html = html.replace(/(<li>.*<\/li>)/gim, '<ul>$1</ul>');
+
+                return html;
+            }
+
+            function showError(message) {
+                loadingState.style.display = 'none';
+                errorState.style.display = 'block';
+                
+                const errorMessage = errorState.querySelector('p');
+                if (errorMessage) {
+                    errorMessage.textContent = message;
+                }
+            }
+
+            function escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+        })();
+    </script>
+</body>
+</html>
+

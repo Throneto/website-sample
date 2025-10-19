@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="en" translate="no">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google" content="notranslate">
+<meta http-equiv="Content-Language" content="en">
+<title>Mail Import - VALARZAI</title>
+<meta name="description" content="Gmail Mail Import Management - VALARZAI Knowledge Base">
+<meta name="robots" content="noindex, nofollow">
+
+<!-- Content Security Policy is set in Nginx configuration -->
+<!-- See: frontend/nginx.conf line 12 -->
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+
+<!-- Theme Color -->
+<meta name="theme-color" content="#667eea">
+
+<link rel="stylesheet" href="../css/style.css?v=20250117-4">
+<link rel="stylesheet" href="../css/mail-import.css?v=20250119-3">
+</head>
+<body class="notranslate" translate="no">
+    <!-- Background: Nebula and Fluid -->
+    <div class="bg-container">
+        <canvas id="canvas"></canvas>
+        <canvas id="fluidCanvas"></canvas>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">VALARZAI</a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="/pages/hobby.html" class="nav-link">Hobby</a></li>
+                <li class="nav-item"><a href="/pages/niche.html" class="nav-link">Niche</a></li>
+                <li class="nav-item"><a href="/pages/blog.html" class="nav-link">Blog</a></li>
+                <li class="nav-item"><a href="/pages/about.html" class="nav-link">About</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <section class="content-section">
+            <div class="section-container">
+                <h1 class="section-title notranslate">Gmail Mail Import</h1>
+                <p class="section-subtitle notranslate">Import your Gmail emails into the knowledge base</p>
+
+                <!-- Authorization Status Card -->
+                <div class="glass-card status-card">
+                    <div class="card-header">
+                        <h2>📧 Authorization Status</h2>
+                        <div class="status-indicator" id="authStatus">
+                            <span class="status-dot"></span>
+                            <span class="status-text">Checking...</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="authInfo" class="auth-info">
+                            <p>Checking Gmail authorization status...</p>
+                        </div>
+                        <div id="authActions" class="auth-actions" style="display: none;">
+                            <button id="btnAuthorize" class="btn btn-primary">
+                                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M13.8 12H3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                Authorize Gmail Access
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Email Preview Card -->
+                <div class="glass-card preview-card" id="previewCard">
+                    <div class="card-header">
+                        <h2>📬 Email Preview</h2>
+                        <div class="preview-controls">
+                            <input type="number" id="previewCount" class="input-control" value="10" min="1" max="50" placeholder="Count">
+                            <select id="categoryFilter" class="input-control" style="background-color: #2a2f3d; color: #ffffff;">
+                                <option value="" style="background-color: #2a2f3d; color: #ffffff;">All Categories</option>
+                                <optgroup label="📰 Newsletter" style="background-color: #1f242f; color: #9ca3af;">
+                                    <option value="newsletter" style="background-color: #2a2f3d; color: #ffffff;">Newsletter</option>
+                                </optgroup>
+                                <optgroup id="nicheCategories" label="💼 Professional" style="background-color: #1f242f; color: #9ca3af;">
+                                    <option value="web-development" style="background-color: #2a2f3d; color: #ffffff;">Web Development</option>
+                                    <option value="ai-machine-learning" style="background-color: #2a2f3d; color: #ffffff;">AI & Machine Learning</option>
+                                    <option value="devops" style="background-color: #2a2f3d; color: #ffffff;">DevOps</option>
+                                    <option value="security" style="background-color: #2a2f3d; color: #ffffff;">Security</option>
+                                    <option value="data-science" style="background-color: #2a2f3d; color: #ffffff;">Data Science</option>
+                                    <option value="mobile-development" style="background-color: #2a2f3d; color: #ffffff;">Mobile Development</option>
+                                    <option value="cloud-computing" style="background-color: #2a2f3d; color: #ffffff;">Cloud Computing</option>
+                                </optgroup>
+                                <optgroup id="hobbyCategories" label="🎨 Hobbies" style="background-color: #1f242f; color: #9ca3af;">
+                                    <option value="gaming" style="background-color: #2a2f3d; color: #ffffff;">Gaming</option>
+                                    <option value="photography" style="background-color: #2a2f3d; color: #ffffff;">Photography</option>
+                                    <option value="music" style="background-color: #2a2f3d; color: #ffffff;">Music</option>
+                                    <option value="reading" style="background-color: #2a2f3d; color: #ffffff;">Reading</option>
+                                    <option value="travel" style="background-color: #2a2f3d; color: #ffffff;">Travel</option>
+                                    <option value="cooking" style="background-color: #2a2f3d; color: #ffffff;">Cooking</option>
+                                    <option value="sports" style="background-color: #2a2f3d; color: #ffffff;">Sports</option>
+                                    <option value="art" style="background-color: #2a2f3d; color: #ffffff;">Art</option>
+                                </optgroup>
+                            </select>
+                            <label class="filter-toggle">
+                                <input type="checkbox" id="filterSpam" checked>
+                                <span>🛡️ Smart Filter</span>
+                            </label>
+                            <button id="btnPreview" class="btn btn-secondary">
+                                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <circle cx="11" cy="11" r="8" stroke-width="2"/>
+                                    <path d="m21 21-4.35-4.35" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                                Preview
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="previewLoading" class="loading-state" style="display: none;">
+                            <div class="spinner"></div>
+                            <p>Loading emails...</p>
+                        </div>
+                        <div id="previewEmpty" class="empty-state" style="display: none;">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <rect x="3" y="3" width="18" height="18" rx="2" stroke-width="2"/>
+                                <path d="M3 9h18M9 21V9" stroke-width="2"/>
+                            </svg>
+                            <p>No emails to preview</p>
+                            <small>Click the preview button above to load emails</small>
+                        </div>
+                        <div id="previewList" class="email-list"></div>
+                    </div>
+                    <div class="card-footer" id="importActions" style="display: none;">
+                        <div class="import-options" style="display: flex; flex-direction: column; gap: 1rem;">
+                            <!-- AI Processing Toggle -->
+                            <label class="ai-toggle-container" style="display: flex; align-items: center; gap: 0.75rem; padding: 1rem; background: rgba(102, 126, 234, 0.1); border-radius: 0.75rem; cursor: pointer;">
+                                <input type="checkbox" id="enableAI" checked style="width: 20px; height: 20px; cursor: pointer;">
+                                <div style="flex: 1;">
+                                    <div style="display: flex; align-items: center; gap: 0.5rem; font-weight: 600; color: #667eea;">
+                                        <span>✨</span>
+                                        <span>启用 AI 智能处理</span>
+                                    </div>
+                                    <div style="font-size: 0.875rem; color: #9ca3af; margin-top: 0.25rem;">
+                                        使用 Gemini AI 自动分析、分类和生成专业文章
+                                    </div>
+                                </div>
+                                <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width: 20px; height: 20px; color: #667eea;" title="AI 将分析内容、提取标签、生成摘要和专业文章">
+                                    <circle cx="12" cy="12" r="10" stroke-width="2"/>
+                                    <path d="M12 16v-4M12 8h.01" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                            </label>
+
+                            <button id="btnImport" class="btn btn-success">
+                                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                Import to Knowledge Base
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- AI Processing Progress -->
+                    <div id="aiProcessingProgress" class="ai-processing-progress" style="display: none;">
+                        <h3 style="margin-bottom: 1rem; color: #667eea;">🤖 AI 处理进度</h3>
+                        <div class="progress-bar-container" style="width: 100%; height: 8px; background: rgba(255, 255, 255, 0.1); border-radius: 4px; overflow: hidden; margin-bottom: 1rem;">
+                            <div id="aiProgressBar" class="progress-bar-fill" style="height: 100%; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); width: 0%; transition: width 0.3s ease;"></div>
+                        </div>
+                        <div class="progress-stats" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+                            <div style="text-align: center;">
+                                <div style="font-size: 1.5rem; font-weight: bold; color: #667eea;" id="aiProcessedCount">0</div>
+                                <div style="font-size: 0.875rem; color: #9ca3af;">已处理</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 1.5rem; font-weight: bold; color: #10b981;" id="aiSuccessCount">0</div>
+                                <div style="font-size: 0.875rem; color: #9ca3af;">成功</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 1.5rem; font-weight: bold; color: #fbbf24;" id="aiSkippedCount">0</div>
+                                <div style="font-size: 0.875rem; color: #9ca3af;">跳过</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 1.5rem; font-weight: bold; color: #ef4444;" id="aiFailedCount">0</div>
+                                <div style="font-size: 0.875rem; color: #9ca3af;">失败</div>
+                            </div>
+                        </div>
+                        <div id="aiCurrentProcessing" style="font-size: 0.875rem; color: #9ca3af; text-align: center;"></div>
+                    </div>
+                </div>
+
+                <!-- Troubleshooting Card -->
+                <div class="glass-card" id="troubleshootingCard" style="display: none;">
+                    <div class="card-header">
+                        <h2>🔧 Troubleshooting</h2>
+                    </div>
+                    <div class="card-body">
+                        <div style="padding: 1rem; background: rgba(255, 193, 7, 0.1); border-left: 3px solid #ffc107; border-radius: 0.5rem;">
+                            <h3 style="margin-top: 0; color: #ffc107;">⚠️ Import Failed?</h3>
+                            <p>If you see "Successfully imported 0 emails (failed 10)", it means the database categories are not initialized.</p>
+                            <p><strong>Solution:</strong> Click the button below to initialize the category data.</p>
+                            <button id="btnInitCategories" class="btn btn-primary" style="margin-top: 1rem;">
+                                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" stroke-width="2"/>
+                                    <polyline points="17 21 17 13 7 13 7 21" stroke-width="2"/>
+                                    <polyline points="7 3 7 8 15 8" stroke-width="2"/>
+                                </svg>
+                                Initialize Categories
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gemini AI Database Migration Card -->
+                <div class="glass-card" id="geminiMigrationCard">
+                    <div class="card-header">
+                        <h2>🤖 Gemini AI Integration</h2>
+                        <div class="status-indicator" id="migrationStatus">
+                            <span class="status-dot"></span>
+                            <span class="status-text">Checking...</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="migrationInfo">
+                            <div style="padding: 1rem; background: rgba(102, 126, 234, 0.1); border-left: 3px solid #667eea; border-radius: 0.5rem;">
+                                <h3 style="margin-top: 0; color: #667eea;">✨ AI-Powered Content Processing</h3>
+                                <p>Enable Gemini AI to automatically analyze, categorize, and enhance your imported emails:</p>
+                                <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
+                                    <li>🎯 Intelligent content classification</li>
+                                    <li>🏷️ Automatic tag extraction</li>
+                                    <li>📝 Key points summarization</li>
+                                    <li>✍️ Professional article generation</li>
+                                </ul>
+                                <p style="margin-top: 1rem;"><strong>Status:</strong> <span id="migrationStatusText">Checking migration status...</span></p>
+                            </div>
+                        </div>
+                        <div id="migrationActions" style="margin-top: 1rem; display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                            <button id="btnRunMigration" class="btn btn-primary" style="display: none;">
+                                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                Enable Gemini AI
+                            </button>
+                            <button id="btnCheckMigration" class="btn btn-secondary">
+                                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <path d="M1 4v6h6M23 20v-6h-6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                Refresh Status
+                            </button>
+                            <button id="btnViewStats" class="btn btn-secondary" style="display: none;">
+                                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" stroke-width="2"/>
+                                    <path d="M3 9h18M9 21V9" stroke-width="2"/>
+                                </svg>
+                                View Statistics
+                            </button>
+                        </div>
+                        <div id="migrationStats" style="display: none; margin-top: 1.5rem; padding: 1rem; background: rgba(34, 41, 57, 0.5); border-radius: 0.5rem;">
+                            <h4 style="margin-top: 0; margin-bottom: 1rem;">Processing Statistics</h4>
+                            <div id="statsContent"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image Support Migration Card -->
+                <div class="glass-card" id="imageMigrationCard">
+                    <div class="card-header">
+                        <h2>🖼️ Image Support</h2>
+                        <div class="status-indicator" id="imageMigrationStatus">
+                            <span class="status-dot"></span>
+                            <span class="status-text">Checking...</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="imageMigrationInfo">
+                            <div style="padding: 1rem; background: rgba(251, 191, 36, 0.1); border-left: 3px solid #fbbf24; border-radius: 0.5rem;">
+                                <h3 style="margin-top: 0; color: #fbbf24;">📸 Enhanced Image Processing</h3>
+                                <p>Enable image support to extract and display images from your emails:</p>
+                                <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
+                                    <li>🖼️ Automatic image extraction from emails</li>
+                                    <li>🎯 Smart featured image selection</li>
+                                    <li>📝 Image metadata storage (URL, alt, dimensions)</li>
+                                    <li>✨ Beautiful image display in articles</li>
+                                </ul>
+                                <p style="margin-top: 1rem;"><strong>Status:</strong> <span id="imageMigrationStatusText">Checking migration status...</span></p>
+                            </div>
+                        </div>
+                        <div id="imageMigrationActions" style="margin-top: 1rem; display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                            <button id="btnRunImageMigration" class="btn btn-primary" style="display: none;">
+                                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" stroke-width="2"/>
+                                    <circle cx="8.5" cy="8.5" r="1.5" stroke-width="2"/>
+                                    <path d="m21 15-5-5L5 21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                Enable Image Support
+                            </button>
+                            <button id="btnCheckImageMigration" class="btn btn-secondary">
+                                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <path d="M1 4v6h6M23 20v-6h-6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                Refresh Status
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Author Fields Migration Card -->
+                <div class="glass-card" id="authorFieldsMigrationCard">
+                    <div class="card-header">
+                        <h2>👤 Author Information</h2>
+                        <div class="status-indicator" id="authorFieldsMigrationStatus">
+                            <span class="status-dot"></span>
+                            <span class="status-text">Checking...</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="authorFieldsMigrationInfo">
+                            <div style="padding: 1rem; background: rgba(34, 197, 94, 0.1); border-left: 3px solid #22c55e; border-radius: 0.5rem;">
+                                <h3 style="margin-top: 0; color: #22c55e;">✍️ Email Author Tracking</h3>
+                                <p>Enable author information storage to track email senders and publish dates:</p>
+                                <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
+                                    <li>👤 Author name extraction</li>
+                                    <li>📧 Email address storage</li>
+                                    <li>📅 Publish date tracking</li>
+                                    <li>🔍 Filter content by author</li>
+                                </ul>
+                                <p style="margin-top: 1rem;"><strong>Status:</strong> <span id="authorFieldsMigrationStatusText">Checking migration status...</span></p>
+                            </div>
+                        </div>
+                        <div id="authorFieldsMigrationActions" style="margin-top: 1rem; display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                            <button id="btnRunAuthorFieldsMigration" class="btn btn-primary" style="display: none;">
+                                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <circle cx="12" cy="7" r="4" stroke-width="2"/>
+                                </svg>
+                                Enable Author Fields
+                            </button>
+                            <button id="btnCheckAuthorFieldsMigration" class="btn btn-secondary">
+                                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <path d="M1 4v6h6M23 20v-6h-6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                Refresh Status
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Data Management Card -->
+                <div class="glass-card" id="dataManagementCard">
+                    <div class="card-header">
+                        <h2>🗑️ Data Management</h2>
+                        <button id="btnRefreshDataStats" class="btn btn-icon-only">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M1 4v6h6M23 20v-6h-6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div id="dataStatsInfo">
+                            <div style="padding: 1rem; background: rgba(239, 68, 68, 0.1); border-left: 3px solid #ef4444; border-radius: 0.5rem;">
+                                <h3 style="margin-top: 0; color: #ef4444;">⚠️ Clear Knowledge Base Data</h3>
+                                <p>Clear existing data to re-import with new filtering rules and image support:</p>
+                                <div id="dataStatsGrid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin: 1rem 0;">
+                                    <div style="padding: 0.75rem; background: rgba(34, 41, 57, 0.5); border-radius: 0.5rem; text-align: center;">
+                                        <div style="font-size: 1.5rem; font-weight: bold; color: #667eea;" id="statTotalItems">-</div>
+                                        <div style="font-size: 0.875rem; color: #9ca3af; margin-top: 0.25rem;">Total Items</div>
+                                    </div>
+                                    <div style="padding: 0.75rem; background: rgba(34, 41, 57, 0.5); border-radius: 0.5rem; text-align: center;">
+                                        <div style="font-size: 1.5rem; font-weight: bold; color: #10b981;" id="statGmailItems">-</div>
+                                        <div style="font-size: 0.875rem; color: #9ca3af; margin-top: 0.25rem;">Gmail Items</div>
+                                    </div>
+                                    <div style="padding: 0.75rem; background: rgba(34, 41, 57, 0.5); border-radius: 0.5rem; text-align: center;">
+                                        <div style="font-size: 1.5rem; font-weight: bold; color: #fbbf24;" id="statPendingItems">-</div>
+                                        <div style="font-size: 0.875rem; color: #9ca3af; margin-top: 0.25rem;">Pending</div>
+                                    </div>
+                                    <div style="padding: 0.75rem; background: rgba(34, 41, 57, 0.5); border-radius: 0.5rem; text-align: center;">
+                                        <div style="font-size: 1.5rem; font-weight: bold; color: #ef4444;" id="statProcessingLogs">-</div>
+                                        <div style="font-size: 0.875rem; color: #9ca3af; margin-top: 0.25rem;">Logs</div>
+                                    </div>
+                                </div>
+                                <p style="margin-top: 1rem; color: #fbbf24;"><strong>⚠️ Warning:</strong> This action cannot be undone!</p>
+                            </div>
+                        </div>
+                        <div id="dataClearActions" style="margin-top: 1rem; display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                            <button id="btnClearAllData" class="btn" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);">
+                                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <line x1="10" y1="11" x2="10" y2="17" stroke-width="2" stroke-linecap="round"/>
+                                    <line x1="14" y1="11" x2="14" y2="17" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                                Clear All Data
+                            </button>
+                            <button id="btnClearGmailData" class="btn btn-secondary">
+                                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <rect x="3" y="11" width="18" height="11" rx="2" stroke-width="2"/>
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                                Clear Gmail Only
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Import History Card -->
+                <div class="glass-card history-card" id="historyCard">
+                    <div class="card-header">
+                        <h2>📚 Import History</h2>
+                        <button id="btnRefreshHistory" class="btn btn-icon-only">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M1 4v6h6M23 20v-6h-6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div id="historyLoading" class="loading-state" style="display: none;">
+                            <div class="spinner"></div>
+                            <p>Loading history...</p>
+                        </div>
+                        <div id="historyEmpty" class="empty-state">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z" stroke-width="2"/>
+                                <polyline points="13 2 13 9 20 9" stroke-width="2"/>
+                            </svg>
+                            <p>No import records</p>
+                            <small>Import history will be displayed here after importing emails</small>
+                        </div>
+                        <div id="historyList" class="history-list"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 VALARZAI. All rights reserved.</p>
+            <p class="footer-tagline">Built with passion and technology</p>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="../js/galaxy.js?v=6"></script>
+    <script src="../js/fluid.js?v=6"></script>
+    <script>
+        // Set API URL - must be loaded before api-service.js
+        window.API_URL = 'https://api.valarzai.com/api';
+    </script>
+    <script src="../js/nav.js?v=6"></script>
+    <script src="../js/api-service.js?v=7"></script>
+    <script src="../js/mail-import.js?v=20250119-2"></script>
+</body>
+</html>
+

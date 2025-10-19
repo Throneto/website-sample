@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Processing - ValarZAI</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/ai-processing.css?v=3.0">
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">ValarZAI</a>
+            <ul class="nav-menu">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="./hobby.html">Hobbies</a></li>
+                <li><a href="./niche.html">Professional</a></li>
+                <li><a href="./mail-import.html">Mail Import</a></li>
+                <li><a href="./ai-processing.html" class="active">AI Processing</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Page Header -->
+            <header class="page-header">
+                <h1>🤖 AI Processing Center</h1>
+                <p class="subtitle">Manage and monitor AI automated processing tasks</p>
+            </header>
+
+            <!-- Statistics Panel -->
+            <section class="stats-section">
+                <h2>📊 Processing Statistics</h2>
+                <div class="stats-grid" id="statsGrid">
+                    <div class="stat-card">
+                        <div class="stat-icon">📝</div>
+                        <div class="stat-info">
+                            <div class="stat-label">Total Processed</div>
+                            <div class="stat-value" id="totalItems">-</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">✅</div>
+                        <div class="stat-info">
+                            <div class="stat-label">Last 24 Hours</div>
+                            <div class="stat-value" id="processed24h">-</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🎯</div>
+                        <div class="stat-info">
+                            <div class="stat-label">Avg Confidence</div>
+                            <div class="stat-value" id="avgConfidence">-</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-info">
+                            <div class="stat-label">Total Cost (USD)</div>
+                            <div class="stat-value" id="totalCost">-</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="stats-actions">
+                    <button class="btn btn-secondary" onclick="refreshStats()">
+                        <span class="btn-icon">🔄</span>
+                        Refresh Stats
+                    </button>
+                </div>
+            </section>
+
+            <!-- Pending List -->
+            <section class="pending-section">
+                <div class="section-header">
+                    <h2>⏳ Pending Items</h2>
+                    <div class="section-actions">
+                        <button class="btn btn-secondary" onclick="refreshPending()">
+                            <span class="btn-icon">🔄</span>
+                            Refresh List
+                        </button>
+                        <button class="btn btn-primary" onclick="processPendingBatch()" id="batchProcessBtn">
+                            <span class="btn-icon">⚡</span>
+                            Batch Process
+                        </button>
+                    </div>
+                </div>
+
+                <div class="pending-controls">
+                    <label>
+                        Display Count:
+                        <select id="pendingLimit" onchange="refreshPending()">
+                            <option value="10" selected>10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                    </label>
+                    <label>
+                        Concurrency:
+                        <select id="concurrency">
+                            <option value="1" selected>1 (Recommended)</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                    </label>
+                    <small style="color: #9ca3af; font-size: 0.85rem;">
+                        💡 Tip: Higher concurrency uses more memory. Recommended: 1-2
+                    </small>
+                </div>
+
+                <div id="pendingList" class="pending-list">
+                    <div class="loading">Loading...</div>
+                </div>
+            </section>
+
+            <!-- Batch Processing Progress -->
+            <section class="batch-progress-section" id="batchProgressSection" style="display: none;">
+                <h2>📦 Batch Processing Progress</h2>
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-text" id="progressText">0 / 0</div>
+                </div>
+                <div class="progress-stats" id="progressStats">
+                    <span class="stat-success">✅ Success: <strong id="progressCompleted">0</strong></span>
+                    <span class="stat-skipped">⏭️ Skipped: <strong id="progressSkipped">0</strong></span>
+                    <span class="stat-failed">❌ Failed: <strong id="progressFailed">0</strong></span>
+                </div>
+                <div class="progress-log" id="progressLog"></div>
+            </section>
+
+            <!-- Single Item Processing Tool -->
+            <section class="single-process-section">
+                <h2>🔧 Single Item Processing</h2>
+                <div class="tool-form">
+                    <div class="form-group">
+                        <label for="mailId">Mail/Knowledge ID:</label>
+                        <input 
+                            type="number" 
+                            id="mailId" 
+                            placeholder="Enter ID to process"
+                            min="1"
+                        >
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-primary" onclick="processSingle()">
+                            <span class="btn-icon">▶️</span>
+                            Process
+                        </button>
+                        <button class="btn btn-secondary" onclick="checkStatus()">
+                            <span class="btn-icon">🔍</span>
+                            Check Status
+                        </button>
+                        <button class="btn btn-warning" onclick="retryProcessing()">
+                            <span class="btn-icon">🔄</span>
+                            Retry
+                        </button>
+                    </div>
+                </div>
+                <div id="singleResult" class="result-container"></div>
+            </section>
+
+            <!-- Processing Details Modal -->
+            <div id="detailsModal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Processing Details</h3>
+                        <button class="modal-close" onclick="closeModal()">&times;</button>
+                    </div>
+                    <div class="modal-body" id="modalBody">
+                        <!-- Dynamic content -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 ValarZAI. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="../js/api-service.js?v=2.0"></script>
+    <script src="../js/ai-processing.js?v=3.0"></script>
+</body>
+</html>
+

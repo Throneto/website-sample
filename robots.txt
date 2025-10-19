@@ -1,0 +1,22 @@
+User-agent: *
+Allow: /
+
+# Disallow admin and sensitive areas
+Disallow: /admin/
+Disallow: /api/
+Disallow: /private/
+Disallow: /.env
+Disallow: /.git/
+
+# Allow important pages
+Allow: /
+Allow: /pages/
+Allow: /css/
+Allow: /js/
+Allow: /assets/
+
+# Sitemap location
+Sitemap: https://valarzai.com/sitemap.xml
+
+# Crawl delay (be respectful)
+Crawl-delay: 1
