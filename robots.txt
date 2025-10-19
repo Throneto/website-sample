@@ -16,7 +16,7 @@ Allow: /js/
 Allow: /assets/
 
 # Sitemap location
-Sitemap: https://valarzai.com/sitemap.xml
+Sitemap: https://171780.xyz/sitemap.xml
 
 # Crawl delay (be respectful)
 Crawl-delay: 1

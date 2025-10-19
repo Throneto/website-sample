@@ -11,7 +11,7 @@ class ApiService {
       this.baseURL = window.API_URL;
     } else if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
       // 生产环境，使用生产API（Dokploy）
-      this.baseURL = 'https://api.valarzai.com/api';
+      this.baseURL = 'https://api.171780.xyz/api';
     } else {
       // 开发环境，使用本地API
       this.baseURL = 'http://localhost:5000/api';
