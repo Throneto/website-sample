@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="google" content="notranslate">
 <meta http-equiv="Content-Language" content="zh-CN">
-<title>博客 - VALARZAI</title>
-<meta name="description" content="VALARZAI 博客 - 关于技术和生活的思考、见解和文章">
+<title>知识库 - VALARZAI</title>
+<meta name="description" content="VALARZAI 知识库 - 精选技术文档、开发工具和学习资源">
 <meta name="robots" content="index, follow">
 
 <!-- Favicon -->
@@ -32,9 +32,9 @@
             <a href="/" class="logo">VALARZAI</a>
             <ul class="nav-menu">
                 <li class="nav-item"><a href="/" class="nav-link">首页</a></li>
-                <li class="nav-item"><a href="/pages/knowledge.html" class="nav-link">知识库</a></li>
+                <li class="nav-item"><a href="/pages/knowledge.html" class="nav-link active">知识库</a></li>
                 <li class="nav-item"><a href="/pages/development.html" class="nav-link">开发地带</a></li>
-                <li class="nav-item"><a href="/pages/blog.html" class="nav-link active">博客</a></li>
+                <li class="nav-item"><a href="/pages/blog.html" class="nav-link">博客</a></li>
                 <li class="nav-item"><a href="/pages/about.html" class="nav-link">关于</a></li>
             </ul>
             <div class="hamburger">
@@ -49,25 +49,34 @@
     <main class="main-content">
         <section class="content-section">
             <div class="section-container">
-                <h1 class="section-title">博客</h1>
-                <p class="section-subtitle">思考、见解与文章</p>
+                <h1 class="section-title">知识库</h1>
+                <p class="section-subtitle">精选技术文档与学习资源</p>
 
-                <!-- Search and Filter -->
-                <div class="blog-controls">
-                    <div class="search-container">
-                        <input type="text" id="blogSearch" placeholder="搜索文章..." class="search-input">
-                    </div>
-                    <div class="category-filter">
-                        <button class="filter-btn active" data-category="all">全部</button>
-                        <button class="filter-btn" data-category="技术">技术</button>
-                        <button class="filter-btn" data-category="设计">设计</button>
-                        <button class="filter-btn" data-category="生活">生活</button>
+                <!-- Search Bar -->
+                <div class="search-container">
+                    <div class="search-box">
+                        <input type="text" id="searchInput" placeholder="搜索知识库内容..." class="search-input">
+                        <button class="search-btn" aria-label="搜索">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <circle cx="11" cy="11" r="8" stroke-width="2"/>
+                                <path d="m21 21-4.35-4.35" stroke-width="2"/>
+                            </svg>
+                        </button>
                     </div>
                 </div>
 
-                <!-- Blog Articles Grid -->
-                <div class="blog-grid" id="blogGrid">
-                    <!-- 文章将通过 JavaScript 动态加载 -->
+                <!-- Category Filter -->
+                <div class="category-filter">
+                    <button class="filter-btn active" data-category="all">全部</button>
+                    <button class="filter-btn" data-category="frontend">前端开发</button>
+                    <button class="filter-btn" data-category="backend">后端开发</button>
+                    <button class="filter-btn" data-category="tools">开发工具</button>
+                    <button class="filter-btn" data-category="learning">学习资源</button>
+                </div>
+
+                <!-- Knowledge Grid -->
+                <div class="knowledge-grid" id="knowledgeGrid">
+                    <!-- 内容将通过 JavaScript 动态加载 -->
                 </div>
 
                 <!-- Loading Indicator -->
@@ -75,7 +84,6 @@
                     <div class="loading-spinner"></div>
                     <p>加载中...</p>
                 </div>
-
             </div>
         </section>
     </main>
@@ -88,12 +96,10 @@
         </div>
     </footer>
 
-    <!-- 性能工具 - 等部署后再启用 -->
-    <!-- <script src="../js/performance-utils.js"></script> -->
+    <!-- Scripts -->
     <script src="../js/galaxy.js"></script>
     <script src="../js/fluid.js"></script>
     <script src="../js/nav.js"></script>
-    <script src="../js/blog.js"></script>
+    <script src="../js/knowledge.js"></script>
 </body>
 </html>
-

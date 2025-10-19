@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="google" content="notranslate">
 <meta http-equiv="Content-Language" content="zh-CN">
-<title>博客 - VALARZAI</title>
-<meta name="description" content="VALARZAI 博客 - 关于技术和生活的思考、见解和文章">
+<title>开发地带 - VALARZAI</title>
+<meta name="description" content="VALARZAI 开发地带 - 项目展示与技术实践">
 <meta name="robots" content="index, follow">
 
 <!-- Favicon -->
@@ -17,7 +17,7 @@
 <meta name="theme-color" content="#667eea">
 
 <link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="../css/knowledge.css">
+<link rel="stylesheet" href="../css/development.css">
 </head>
 <body class="notranslate" translate="no">
     <!-- Background: Nebula and Fluid -->
@@ -33,8 +33,8 @@
             <ul class="nav-menu">
                 <li class="nav-item"><a href="/" class="nav-link">首页</a></li>
                 <li class="nav-item"><a href="/pages/knowledge.html" class="nav-link">知识库</a></li>
-                <li class="nav-item"><a href="/pages/development.html" class="nav-link">开发地带</a></li>
-                <li class="nav-item"><a href="/pages/blog.html" class="nav-link active">博客</a></li>
+                <li class="nav-item"><a href="/pages/development.html" class="nav-link active">开发地带</a></li>
+                <li class="nav-item"><a href="/pages/blog.html" class="nav-link">博客</a></li>
                 <li class="nav-item"><a href="/pages/about.html" class="nav-link">关于</a></li>
             </ul>
             <div class="hamburger">
@@ -49,25 +49,20 @@
     <main class="main-content">
         <section class="content-section">
             <div class="section-container">
-                <h1 class="section-title">博客</h1>
-                <p class="section-subtitle">思考、见解与文章</p>
+                <h1 class="section-title">开发地带</h1>
+                <p class="section-subtitle">项目展示与技术实践</p>
 
-                <!-- Search and Filter -->
-                <div class="blog-controls">
-                    <div class="search-container">
-                        <input type="text" id="blogSearch" placeholder="搜索文章..." class="search-input">
-                    </div>
-                    <div class="category-filter">
-                        <button class="filter-btn active" data-category="all">全部</button>
-                        <button class="filter-btn" data-category="技术">技术</button>
-                        <button class="filter-btn" data-category="设计">设计</button>
-                        <button class="filter-btn" data-category="生活">生活</button>
-                    </div>
+                <!-- Project Filter -->
+                <div class="project-filter">
+                    <button class="filter-btn active" data-status="all">全部项目</button>
+                    <button class="filter-btn" data-status="active">进行中</button>
+                    <button class="filter-btn" data-status="completed">已完成</button>
+                    <button class="filter-btn" data-status="maintenance">维护中</button>
                 </div>
 
-                <!-- Blog Articles Grid -->
-                <div class="blog-grid" id="blogGrid">
-                    <!-- 文章将通过 JavaScript 动态加载 -->
+                <!-- Project Grid -->
+                <div class="project-grid" id="projectGrid">
+                    <!-- 内容将通过 JavaScript 动态加载 -->
                 </div>
 
                 <!-- Loading Indicator -->
@@ -75,7 +70,6 @@
                     <div class="loading-spinner"></div>
                     <p>加载中...</p>
                 </div>
-
             </div>
         </section>
     </main>
@@ -88,12 +82,10 @@
         </div>
     </footer>
 
-    <!-- 性能工具 - 等部署后再启用 -->
-    <!-- <script src="../js/performance-utils.js"></script> -->
+    <!-- Scripts -->
     <script src="../js/galaxy.js"></script>
     <script src="../js/fluid.js"></script>
     <script src="../js/nav.js"></script>
-    <script src="../js/blog.js"></script>
+    <script src="../js/development.js"></script>
 </body>
 </html>
-
