@@ -1,0 +1,26 @@
+{
+  "name": "together-blog",
+  "version": "1.0.0",
+  "description": "TOGETHER 博客系统 - Markdown 转 JSON 工具",
+  "main": "tools/md-to-json.js",
+  "scripts": {
+    "convert": "node tools/md-to-json.js",
+    "backup": "node tools/backup.js create",
+    "backup:list": "node tools/backup.js list",
+    "backup:clean": "node tools/backup.js clean",
+    "deploy": "node tools/deploy.js",
+    "help": "node tools/backup.js help"
+  },
+  "keywords": [
+    "blog",
+    "markdown",
+    "converter"
+  ],
+  "author": "TOGETHER",
+  "license": "MIT",
+  "devDependencies": {},
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
+

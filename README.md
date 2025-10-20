@@ -21,19 +21,38 @@ website sample/
 │   ├── knowledge.html           # 知识库页面
 │   ├── development.html         # 开发地带页面
 │   ├── blog.html               # 博客页面
+│   ├── admin.html              # 后台管理页面
 │   └── about.html              # 关于页面
+├── posts/                       # 📝 Markdown 博客文章
+│   ├── example-tech-article.md
+│   ├── example-design-article.md
+│   └── example-life-article.md
+├── data/                        # 📊 数据文件
+│   ├── articles.json           # 博客文章数据
+│   └── categories.json         # 分类数据
+├── tools/                       # 🛠️ 工具脚本
+│   ├── md-to-json.js           # Markdown 转 JSON 工具
+│   ├── deploy.js               # 一键部署脚本
+│   ├── backup.js               # 备份管理工具
+│   └── README.md               # 工具使用说明
+├── backups/                     # 💾 自动备份目录
 ├── css/                         # 样式文件
 │   ├── style.css               # 主样式文件
+│   ├── blog.css                # 博客页面样式
 │   ├── knowledge.css           # 知识库页面样式
 │   └── development.css         # 开发地带页面样式
 ├── js/                          # JavaScript文件
 │   ├── nav.js                  # 导航交互脚本
 │   ├── api-service.js          # API服务脚本
+│   ├── blog.js                 # 博客页面脚本
 │   ├── fluid.js                # 流体动画效果
 │   ├── galaxy.js               # 星云背景动画
 │   └── performance-utils.js    # 性能优化工具
 ├── assets/                      # 静态资源
 │   └── favicon.ico             # 网站图标
+├── package.json                 # Node.js 项目配置
+├── vercel.json                  # Vercel 部署配置
+├── .gitignore                   # Git 忽略文件
 ├── 404.html                     # 404错误页面
 ├── 50x.html                     # 服务器错误页面
 ├── privacy-policy.html          # 隐私政策
@@ -41,10 +60,64 @@ website sample/
 ├── sitemap.xml                  # 网站地图
 ├── robots.txt                   # 搜索引擎规则
 ├── nginx.conf                   # Nginx配置文件
-├── nginx-main.conf              # Nginx主配置文件
 ├── Dockerfile                   # Docker配置文件
+├── QUICK_START.md               # 📖 快速开始指南
+├── README_WORKFLOW.md           # 📖 完整工作流程
+├── BLOG_IMPORT_GUIDE.md         # 📖 博客导入指南
+├── DEPLOYMENT_SUMMARY.md        # 📖 部署方案总结
 └── README.md                    # 项目说明文档
 ```
+
+## 📝 博客系统
+
+### Markdown 博客工作流程
+
+本项目支持使用 Markdown 编写博客文章，通过 Node.js 工具转换为 JSON，然后自动部署到 Vercel。
+
+#### 快速开始
+
+```bash
+# 1. 安装 Node.js (v16+)
+# 下载: https://nodejs.org/
+
+# 2. 创建新文章
+# 在 posts/ 目录创建 .md 文件
+
+# 3. 一键部署
+npm run deploy
+```
+
+#### 工作流程
+
+```
+本地编写 Markdown → 转换为 JSON → Git 推送 → Vercel 自动部署
+```
+
+#### 详细文档
+
+- **[快速开始指南](QUICK_START.md)** - 5分钟完成设置
+- **[完整工作流程](README_WORKFLOW.md)** - 详细使用说明
+- **[导入指南](BLOG_IMPORT_GUIDE.md)** - Markdown 格式和导入方法
+- **[部署总结](DEPLOYMENT_SUMMARY.md)** - 方案可行性分析
+
+#### 可用命令
+
+```bash
+npm run convert      # 转换 Markdown 为 JSON
+npm run deploy       # 一键部署（转换+提交+推送）
+npm run backup       # 创建备份
+npm run backup:list  # 列出所有备份
+npm run backup:clean # 清理旧备份
+```
+
+#### 示例文章
+
+项目已包含三篇示例文章，位于 `posts/` 目录：
+- **技术类**: Web性能优化实战指南
+- **设计类**: 2025年UI设计趋势展望
+- **生活类**: 程序员的健康指南
+
+---
 
 ## 🚀 快速开始
 
@@ -108,9 +181,12 @@ website sample/
 - 支持GitHub链接和在线演示
 
 ### 博客 (pages/blog.html)
-- 文章列表展示和分类管理
-- 支持按日期排序和标签筛选
-- 响应式文章卡片布局
+- 📝 Markdown 文件管理，轻松编写博客
+- 🔄 本地转换为 JSON，一键部署
+- 🎯 文章列表展示和分类管理
+- 🔍 支持按日期排序和标签筛选
+- 🎨 响应式文章卡片布局
+- ⭐ 精选文章突出显示
 
 ### 关于 (pages/about.html)
 - 个人介绍和技能展示
@@ -201,6 +277,19 @@ MIT License - 详见 [LICENSE](LICENSE) 文件
 - **邮箱**: contact@171780.xyz
 - **GitHub**: [项目地址]
 
+## 🆕 最新更新
+
+### v2.0 - 博客系统
+
+- ✅ 支持 Markdown 文章编写
+- ✅ Node.js 转换工具（优化版）
+- ✅ 一键部署脚本
+- ✅ 自动备份功能
+- ✅ Vercel 部署配置
+- ✅ 完整文档和示例
+
 ---
 
 **TOGETHER** - 用热情和技术构建的现代化网页模板
+
+💡 **开始使用博客系统？** 查看 [QUICK_START.md](QUICK_START.md)
