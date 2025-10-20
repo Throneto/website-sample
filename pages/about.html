@@ -17,7 +17,7 @@
 <meta name="theme-color" content="#667eea">
 
 <link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="../css/knowledge.css">
+<link rel="stylesheet" href="../css/about.css">
 </head>
 <body class="notranslate" translate="no">
     <!-- Background: Nebula and Fluid -->
@@ -56,10 +56,10 @@
                 <div class="glass-card" style="padding: 2rem; margin-top: 2rem;">
                     <div style="display: flex; flex-direction: column; gap: 1.5rem;">
                         <div style="text-align: center;">
-                            <div style="width: 120px; height: 120px; margin: 0 auto 1rem; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 3rem;">
+                            <div class="avatar-container" style="width: 120px; height: 120px; margin: 0 auto 1rem; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 3rem;">
                                 👨‍💻
                             </div>
-                            <h2 style="font-size: 2rem; margin-bottom: 0.5rem; color: var(--text-light);">TOGETHER</h2>
+                            <h2 class="animated-text" style="font-size: 2rem; margin-bottom: 0.5rem; color: var(--text-light);">TOGETHER</h2>
                             <p style="color: var(--primary-color); font-size: 1.1rem;">全栈开发者 & 技术爱好者</p>
                         </div>
                         
@@ -84,7 +84,7 @@
                 <div style="margin-top: 3rem;">
                     <h3 style="font-size: 1.5rem; margin-bottom: 1.5rem; color: var(--text-light);">技术技能</h3>
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
-                        <div class="glass-card" style="padding: 1.5rem;">
+                        <div class="glass-card skill-card" style="padding: 1.5rem;">
                             <h4 style="color: var(--primary-color); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
                                 <span style="font-size: 1.5rem;">🎨</span> 前端开发
                             </h4>
@@ -96,7 +96,7 @@
                             </ul>
                         </div>
                         
-                        <div class="glass-card" style="padding: 1.5rem;">
+                        <div class="glass-card skill-card" style="padding: 1.5rem;">
                             <h4 style="color: var(--primary-color); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
                                 <span style="font-size: 1.5rem;">⚙️</span> 后端开发
                             </h4>
@@ -108,7 +108,7 @@
                             </ul>
                         </div>
                         
-                        <div class="glass-card" style="padding: 1.5rem;">
+                        <div class="glass-card skill-card" style="padding: 1.5rem;">
                             <h4 style="color: var(--primary-color); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
                                 <span style="font-size: 1.5rem;">🚀</span> DevOps & 工具
                             </h4>
@@ -125,7 +125,7 @@
                 <!-- Projects Section -->
                 <div style="margin-top: 3rem;">
                     <h3 style="font-size: 1.5rem; margin-bottom: 1.5rem; color: var(--text-light);">精选项目</h3>
-                    <div class="glass-card" style="padding: 1.5rem;">
+                    <div class="glass-card project-card" style="padding: 1.5rem;">
                         <h4 style="color: var(--primary-color); margin-bottom: 1rem;">📧 Gmail 知识库集成</h4>
                         <p style="color: var(--text-gray); line-height: 1.6; margin-bottom: 1rem;">
                             一个智能邮件管理系统，将Gmail邮件导入到分类知识库中。
@@ -148,6 +148,45 @@
                     </div>
                 </div>
 
+                <!-- Timeline Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="font-size: 1.5rem; margin-bottom: 1.5rem; color: var(--text-light);">经历时间线</h3>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content glass-card">
+                                <div class="timeline-date">2025年1月</div>
+                                <h4>TOGETHER 网站上线</h4>
+                                <p>完成个人网站的开发和部署，集成了知识库、开发地带、博客等功能模块。</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content glass-card">
+                                <div class="timeline-date">2024年12月</div>
+                                <h4>Gmail 知识库项目</h4>
+                                <p>开发了智能邮件管理系统，实现了Gmail邮件的自动分类和知识库集成。</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content glass-card">
+                                <div class="timeline-date">2024年11月</div>
+                                <h4>WebGL 流体动画</h4>
+                                <p>深入研究WebGL技术，创建了基于GPU加速的流体动力学模拟系统。</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content glass-card">
+                                <div class="timeline-date">2024年10月</div>
+                                <h4>AI 代码助手</h4>
+                                <p>开始探索人工智能在编程领域的应用，开发了基于大语言模型的代码生成工具。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Contact Section -->
                 <div style="margin-top: 3rem;">
                     <h3 style="font-size: 1.5rem; margin-bottom: 1.5rem; color: var(--text-light);">联系我</h3>
@@ -157,12 +196,16 @@
                         </p>
                         <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
                             <a href="https://github.com" target="_blank" rel="noopener noreferrer" 
-                               style="padding: 0.75rem 1.5rem; background: rgba(0, 243, 255, 0.1); border: 1px solid rgba(0, 243, 255, 0.3); border-radius: 10px; color: var(--primary-color); text-decoration: none; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 0.5rem;">
+                               class="contact-link" style="padding: 0.75rem 1.5rem; background: rgba(0, 243, 255, 0.1); border: 1px solid rgba(0, 243, 255, 0.3); border-radius: 10px; color: var(--primary-color); text-decoration: none; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 0.5rem;">
                                 <span style="font-size: 1.2rem;">💻</span> GitHub
                             </a>
                             <a href="mailto:contact@171780.xyz" 
-                               style="padding: 0.75rem 1.5rem; background: rgba(0, 243, 255, 0.1); border: 1px solid rgba(0, 243, 255, 0.3); border-radius: 10px; color: var(--primary-color); text-decoration: none; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 0.5rem;">
+                               class="contact-link" style="padding: 0.75rem 1.5rem; background: rgba(0, 243, 255, 0.1); border: 1px solid rgba(0, 243, 255, 0.3); border-radius: 10px; color: var(--primary-color); text-decoration: none; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 0.5rem;">
                                 <span style="font-size: 1.2rem;">📧</span> 邮箱
+                            </a>
+                            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" 
+                               class="contact-link" style="padding: 0.75rem 1.5rem; background: rgba(0, 243, 255, 0.1); border: 1px solid rgba(0, 243, 255, 0.3); border-radius: 10px; color: var(--primary-color); text-decoration: none; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 0.5rem;">
+                                <span style="font-size: 1.2rem;">💼</span> LinkedIn
                             </a>
                         </div>
                     </div>
