@@ -32,20 +32,18 @@ class BlogManager {
         this.isLoading = true;
 
         try {
-            // 尝试从API加载文章数据
-            // const data = await this.apiService.getBlogArticles({
-            //     category: this.currentCategory !== 'all' ? this.currentCategory : undefined,
-            //     search: this.currentSearch,
-            //     page: this.currentPage,
-            //     limit: this.articlesPerPage
-            // });
-            // this.articles = data.articles || [];
-            
-            // 使用模拟数据
-            this.articles = this.getMockArticles();
+            // 从本地数据层读取
+            const { items, total } = await this.apiService.getArticles({
+                category: this.currentCategory,
+                search: this.currentSearch,
+                page: this.currentPage,
+                limit: this.articlesPerPage
+            });
+            this.articles = items || [];
             this.renderArticles();
         } catch (error) {
             console.error('加载文章失败:', error);
+            // 回落到内置模拟（避免空白）
             this.articles = this.getMockArticles();
             this.renderArticles();
         } finally {

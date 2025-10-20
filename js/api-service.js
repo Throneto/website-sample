@@ -19,6 +19,12 @@ class ApiService {
     this.timeout = 10000; // 10秒超时
     
     console.log('[ApiService] Initialized with baseURL:', this.baseURL);
+
+    // 本地数据键
+    this.localKeys = {
+      articles: 'valarz_articles',
+      categories: 'valarz_categories'
+    };
   }
 
   /**
@@ -48,6 +54,133 @@ class ApiService {
       console.error(`API request failed for ${endpoint}:`, error);
       throw error;
     }
+  }
+
+  // ============================================
+  // 本地数据读写（静态JSON + localStorage 后备）
+  // ============================================
+
+  async loadLocalJSON(path) {
+    const response = await fetch(path, { headers: { 'Content-Type': 'application/json' } });
+    if (!response.ok) throw new Error(`Failed to load ${path}: ${response.status}`);
+    return response.json();
+  }
+
+  getLocalData(key) {
+    try {
+      const raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) {
+      console.warn('Failed to parse localStorage for', key, e);
+      return null;
+    }
+  }
+
+  setLocalData(key, value) {
+    localStorage.setItem(key, JSON.stringify(value));
+  }
+
+  async ensureInitialized() {
+    // 初始化分类
+    if (!this.getLocalData(this.localKeys.categories)) {
+      try {
+        const categories = await this.loadLocalJSON('/data/categories.json');
+        this.setLocalData(this.localKeys.categories, categories);
+      } catch (e) {
+        console.warn('Fallback empty categories due to load error', e);
+        this.setLocalData(this.localKeys.categories, []);
+      }
+    }
+
+    // 初始化文章
+    if (!this.getLocalData(this.localKeys.articles)) {
+      try {
+        const articles = await this.loadLocalJSON('/data/articles.json');
+        this.setLocalData(this.localKeys.articles, articles);
+      } catch (e) {
+        console.warn('Fallback empty articles due to load error', e);
+        this.setLocalData(this.localKeys.articles, []);
+      }
+    }
+  }
+
+  // ========== Categories (本地) ==========
+  async getLocalCategories() {
+    await this.ensureInitialized();
+    return this.getLocalData(this.localKeys.categories) || [];
+  }
+
+  // ========== Articles (本地) ==========
+  async getArticles(params = {}) {
+    await this.ensureInitialized();
+    const all = this.getLocalData(this.localKeys.articles) || [];
+
+    const search = (params.search || '').toLowerCase();
+    const category = params.category && params.category !== 'all' ? params.category : null;
+
+    let filtered = all.slice();
+    if (category) {
+      filtered = filtered.filter(a => a.category === category);
+    }
+    if (search) {
+      filtered = filtered.filter(a =>
+        (a.title || '').toLowerCase().includes(search) ||
+        (a.excerpt || '').toLowerCase().includes(search) ||
+        (Array.isArray(a.tags) ? a.tags : []).some(t => (t || '').toLowerCase().includes(search))
+      );
+    }
+
+    // 排序：featured优先，其次按发布时间倒序
+    filtered.sort((a, b) => {
+      if (a.featured && !b.featured) return -1;
+      if (!a.featured && b.featured) return 1;
+      return new Date(b.publishDate || 0) - new Date(a.publishDate || 0);
+    });
+
+    const page = Number(params.page || 1);
+    const limit = Number(params.limit || filtered.length || 0);
+    const offset = (page - 1) * limit;
+    const items = limit ? filtered.slice(offset, offset + limit) : filtered;
+
+    return { total: filtered.length, items };
+  }
+
+  async createArticle(article) {
+    await this.ensureInitialized();
+    const articles = this.getLocalData(this.localKeys.articles) || [];
+    const nextId = articles.length ? Math.max(...articles.map(a => a.id || 0)) + 1 : 1;
+    const now = new Date().toISOString().slice(0, 10);
+    const newArticle = {
+      id: nextId,
+      publishDate: article.publishDate || now,
+      views: 0,
+      likes: 0,
+      featured: false,
+      ...article
+    };
+    articles.push(newArticle);
+    this.setLocalData(this.localKeys.articles, articles);
+    return newArticle;
+  }
+
+  async updateArticle(id, updates) {
+    await this.ensureInitialized();
+    const articles = this.getLocalData(this.localKeys.articles) || [];
+    const idx = articles.findIndex(a => Number(a.id) === Number(id));
+    if (idx === -1) throw new Error('Article not found');
+    articles[idx] = { ...articles[idx], ...updates };
+    this.setLocalData(this.localKeys.articles, articles);
+    return articles[idx];
+  }
+
+  async deleteArticle(id) {
+    await this.ensureInitialized();
+    let articles = this.getLocalData(this.localKeys.articles) || [];
+    const before = articles.length;
+    articles = articles.filter(a => Number(a.id) !== Number(id));
+    if (articles.length === before) throw new Error('Article not found');
+    this.setLocalData(this.localKeys.articles, articles);
+    return { success: true };
   }
 
   /**

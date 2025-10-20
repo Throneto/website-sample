@@ -1,0 +1,33 @@
+[
+  {
+    "id": 1,
+    "title": "WebGL流体动画实现",
+    "excerpt": "基于WebGL的流体动力学模拟技术，从概念到实现。",
+    "content": "WebGL流体动画是一种基于GPU加速的图形技术……",
+    "category": "technology",
+    "tags": ["WebGL", "图形编程", "动画", "JavaScript"],
+    "icon": "🌊",
+    "publishDate": "2025-01-15",
+    "readTime": "8分钟",
+    "views": 1250,
+    "likes": 89,
+    "featured": true,
+    "slug": "webgl-fluid-animation"
+  },
+  {
+    "id": 2,
+    "title": "玻璃态设计趋势分析",
+    "excerpt": "2025年热门UI风格——玻璃态设计详解与实现技巧。",
+    "content": "玻璃态设计（Glassmorphism）是一种现代UI设计风格……",
+    "category": "design",
+    "tags": ["UI设计", "玻璃态", "设计趋势", "CSS"],
+    "icon": "🎨",
+    "publishDate": "2025-01-14",
+    "readTime": "6分钟",
+    "views": 980,
+    "likes": 67,
+    "featured": false,
+    "slug": "glassmorphism-design-trend"
+  }
+]
+
