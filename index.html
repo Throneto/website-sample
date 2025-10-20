@@ -34,6 +34,11 @@
 <meta name="theme-color" content="#667eea">
 <meta name="msapplication-TileColor" content="#667eea">
 
+<!-- 资源提示：第三方域名预连接 -->
+<link rel="dns-prefetch" href="//busuanzi.ibruce.info">
+<link rel="preconnect" href="//busuanzi.ibruce.info" crossorigin>
+
+<!-- 关键样式 -->
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -221,19 +226,55 @@
         </div>
     </footer>
 
-    <!-- 性能工具 - 等部署后再启用 -->
-    <!-- <script src="js/performance-utils.js"></script> -->
-    <script src="js/galaxy.js"></script>
-    <script src="js/fluid.js"></script>
+    <!-- 性能工具（启用设备自适应与懒加载策略） -->
+    <script defer src="js/performance-utils.js"></script>
+
+    <!-- 根据设备性能/网络和用户偏好动态加载重型动画脚本 -->
+    <script>
+        (function(){
+            try {
+                var prefersReduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                var connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+                var slowNetwork = connection && (connection.saveData || /^(slow-2g|2g)$/.test(connection.effectiveType || '') || (connection.downlink && connection.downlink < 1));
+                var lowCores = (navigator.hardwareConcurrency || 2) < 4;
+                var lowMemory = navigator.deviceMemory && navigator.deviceMemory < 4;
+                var isLowEnd = lowCores || lowMemory;
+
+                if (!prefersReduce && !slowNetwork && !isLowEnd) {
+                    var g = document.createElement('script');
+                    g.src = 'js/galaxy.js';
+                    g.defer = true;
+                    document.body.appendChild(g);
+
+                    var f = document.createElement('script');
+                    f.src = 'js/fluid.js';
+                    f.defer = true;
+                    document.body.appendChild(f);
+                } else {
+                    // 低性能或节流：隐藏复杂背景，避免不必要的GPU占用
+                    var style = document.createElement('style');
+                    style.textContent = '.bg-container{display:none !important;}';
+                    document.head.appendChild(style);
+                }
+            } catch (e) {
+                // 发生异常时不阻塞页面
+            }
+        })();
+    </script>
     <script>
         // 仅在本地开发环境显式指定 API 地址，生产环境走自动判定
         if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
             window.API_URL = 'http://localhost:5000/api';
         }
     </script>
-    <script src="js/nav.js"></script>
-    <script src="js/api-service.js"></script>
+    <script defer src="js/nav.js"></script>
+    <script defer src="js/api-service.js"></script>
     <!-- 不蒜子访问统计 -->
     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <!-- 无脚本环境降级：隐藏动态背景，保留核心内容可用 -->
+    <noscript>
+        <style>.bg-container{display:none!important}</style>
+    </noscript>
 </body>
 </html>

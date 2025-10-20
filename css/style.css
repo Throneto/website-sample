@@ -367,7 +367,11 @@ body {
     border: 1px solid var(--glass-border);
     border-radius: 20px;
     padding: 2rem;
+    /* 兼容性前缀与回退 */
+    -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
+    /* 无支持时的回退背景不透明度稍增 */
+    background-color: rgba(255, 255, 255, 0.06);
     transition: var(--transition-smooth);
     position: relative;
     overflow: hidden;
@@ -513,6 +517,24 @@ body {
     transition: var(--transition-smooth);
 }
 
+/* 涟漪效果容器与动画 */
+.social-link { position: relative; overflow: hidden; }
+.social-link .ripple {
+    position: absolute;
+    border-radius: 50%;
+    transform: scale(0);
+    background: rgba(255, 255, 255, 0.35);
+    animation: rippleAnim 0.6s linear;
+    pointer-events: none;
+}
+
+@keyframes rippleAnim {
+    to {
+        transform: scale(3);
+        opacity: 0;
+    }
+}
+
 .social-link svg {
     width: 20px;
     height: 20px;
@@ -533,6 +555,7 @@ body {
     text-align: center;
     border-top: 1px solid var(--glass-border);
     background: rgba(0, 0, 0, 0.5);
+    -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
 }
 
