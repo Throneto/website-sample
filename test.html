@@ -54,6 +54,14 @@
 </head>
 <body>
     <h1>TOGETHER 网站功能测试</h1>
+    <div class="test-section">
+        <h2>一键测试</h2>
+        <button id="run-tests" class="test-link" style="margin-left:0">运行自动化测试</button>
+        <button id="download-report" class="test-link" style="background:#7b2cbf;color:#fff" disabled>下载测试报告(JSON)</button>
+        <div id="auto-results" style="margin-top:16px">
+            <pre id="test-log" style="white-space:pre-wrap;word-break:break-word"></pre>
+        </div>
+    </div>
     
     <div class="test-section">
         <h2>页面导航测试</h2>
@@ -166,6 +174,150 @@
             const loadTime = performance.now();
             console.log(`页面加载时间: ${loadTime.toFixed(2)}ms`);
         });
+    </script>
+
+    <script>
+        (function(){
+            'use strict';
+            const btnRun = document.getElementById('run-tests');
+            const btnDownload = document.getElementById('download-report');
+            const logEl = document.getElementById('test-log');
+            let report = null;
+
+            function log(line){
+                console.log(line);
+                logEl.textContent += (logEl.textContent ? '\n' : '') + line;
+            }
+
+            function detectFeatures(){
+                const hasIO = 'IntersectionObserver' in window;
+                const hasRAF = 'requestAnimationFrame' in window;
+                const hasBF = CSS && CSS.supports && (CSS.supports('backdrop-filter','blur(2px)') || CSS.supports('-webkit-backdrop-filter','blur(2px)'));
+                const prefersReduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                const m480 = window.matchMedia('(max-width: 480px)').matches;
+                const m768 = window.matchMedia('(max-width: 768px)').matches;
+                const m1024 = window.matchMedia('(min-width: 769px) and (max-width: 1024px)').matches;
+                const mUHD = window.matchMedia('(min-width: 1920px)').matches;
+                const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+                return {
+                    intersectionObserver: hasIO,
+                    requestAnimationFrame: hasRAF,
+                    backdropFilter: hasBF,
+                    prefersReducedMotion: prefersReduce,
+                    responsive: { max480: m480, max768: m768, mid769_1024: m1024, min1920: mUHD },
+                    network: connection ? {
+                        effectiveType: connection.effectiveType || 'unknown',
+                        downlink: connection.downlink || null,
+                        saveData: !!connection.saveData
+                    } : null
+                };
+            }
+
+            async function inspectIndex(){
+                try {
+                    const res = await fetch('index.html', { cache:'no-store' });
+                    const html = await res.text();
+                    const checks = {
+                        hasDnsPrefetch: /dns-prefetch/.test(html),
+                        hasPreconnect: /preconnect/.test(html),
+                        navDefer: /<script\s+defer[^>]*src=\"js\/nav\.js\"/i.test(html),
+                        apiDefer: /<script\s+defer[^>]*src=\"js\/api-service\.js\"/i.test(html),
+                        perfUtils: /performance-utils\.js/.test(html),
+                        dynamicLoadBg: /bg-container\{display:none/.test(html) || /动态加载重型动画/.test(html),
+                        hasNoScript: /<noscript>[\s\S]*bg-container\{display:none!important\}[\s\S]*<\/noscript>/i.test(html)
+                    };
+                    return checks;
+                } catch(e){
+                    return { error: e && e.message ? e.message : String(e) };
+                }
+            }
+
+            function collectPerformance(){
+                const timing = performance.timing || {};
+                const navEntries = performance.getEntriesByType ? performance.getEntriesByType('navigation') : [];
+                let ttfb = null, domContentLoaded = null, loadEvent = null;
+                if (navEntries && navEntries[0]) {
+                    const n = navEntries[0];
+                    ttfb = n.responseStart - n.requestStart;
+                    domContentLoaded = n.domContentLoadedEventEnd - n.startTime;
+                    loadEvent = n.loadEventEnd - n.startTime;
+                } else if (timing.responseStart) {
+                    ttfb = timing.responseStart - timing.requestStart;
+                    domContentLoaded = timing.domContentLoadedEventEnd - timing.navigationStart;
+                    loadEvent = timing.loadEventEnd - timing.navigationStart;
+                }
+                return { ttfb, domContentLoaded, loadEvent };
+            }
+
+            async function runAllTests(){
+                logEl.textContent = '';
+                log('开始执行自动化测试...');
+                const startedAt = new Date().toISOString();
+
+                const features = detectFeatures();
+                log(`特性检测: IO=${features.intersectionObserver}, RAF=${features.requestAnimationFrame}, BF=${features.backdropFilter}`);
+                if (features.network) {
+                    log(`网络: type=${features.network.effectiveType}, downlink=${features.network.downlink}, saveData=${features.network.saveData}`);
+                }
+
+                const perf = collectPerformance();
+                if (perf.ttfb != null) log(`TTFB: ${Math.round(perf.ttfb)}ms`);
+                if (perf.domContentLoaded != null) log(`DOM 完成: ${Math.round(perf.domContentLoaded)}ms`);
+                if (perf.loadEvent != null) log(`Load 事件: ${Math.round(perf.loadEvent)}ms`);
+
+                const indexChecks = await inspectIndex();
+                if (!indexChecks.error){
+                    log(`index.html 校验: dns-prefetch=${indexChecks.hasDnsPrefetch}, preconnect=${indexChecks.hasPreconnect}, defer(nav/api)=${indexChecks.navDefer && indexChecks.apiDefer}`);
+                    log(`性能脚本与降级: perf-utils=${indexChecks.perfUtils}, 动态加载/降级=${indexChecks.dynamicLoadBg}, noscript=${indexChecks.hasNoScript}`);
+                } else {
+                    log(`index.html 获取失败: ${indexChecks.error}`);
+                }
+
+                // 页面可达性简单检查（同源下快速 HEAD 请求）
+                const links = [
+                    'index.html','pages/knowledge.html','pages/development.html','pages/blog.html','pages/about.html'
+                ];
+                const reachability = {};
+                for (const url of links){
+                    try {
+                        const r = await fetch(url, { method:'HEAD', cache:'no-store' });
+                        reachability[url] = r.ok;
+                    } catch(e){
+                        reachability[url] = false;
+                    }
+                }
+                log('可达性: ' + JSON.stringify(reachability));
+
+                report = {
+                    project: 'TOGETHER',
+                    startedAt,
+                    finishedAt: new Date().toISOString(),
+                    location: window.location.href,
+                    features,
+                    performance: perf,
+                    indexChecks,
+                    reachability
+                };
+                btnDownload.disabled = false;
+                log('测试完成。可点击“下载测试报告(JSON)”。');
+            }
+
+            function downloadReport(){
+                if (!report) return;
+                const blob = new Blob([JSON.stringify(report, null, 2)], { type:'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'phase4-test-report.json';
+                document.body.appendChild(a);
+                a.click();
+                URL.revokeObjectURL(url);
+                a.remove();
+            }
+
+            btnRun && btnRun.addEventListener('click', runAllTests);
+            btnDownload && btnDownload.addEventListener('click', downloadReport);
+        })();
     </script>
 </body>
 </html>
