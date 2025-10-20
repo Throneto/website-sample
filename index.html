@@ -18,17 +18,17 @@
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://171780.xyz/">
+<meta property="og:url" content="/">
 <meta property="og:title" content="TOGETHER - 首页">
 <meta property="og:description" content="探索技术，分享创意，记录生活">
-<meta property="og:image" content="https://171780.xyz/assets/favicon.svg">
+<meta property="og:image" content="/assets/favicon.ico">
 
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image">
-<meta property="twitter:url" content="https://171780.xyz/">
+<meta property="twitter:url" content="/">
 <meta property="twitter:title" content="TOGETHER - 首页">
 <meta property="twitter:description" content="探索技术，分享创意，记录生活">
-<meta property="twitter:image" content="https://171780.xyz/assets/favicon.svg">
+<meta property="twitter:image" content="/assets/favicon.ico">
 
 <!-- Theme Color -->
 <meta name="theme-color" content="#667eea">
@@ -226,8 +226,10 @@
     <script src="js/galaxy.js"></script>
     <script src="js/fluid.js"></script>
     <script>
-        // Set API URL - must be loaded before api-service.js
-        window.API_URL = 'https://api.171780.xyz/api';
+        // 仅在本地开发环境显式指定 API 地址，生产环境走自动判定
+        if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+            window.API_URL = 'http://localhost:5000/api';
+        }
     </script>
     <script src="js/nav.js"></script>
     <script src="js/api-service.js"></script>
