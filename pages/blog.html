@@ -16,8 +16,13 @@
 <!-- Theme Color -->
 <meta name="theme-color" content="#667eea">
 
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="../css/blog.css">
+<!-- Cache Control -->
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+
+<link rel="stylesheet" href="../css/style.css?v=20251021">
+<link rel="stylesheet" href="../css/blog.css?v=20251021-optimized">
 </head>
 <body class="notranslate" translate="no">
     <!-- Background: Nebula and Fluid -->
@@ -104,6 +109,37 @@
     <script src="../js/fluid.js"></script>
     <script src="../js/nav.js"></script>
     <script src="../js/blog.js"></script>
+    
+    <!-- 样式加载验证脚本 -->
+    <script>
+        // 验证优化的CSS是否已加载
+        window.addEventListener('DOMContentLoaded', () => {
+            const testElement = document.querySelector('.blog-article');
+            if (testElement) {
+                const styles = window.getComputedStyle(testElement);
+                console.log('✅ 博客UI优化检查:');
+                console.log('  - 背景: ' + styles.background);
+                console.log('  - 边框半径: ' + styles.borderRadius);
+                console.log('  - 过渡效果: ' + styles.transition);
+                
+                if (styles.borderRadius === '24px') {
+                    console.log('✨ 博客页面优化样式已成功加载！');
+                } else {
+                    console.warn('⚠️ 样式可能未完全加载，请清除浏览器缓存（Ctrl+Shift+Delete）');
+                }
+            } else {
+                console.log('⏳ 文章卡片尚未加载...');
+            }
+            
+            // 验证浮动粒子
+            const particles = document.querySelectorAll('.floating-particle');
+            console.log(`  - 浮动粒子数量: ${particles.length}/5`);
+            
+            // 验证分隔线
+            const divider = document.querySelector('.title-divider');
+            console.log(`  - 标题分隔线: ${divider ? '✓' : '✗'}`);
+        });
+    </script>
 </body>
 </html>
 
