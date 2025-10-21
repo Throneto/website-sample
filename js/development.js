@@ -50,81 +50,68 @@ class DevelopmentManager {
         return [
             {
                 id: 1,
-                title: 'TOGETHER 网站',
-                description: '现代化的个人网站，采用玻璃态设计风格，支持响应式布局和动态交互效果。集成了知识库、开发地带、博客等功能模块。',
+                title: 'H5游戏世界',
+                description: '基于HTML5技术的网页游戏平台，无需下载安装即可畅玩。收录了各类经典游戏、益智游戏和休闲游戏，支持手机和电脑浏览器直接运行。',
                 status: 'active',
-                icon: '🌐',
-                technologies: ['HTML5', 'CSS3', 'JavaScript', 'WebGL'],
-                githubUrl: 'https://github.com/username/together-website',
-                demoUrl: 'https://171780.xyz',
-                features: ['响应式设计', '动态背景', '玻璃态UI', 'SEO优化'],
-                startDate: '2025-01-01',
-                lastUpdate: '2025-01-15'
+                icon: '🎮',
+                technologies: ['HTML5', 'Canvas', 'JavaScript', 'Web Audio'],
+                githubUrl: 'https://github.com/yourusername/h5-games',
+                demoUrl: 'https://h5.171780.xyz',
+                features: ['即点即玩', '跨平台', '无需安装', '响应式设计'],
+                startDate: '2024-08-01',
+                lastUpdate: '2025-10-15'
             },
             {
                 id: 2,
-                title: 'Gmail 知识库集成',
-                description: '智能邮件管理系统，将Gmail邮件导入到分类知识库中。支持智能过滤、自动分类和OAuth2认证。',
-                status: 'completed',
-                icon: '📧',
-                technologies: ['TypeScript', 'Node.js', 'PostgreSQL', 'Gmail API'],
-                githubUrl: 'https://github.com/username/gmail-knowledge',
-                demoUrl: null,
-                features: ['OAuth2认证', '智能分类', '邮件搜索', '数据持久化'],
-                startDate: '2024-12-01',
-                lastUpdate: '2025-01-10'
+                title: '白噪音放松站',
+                description: '专注力与放松的声音世界。提供大自然白噪音、环境音效、冥想音乐等多种声音场景，帮助你专注工作、放松身心、改善睡眠质量。',
+                status: 'active',
+                icon: '🎵',
+                technologies: ['Web Audio API', 'React', 'CSS3', 'IndexedDB'],
+                githubUrl: 'https://github.com/yourusername/white-noise',
+                demoUrl: 'https://mood.171780.xyz',
+                features: ['多种场景', '定时功能', '混音器', '收藏列表'],
+                startDate: '2024-09-10',
+                lastUpdate: '2025-10-12'
             },
             {
                 id: 3,
-                title: 'WebGL 流体动画',
-                description: '基于WebGL的流体动力学模拟，创建逼真的流体动画效果。支持实时交互和多种流体参数调节。',
+                title: 'Draw虚拟白板',
+                description: '在线手绘风格图表绘制工具。支持流程图、架构图、思维导图等多种图表类型，采用手绘风格呈现，让你的图表更具个性和艺术感。',
                 status: 'active',
-                icon: '🌊',
-                technologies: ['WebGL', 'GLSL', 'JavaScript', 'Three.js'],
-                githubUrl: 'https://github.com/username/webgl-fluid',
-                demoUrl: 'https://demo.171780.xyz/fluid',
-                features: ['实时渲染', '交互控制', '参数调节', '性能优化'],
-                startDate: '2024-11-15',
-                lastUpdate: '2025-01-12'
+                icon: '✏️',
+                technologies: ['Canvas', 'SVG', 'Excalidraw', 'TypeScript'],
+                githubUrl: 'https://github.com/yourusername/draw-board',
+                demoUrl: 'https://draw.171780.xyz',
+                features: ['手绘风格', '实时协作', '导出多格式', '丰富组件库'],
+                startDate: '2024-07-15',
+                lastUpdate: '2025-10-18'
             },
             {
                 id: 4,
-                title: 'AI 代码助手',
-                description: '基于大语言模型的代码生成和优化工具，支持多种编程语言，提供智能代码建议和重构方案。',
-                status: 'maintenance',
-                icon: '🤖',
-                technologies: ['Python', 'OpenAI API', 'FastAPI', 'React'],
-                githubUrl: 'https://github.com/username/ai-code-assistant',
-                demoUrl: 'https://ai.171780.xyz',
-                features: ['代码生成', '智能补全', '错误检测', '重构建议'],
-                startDate: '2024-10-01',
-                lastUpdate: '2024-12-20'
+                title: 'IT工具百宝箱',
+                description: '为开发者精心准备的在线工具集合。包含JSON格式化、Base64编解码、时间戳转换、正则测试、颜色选择器、加密解密等数十种实用工具。',
+                status: 'active',
+                icon: '🛠️',
+                technologies: ['Vue.js', 'TypeScript', 'Vite', 'TailwindCSS'],
+                githubUrl: 'https://github.com/yourusername/it-tools',
+                demoUrl: 'https://ittools.171780.xyz',
+                features: ['工具齐全', '纯前端', '隐私安全', '快速便捷'],
+                startDate: '2024-06-20',
+                lastUpdate: '2025-10-20'
             },
             {
                 id: 5,
-                title: '实时协作编辑器',
-                description: '支持多人实时协作的在线代码编辑器，基于WebSocket实现实时同步，支持语法高亮和版本控制。',
-                status: 'completed',
-                icon: '👥',
-                technologies: ['React', 'Socket.io', 'Monaco Editor', 'Node.js'],
-                githubUrl: 'https://github.com/username/collab-editor',
-                demoUrl: 'https://editor.171780.xyz',
-                features: ['实时同步', '语法高亮', '版本控制', '用户管理'],
-                startDate: '2024-09-01',
-                lastUpdate: '2024-11-30'
-            },
-            {
-                id: 6,
-                title: '微服务监控平台',
-                description: '分布式微服务架构的监控和管理平台，提供实时性能监控、日志分析和告警功能。',
+                title: '在线影视中心',
+                description: '聚合式在线视频播放平台。整合了多个视频源，提供电影、电视剧、综艺、动漫等海量影视资源，支持搜索、分类、收藏和播放历史记录。',
                 status: 'active',
-                icon: '📊',
-                technologies: ['Kubernetes', 'Prometheus', 'Grafana', 'Go'],
-                githubUrl: 'https://github.com/username/microservice-monitor',
-                demoUrl: null,
-                features: ['实时监控', '日志分析', '告警系统', '可视化面板'],
-                startDate: '2024-08-15',
-                lastUpdate: '2025-01-08'
+                icon: '📺',
+                technologies: ['React', 'Node.js', 'Video.js', 'MongoDB'],
+                githubUrl: 'https://github.com/yourusername/online-tv',
+                demoUrl: 'https://tv.171780.xyz',
+                features: ['海量资源', '高清播放', '智能推荐', '断点续播'],
+                startDate: '2024-05-01',
+                lastUpdate: '2025-10-16'
             }
         ];
     }
@@ -236,7 +223,7 @@ class DevelopmentManager {
 
     getStatusText(status) {
         const statusMap = {
-            'active': '进行中',
+            'active': '在线运行',
             'completed': '已完成',
             'maintenance': '维护中',
             'paused': '暂停'
@@ -246,7 +233,7 @@ class DevelopmentManager {
 
     getStatusIcon(status) {
         const iconMap = {
-            'active': '🚀',
+            'active': '✨',
             'completed': '✅',
             'maintenance': '🔧',
             'paused': '⏸️'
@@ -257,9 +244,9 @@ class DevelopmentManager {
     getEmptyStateHTML() {
         return `
             <div class="empty-state">
-                <div class="empty-icon">📁</div>
-                <h3>暂无项目</h3>
-                <p>当前筛选条件下没有找到项目，尝试选择其他状态</p>
+                <div class="empty-icon">🔍</div>
+                <h3>暂无产品</h3>
+                <p>当前筛选条件下没有找到产品，尝试选择其他状态查看更多内容</p>
             </div>
         `;
     }
