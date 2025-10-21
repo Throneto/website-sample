@@ -437,13 +437,14 @@ class BlogManager {
         html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
         html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
         
-        // 处理链接
-        html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
-        
-        // 处理图片
+        // ⚠️ 重要：必须先处理图片，再处理链接！
+        // 处理图片（带感叹号）
         html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" loading="lazy">');
         
-        // 处理代码块
+        // 处理链接（不带感叹号）
+        html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+        
+        // 处理代码块（多行代码优先）
         html = html.replace(/```([^`]+)```/g, '<pre><code>$1</code></pre>');
         html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
         
@@ -463,7 +464,7 @@ class BlogManager {
             para = para.trim();
             if (para && !para.startsWith('<h') && !para.startsWith('<ul') && 
                 !para.startsWith('<ol') && !para.startsWith('<pre') && 
-                !para.startsWith('<blockquote')) {
+                !para.startsWith('<blockquote') && !para.startsWith('<img')) {
                 return `<p>${para.replace(/\n/g, '<br>')}</p>`;
             }
             return para;
