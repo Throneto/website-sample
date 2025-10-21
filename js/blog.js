@@ -9,7 +9,7 @@ class BlogManager {
         this.currentCategory = 'all';
         this.currentSearch = '';
         this.currentPage = 1;
-        this.articlesPerPage = 6;
+        this.articlesPerPage = 100; // 设置为较大数字，显示所有文章
         this.articles = [];
         this.isLoading = false;
         this.selectedTag = null; // 当前选中的标签
