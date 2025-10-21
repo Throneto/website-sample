@@ -112,6 +112,19 @@ class DevelopmentManager {
                 features: ['海量资源', '高清播放', '智能推荐', '断点续播'],
                 startDate: '2024-05-01',
                 lastUpdate: '2025-10-16'
+            },
+            {
+                id: 6,
+                title: '极简倒计时',
+                description: '功能全面的在线时间管理工具。支持世界时钟、倒计时、番茄钟等多种计时模式，内置快速预设（5分钟短休、25分钟番茄钟等），还能显示网络信息和系统时间。',
+                status: 'active',
+                icon: '⏱️',
+                technologies: ['HTML5', 'JavaScript', 'CSS3', 'LocalStorage'],
+                githubUrl: 'https://github.com/yourusername/countdown-timer',
+                demoUrl: 'https://time.loc.cc',
+                features: ['世界时钟', '倒计时器', '番茄工作法', '主题切换'],
+                startDate: '2024-04-10',
+                lastUpdate: '2025-10-19'
             }
         ];
     }
