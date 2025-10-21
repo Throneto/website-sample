@@ -1,0 +1,409 @@
+{
+  "generatedAt": "2025-10-21T07:54:51.890Z",
+  "date": "2025-10-21",
+  "count": 19,
+  "articles": [
+    {
+      "id": 1,
+      "title": "Canonical标签的设置技巧",
+      "excerpt": "详解Canonical标签的概念、使用场景和设置方法，帮助您避免网站重复内容问题，提升SEO效果。从基础概念到实际操作，全面掌握Canonical标签的正确使用方式。",
+      "content": "## **1\\. 什么是Canonical标签？**\n\n**Canonical** 标签是一段 HTML 代码 ( **rel=\"canonical**\" )，用于指定重复或相似网页的主要版本。  \n在SEO 中，Canonical标签会向谷歌建议应该索引哪个版本的页面、规范页面URL并显示在搜索结果中。\n\n  \nCanonical标签位于网页 HTML 源代码的 <head> 部分，如下所示：\n\n<link rel=\"canonical\" href=\"https://www.example.com/\" />\n\n根据页面类型，可以分为两种类型的标签：\n\n-   **自引用Canonical标签**\n    \n    示例页面：一个页面URL为 https://www.example.com/ 该页面的Canonical标签设置为指向自身：<link rel=\"canonical\" href=\"https://www.example.com/\" />\n    \n    **作用：**\n    \n    **内容的标准化：**即使页面没有重复内容，自引用Canonical标签也可以用于明确页面的唯一性，增强内容的规范性。  \n    **页面权重保持：**即使页面内容发生小幅度调整，自引用Canonical标签能维持页面权重，不至于因为小改动导致权重重新分配。\n    \n\n-   **重复页面的Canonical标签**\n    \n    示例页面：假设有多个包含相似内容的页面，如一个博客文章在多个URL下显示：\n    \n    链接①：https://example.com/blog/article  \n    链接②：https://example.com/blog/article?source=facebook  \n    链接③：https://example.com/blog/article?ref=twitter\n    \n    在链接① ② ③ Canonical都设置如下方式：<link rel=\"canonical\" href=\"https://example.com/blog/article\" />\n    \n    **作用：**\n    \n    告知搜索引擎当前页面与另一个页面重复，并指示内容的首选版本或主版本；  \n    它本质上告诉搜索引擎，不要索引此页面，而是索引主要版本。\n    \n\n## **2\\. Canonical标签的使用场景**\n\n-   **处理带有URL参数的页面**\n    \n    **场景：**电商网站的产品页面可能会因为不同的筛选条件（如颜色、尺寸、排序方式等）而生成带有不同参数的URL。  \n    **示例：**https://example.com/product?id=123&color=blue  \n    https://example.com/product?id=123&size=large  \n    **解决方案：**在所有带参数的页面中，使用Canonical标签指向主要的产品页面，如：\n    \n    <link rel=\"canonical\" href=\"https://example.com/product?id=123\" />\n    \n-   **分页内容**\n    \n    **场景：**文章列表或产品列表页面经常会分页（如第1页、第2页）  \n    **示例：**https://example.com/blog?page=1  \n    https://example.com/blog?page=2  \n    **解决方案：**可以让每个分页页面的Canonical标签指向第一页，或者让每页的Canonical标签指向自身。\n    \n    <link rel=\"canonical\" href=\"https://example.com/blog?page=1\" />\n    \n\n-   **内容分发与跟踪参数**\n    \n    **场景：**网站在不同渠道（如社交媒体）分发内容，带有UTM等跟踪参数  \n    **示例：**https://example.com/blog/post?utm\\_source=facebook  \n    **解决方案：**使用Canonical标签指向无参数的主要URL.\n    \n    <link rel=\"canonical\" href=\"https://example.com/blog/post\" />\n    \n\n-   **HTTP和HTTPS版本**\n    \n    **场景：**网站可能会同时存在HTTP和HTTPS版本，用户可以通过任意一种方式访问页面。  \n    **示例：**http://example.com/page  \n    https://example.com/page  \n    **解决方案：**在HTTP页面上使用Canonical标签指向HTTPS版本，确保权重集中在HTTPS页面。\n    \n    <link rel=\"canonical\" href=\"https://example.com/page\" />\n    \n\n-   **带有www和不带www的URL版本**\n    \n    **场景：**网站可能可以通过www.example.com和example.com两种URL访问，造成重复内容问题。  \n    **示例：**https://www.example.com/page  \n    https://example.com/page  \n    **解决方案：**在一个版本（通常为www或不带www）中设置Canonical标签指向首选的URL。\n    \n    <link rel=\"canonical\" href=\"https://www.example.com/page\" />\n    \n\n-   **移动和桌面版URL**\n    \n    **场景：**如果网站使用不同的URL结构来呈现移动和桌面内容，可能会导致内容重复。  \n    **示例：**m.example.com  \n    www.example.com  \n    **解决方案：**在移动页面中使用Canonical标签指向桌面版页面，同时在桌面版页面中使用 alternate 标签。  \n    桌面页面：\n    \n    <link rel=\"alternate\" media=\"only screen and (max-width: 640px)\" href=\"https://m.example.com/\">  \n    <link rel=\"canonical\" href=\"https://www.example.com/\" />\n    \n    移动页面：\n    \n    <link rel=\"canonical\" href=\"[https://www.example.com/](https://www.example.com/)\" />\n    \n    该项在SEOer圈中是有一些争议，但是做Google SEO的网站，建议遵循谷歌的Search规范，参考资料如下：\n    \n    **资料链接：**\n    \n    [https://developers.google.com/search/docs/crawling-indexing/mobile/mobile-sites-mobile-first-indexing?hl=zh-cn#mobile](https://developers.google.com/search/docs/crawling-indexing/mobile/mobile-sites-mobile-first-indexing?hl=zh-cn#mobile) [https://support.google.com/webmasters/thread/282188418/device-specific-urls-and-set-up-canonical-tag?hl=en](https://support.google.com/webmasters/thread/282188418/device-specific-urls-and-set-up-canonical-tag?hl=en)\n    \n\n## **3\\. 如何设置Canonical标签**\n\n-   **代码设定方式**\n    \n    在网站代码的<head>标签进行编辑和设置Canonical标签.\n    \n    <head>  \n    <link rel=\"canonical\" href=\"[https://example.com/](https://example.com/)\">  \n    </head>\n    \n    注：对于建站系统来说不常用，该方法适用于传统HTMl的网站。\n    \n\n-   **All in One SEO Pack（WP插件）**\n    \n    打开任意文章或页面进行编辑，滑动到AIOSEOS设定区块，打开Advanced，编辑: Canonical URL，然后进行编辑保存。\n    \n\n-   **Rank Math SEO（WP插件）**\n    \n    打开任意文章或页面进行编辑，滑动到Rank Math SEO 区块，打开Advanced，编辑: Canonical URL，然后进行编辑保存。\n    \n\n## **4\\. Canonical标签设置的注意事项**\n\n-   **确保URL唯一性**\n    \n    Canonical 标签应该指向该页面的唯一首选 URL，以避免搜索引擎抓取重复内容。  \n    例如，如果页面在 [https://example.com/page](https://example.com/page)，确保其他 URL（如 [https://example.com/page/](https://example.com/page/) 或 [https://www.example.com/page](https://www.example.com/page)）都没有不同的 Canonical 标签指向它们。\n    \n\n-   **避免循环 Canonical 链接**\n    \n    Canonical 标签应该始终指向最优先的页面，避免使用自身或相似的页面作为 Canonical。  \n    如果页面 A 的 Canonical 标签指向页面 B，而页面 B 的 Canonical 又指回页面 A，就会产生循环，对 SEO 产生负面影响。\n    \n\n-   **避免Canonical标签重复**\n    \n    如果使用 SEO 插件（如 Yoast SEO 或 All in One SEO），应避免在主题代码中额外添加 Canonical 标签。  \n    重复的 Canonical 标签可能会导致搜索引擎混淆，应确保只有一个明确的标签。\n    \n\n-   **避免跨域 Canonical 标签**\n    \n    正常情况下Canonical 标签指向同一站点的 URL。如果需要跨域设置（例如指向合作伙伴网站的页面），确保该页面内容几乎完全相同，否则搜索引擎可能会忽略该 Canonical 标签。\n    \n\n## **5\\. 检查Canonical标签是否正确安装**\n\n-   **查看页面源代码**\n    \n    在源代码中查找 <link rel=\"canonical\" href=\"URL\"> 标签，确保该标签包含正确的 URL。\n    \n\n-   **在线SEO工具**\n    \n    使用 在线SEO 工具（如 Ahrefs、SEMrush、Moz）检查Canonical标签。  \n    名称：Ahrefs  \n    地址：[https://ahrefs.com/](https://ahrefs.com/)\n    \n    页面打开Site Audit-All issues-All tracked-Indexability ，浏览Canonical标签问题。\n    \n\n-   **浏览器SEO工具**\n    \n    安装和使用浏览器扩展工具（如 MozBar、SEO Minion）检查Canonical标签。  \n    名称：MozBar  \n    地址：[https://chromewebstore.google.com/detail/mozbar/eakacpaijcpapndcfffdgphdiccmpknp](https://chromewebstore.google.com/detail/mozbar/eakacpaijcpapndcfffdgphdiccmpknp)\n    \n\n-   **桌面端SEO工具**\n    \n    使用桌面SEO工具 Screaming Frog 等站点爬虫工具扫描站点，去检测全站的 Canonical 标签并标出潜在问题。  \n    名称： Screaming Frog  \n    地址：[https://www.screamingfrog.co.uk/seo-spider/](https://www.screamingfrog.co.uk/seo-spider/)",
+      "category": "技术",
+      "tags": [
+        "SEO",
+        "Canonical",
+        "网站优化",
+        "搜索引擎"
+      ],
+      "icon": "🔗",
+      "publishDate": "2024-12-20",
+      "readTime": "10分钟",
+      "views": 0,
+      "likes": 0,
+      "featured": true,
+      "slug": "canonical-6-0-87-7-7-9-84-8-7-6-8-80-5-7-7",
+      "sourceFile": "Canonical标签的设置技巧.md"
+    },
+    {
+      "id": 2,
+      "title": "DNS的记录类型",
+      "excerpt": "详细介绍DNS的各种记录类型（A、AAAA、CNAME、MX、TXT、NS），帮助你理解如何进行Cloudflare的DNS设置，让域名管理变得简单明了。",
+      "content": "当你进行cloudflare的DNS设置时，看到记录类型的选项无从下手，说明你对它们还一无所知吧\n\n接下来，让我分别介绍它们都代表什么意思。\n\n1\\. A记录：把域名指向IP地址 \n\n-   A记录是DNS记录中最基础也是最重要的一种，它负责告诉你的电脑一个域名对应的IPv4地址，就像是帮你找到网站的“门牌号”。\n    \n-   **它的作用是什么？** 比如，当你在浏览器输入example.com时，A记录会把你的请求指向example.com的IP地址，比如`260.118.112.35`\n    \n-   **小提示**：如果某个网站无法访问，有时只需更改A记录的IP地址，就可以让流量转向其他服务器，从而解决问题。\n    \n\n* * *\n\n2.AAAA记录：A记录的“升级版” \n\n-   AAAA记录的作用和A记录类似，都是将域名映射到IP地址。不过不同的是，它对应的是IPv6地址。IPv6是一种更长的IP地址格式，设计出来是为了应对IPv4地址不够用的情况。\n    \n-   **它的作用是什么？** 类似于A记录，但使用的是IPv6地址，比如`2607:f8b0:4009:80f::200e`，比IPv4地址长得多。\n    \n-   **它的重要性**：随着网络设备越来越多，很多新设备和服务器都开始使用IPv6。\n    \n\n* * *\n\n3\\. CNAME记录：域名的别名\n\n-   CNAME记录的作用是给域名创建一个“别名”，这样你可以把一个域名指向另一个域名，而不需要单独的IP地址。\n    \n-   **它的作用是什么？** 假设你有两个域名——www.example.com和example.com，你希望它们指向同一个网站。这时就可以用CNAME记录，把www.example.com指向example.com，而不必为每个域名都添加A记录。\n    \n\n* * *\n\n4\\. MX记录：管理电子邮件服务器\n\n当你发送邮件时，MX记录可以确保邮件送达对应域名的正确邮件服务器。\n\n-   **它的作用是什么？** MX（邮件交换）记录告诉世界这个域名的邮件由哪个邮件服务器来处理。比如，当你向someone@example.com发送邮件时，MX记录会指向应该接收此邮件的服务器。\n    \n-    **趣味知识**：如果你有多个邮件服务器，还可以使用优先级号码（数字越小优先级越高）。这样，如果某个服务器宕机了，邮件就会被转到下一个服务器。\n    \n\n* * *\n\n5\\. TXT记录：添加额外信息\n\n-   TXT记录就像一个备忘录，可以用来存储与域名相关的任意文本。它的一个主要用途是增加安全性，比如防止假冒的电子邮件。\n    \n-   **它的作用是什么？** 许多公司利用TXT记录来实现SPF（发送方策略框架），用来告诉邮件服务器来自该域名的邮件是否合法（防垃圾邮件）。\n    \n-   **小贴士**：如果你使用Google Workspace或Microsoft 365等服务，则需要设置TXT记录来证明你拥有该域名！\n    \n\n* * *\n\n6\\. NS记录：谁是老大？\n\nNS（名称服务器）记录用来告诉大家哪个DNS服务器负责管理你的域名。\n\n-    **趣味知识**：如果你使用第三方服务（比如Cloudflare或GoDaddy）来管理你的域名，则需要将你的NS记录指向它们的DNS服务器。\n    \n-   **它的作用是什么？** 对于你的域名来说，NS记录相当于DNS条目的“老大”。它们掌控着其他记录（A、CNAME和MX等）的处理。没有正确的NS记录，你的域名可能就无法正常工作！\n    \n\n* * *\n\n### 总结：关于DNS记录的要点\n\n以上就是我们对常见DNS记录的一些介绍！每种记录都在默默地维护着网络的正常运作，帮助我们顺利访问网站、发送邮件，甚至保障域名的安全。\n\n这里再帮大家总结一下：\n\n-   **A/AAAA记录**：将域名链接到IP地址。\n    \n-   **CNAME记录**：创建域名的别名。\n    \n-   **MX记录**：帮助邮件找到正确的服务器。\n    \n-   **TXT记录**：存储额外信息，比如安全策略。\n    \n-   **NS记录**：指定哪个DNS服务器负责管理。",
+      "category": "技术",
+      "tags": [
+        "DNS",
+        "网络",
+        "Cloudflare",
+        "域名"
+      ],
+      "icon": "🌐",
+      "publishDate": "2024-11-25",
+      "readTime": "6分钟",
+      "views": 0,
+      "likes": 0,
+      "featured": false,
+      "slug": "dns-7-9-84-8-0-5-95-7-1-5-9-8",
+      "sourceFile": "DNS的记录类型.md"
+    },
+    {
+      "id": 3,
+      "title": "2025年UI设计趋势展望",
+      "excerpt": "探索即将主导2025年的UI设计趋势，从新拟态到动态岛，看看哪些设计理念会引领未来。",
+      "content": "# 2025年UI设计趋势展望\r\n\r\n设计趋势在不断演变，每一年都会涌现新的视觉语言和交互模式。本文将探讨2025年最值得关注的UI设计趋势。\r\n\r\n## 1. 玻璃态设计 2.0\r\n\r\n### 什么是玻璃态设计？\r\n\r\n玻璃态设计（Glassmorphism）通过半透明背景、模糊效果和细腻的边框创造出类似磨砂玻璃的视觉效果。\r\n\r\n### 2025年的演进\r\n\r\n- **更丰富的层次感**：多层玻璃叠加创造深度\r\n- **动态模糊**：根据内容和交互改变模糊程度\r\n- **彩色渐变玻璃**：不再局限于中性色调\r\n\r\n### CSS实现示例\r\n\r\n```css\r\n.glass-card {\r\n    background: rgba(255, 255, 255, 0.1);\r\n    backdrop-filter: blur(10px) saturate(180%);\r\n    border: 1px solid rgba(255, 255, 255, 0.2);\r\n    border-radius: 16px;\r\n    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);\r\n}\r\n```\r\n\r\n## 2. 微交互动画\r\n\r\n### 为什么重要？\r\n\r\n微交互是用户体验的点睛之笔，它们：\r\n\r\n- 提供即时反馈\r\n- 增加界面趣味性\r\n- 引导用户注意力\r\n\r\n### 流行的微交互类型\r\n\r\n#### 按钮点击效果\r\n\r\n```javascript\r\nbutton.addEventListener('click', (e) => {\r\n    button.classList.add('animate-press');\r\n    \r\n    // 创建涟漪效果\r\n    const ripple = document.createElement('span');\r\n    ripple.classList.add('ripple');\r\n    ripple.style.left = e.offsetX + 'px';\r\n    ripple.style.top = e.offsetY + 'px';\r\n    button.appendChild(ripple);\r\n    \r\n    setTimeout(() => ripple.remove(), 600);\r\n});\r\n```\r\n\r\n#### 加载动画\r\n\r\n- 骨架屏（Skeleton Screen）\r\n- 进度条动画\r\n- 脉冲效果\r\n\r\n## 3. 深色模式的进化\r\n\r\n### 超越简单的黑白\r\n\r\n2025年的深色模式更加精致：\r\n\r\n- **真深色** vs **浅深色**\r\n- **彩色强调**：在深色背景上使用鲜艳色彩\r\n- **动态主题**：根据时间自动切换\r\n\r\n### 设计建议\r\n\r\n| 元素 | 浅色模式 | 深色模式 |\r\n|------|---------|---------|\r\n| 主背景 | #FFFFFF | #121212 |\r\n| 卡片背景 | #F5F5F5 | #1E1E1E |\r\n| 文本 | #000000 | #FFFFFF |\r\n| 次要文本 | #666666 | #AAAAAA |\r\n\r\n## 4. 3D和沉浸式设计\r\n\r\n### Three.js和WebGL\r\n\r\n```javascript\r\nimport * as THREE from 'three';\r\n\r\nconst scene = new THREE.Scene();\r\nconst camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);\r\nconst renderer = new THREE.WebGLRenderer({ alpha: true });\r\n\r\n// 创建3D对象\r\nconst geometry = new THREE.BoxGeometry();\r\nconst material = new THREE.MeshPhongMaterial({ color: 0x00ff00 });\r\nconst cube = new THREE.Mesh(geometry, material);\r\nscene.add(cube);\r\n\r\n// 动画循环\r\nfunction animate() {\r\n    requestAnimationFrame(animate);\r\n    cube.rotation.x += 0.01;\r\n    cube.rotation.y += 0.01;\r\n    renderer.render(scene, camera);\r\n}\r\nanimate();\r\n```\r\n\r\n### 应用场景\r\n\r\n- 产品展示\r\n- 品牌互动体验\r\n- 游戏化界面\r\n\r\n## 5. 响应式排版\r\n\r\n### 流式排版\r\n\r\n```css\r\n:root {\r\n    --font-size-base: clamp(1rem, 2vw + 0.5rem, 1.25rem);\r\n    --font-size-heading: clamp(2rem, 5vw + 1rem, 4rem);\r\n}\r\n\r\nbody {\r\n    font-size: var(--font-size-base);\r\n}\r\n\r\nh1 {\r\n    font-size: var(--font-size-heading);\r\n}\r\n```\r\n\r\n### 可变字体\r\n\r\n可变字体允许单个字体文件包含多种变体：\r\n\r\n```css\r\n@font-face {\r\n    font-family: 'Variable Font';\r\n    src: url('font-variable.woff2') format('woff2-variations');\r\n    font-weight: 100 900;\r\n}\r\n\r\n.heading {\r\n    font-family: 'Variable Font';\r\n    font-variation-settings: 'wght' 700, 'wdth' 120;\r\n}\r\n```\r\n\r\n## 6. 可访问性优先\r\n\r\n### WCAG 2.2 标准\r\n\r\n设计不再只是好看，更要**包容所有用户**：\r\n\r\n- 色彩对比度至少 4.5:1\r\n- 所有交互元素可键盘访问\r\n- 提供替代文本和语义化HTML\r\n\r\n### 实践技巧\r\n\r\n```html\r\n<!-- ❌ 不推荐 -->\r\n<div onclick=\"submit()\">提交</div>\r\n\r\n<!-- ✅ 推荐 -->\r\n<button type=\"submit\" aria-label=\"提交表单\">\r\n    提交\r\n</button>\r\n```\r\n\r\n## 7. 数据可视化的新高度\r\n\r\n### 动态图表\r\n\r\n使用 D3.js 或 Chart.js 创建交互式图表：\r\n\r\n- 实时数据更新\r\n- 平滑过渡动画\r\n- 多维度数据展示\r\n\r\n### 叙事性可视化\r\n\r\n将数据转化为引人入胜的故事。\r\n\r\n## 8. AI辅助设计\r\n\r\n### AI工具的兴起\r\n\r\n- **Figma AI**：智能布局建议\r\n- **Midjourney**：概念图生成\r\n- **Adobe Firefly**：创意素材生成\r\n\r\n### 设计师的角色转变\r\n\r\nAI不会取代设计师，但会改变工作方式：\r\n\r\n> \"设计师将从执行者转变为策划者和审美把关人。\"\r\n\r\n## 设计原则总结\r\n\r\n无论趋势如何变化，优秀设计始终遵循：\r\n\r\n1. **简洁性** - Less is more\r\n2. **一致性** - 统一的视觉语言\r\n3. **反馈性** - 及时的交互反馈\r\n4. **可用性** - 易于理解和使用\r\n5. **美感** - 令人愉悦的视觉体验\r\n\r\n## 工具推荐\r\n\r\n### 设计工具\r\n- **Figma** - 协作设计\r\n- **Framer** - 高保真原型\r\n- **Spline** - 3D设计\r\n\r\n### 开发工具\r\n- **Tailwind CSS** - 实用优先CSS\r\n- **Framer Motion** - React动画库\r\n- **GSAP** - 高性能动画引擎\r\n\r\n## 结语\r\n\r\n2025年的UI设计将更加注重**沉浸式体验**、**个性化定制**和**包容性设计**。作为设计师，我们需要在追求创新的同时，始终将用户体验放在首位。\r\n\r\n记住：**最好的设计是看不见的设计。**\r\n\r\n---\r\n\r\n**你认为哪个趋势最有潜力？欢迎在评论区分享你的看法！**",
+      "category": "设计",
+      "tags": [
+        "UI设计",
+        "设计趋势",
+        "用户体验",
+        "创意"
+      ],
+      "icon": "🎨",
+      "publishDate": "2025-01-18",
+      "readTime": "7分钟",
+      "views": 0,
+      "likes": 0,
+      "featured": false,
+      "slug": "2025-5-9-4ui-8-8-1-8-6-8-5-8-5-1-95-6-9-9",
+      "sourceFile": "example-design-article.md"
+    },
+    {
+      "id": 4,
+      "title": "程序员的健康指南：代码与生活的平衡艺术",
+      "excerpt": "长时间坐在电脑前对健康的影响不容忽视。本文分享程序员如何在高强度工作中保持身心健康。",
+      "content": "# 程序员的健康指南：代码与生活的平衡艺术\r\n\r\n作为程序员，我们常常沉浸在代码的世界里，一坐就是几个小时。但健康才是最宝贵的资产，没有健康，再多的代码也失去了意义。\r\n\r\n## 久坐的危害\r\n\r\n### 身体健康问题\r\n\r\n- **颈椎病**：长期低头看屏幕\r\n- **腰椎问题**：不良坐姿\r\n- **视力下降**：长时间盯着屏幕\r\n- **手腕损伤**：重复性劳损（RSI）\r\n\r\n### 心理健康挑战\r\n\r\n- **职业倦怠**：高压工作环境\r\n- **社交隔离**：长时间独处\r\n- **睡眠障碍**：不规律作息\r\n\r\n> \"你的代码可以有bug，但你的身体不能。\"\r\n\r\n## 办公环境优化\r\n\r\n### 人体工学设置\r\n\r\n#### 显示器位置\r\n```\r\n眼睛 <--50-70cm--> 屏幕顶端与眼睛平行或略低\r\n```\r\n\r\n#### 座椅调整\r\n- 脚平放地面\r\n- 大腿与地面平行\r\n- 腰部有支撑\r\n- 手臂自然下垂\r\n\r\n### 理想的工作站配置\r\n\r\n| 设备 | 推荐 | 原因 |\r\n|------|------|------|\r\n| 显示器 | 27英寸及以上 | 减少眼睛疲劳 |\r\n| 键盘 | 机械键盘/人体工学键盘 | 减轻手指压力 |\r\n| 鼠标 | 垂直鼠标 | 预防鼠标手 |\r\n| 椅子 | 人体工学椅 | 保护腰椎 |\r\n| 桌子 | 升降桌 | 站坐交替 |\r\n\r\n## 健康习惯养成\r\n\r\n### 番茄工作法 + 运动\r\n\r\n```\r\n工作 25分钟\r\n├─ 休息 5分钟（活动身体）\r\n├─ 工作 25分钟\r\n├─ 休息 5分钟\r\n├─ 工作 25分钟\r\n├─ 休息 5分钟\r\n└─ 长休息 15-30分钟（散步/拉伸）\r\n```\r\n\r\n### 5分钟办公室运动\r\n\r\n#### 颈部拉伸\r\n1. 缓慢向左转头，保持5秒\r\n2. 缓慢向右转头，保持5秒\r\n3. 重复3次\r\n\r\n#### 肩部放松\r\n1. 双肩向上耸起\r\n2. 向后旋转\r\n3. 放松\r\n4. 重复10次\r\n\r\n#### 腰部扭转\r\n1. 坐姿保持不变\r\n2. 上半身向左扭转\r\n3. 保持10秒\r\n4. 换另一侧\r\n\r\n### 眼睛保护\r\n\r\n#### 20-20-20 法则\r\n\r\n```\r\n每20分钟\r\n看 20英尺（6米）外的物体\r\n持续 20秒\r\n```\r\n\r\n#### 环境光线\r\n\r\n- 避免屏幕反光\r\n- 使用护眼模式/夜间模式\r\n- 保持房间光线充足\r\n- 调整屏幕亮度与环境匹配\r\n\r\n## 饮食建议\r\n\r\n### 程序员的健康饮食\r\n\r\n#### 早餐（必吃！）\r\n\r\n- 🥚 鸡蛋：优质蛋白质\r\n- 🥛 牛奶：补钙\r\n- 🥖 全麦面包：长效能量\r\n- 🍌 香蕉：钾元素，预防腿抽筋\r\n\r\n#### 午餐\r\n\r\n- 🥗 蔬菜：维生素和纤维\r\n- 🍗 瘦肉：蛋白质\r\n- 🍚 粗粮：碳水化合物\r\n- 🥤 足量水分\r\n\r\n#### 下午茶\r\n\r\n```\r\n❌ 避免\r\n- 高糖零食\r\n- 碳酸饮料\r\n- 油炸食品\r\n\r\n✅ 推荐\r\n- 坚果\r\n- 水果\r\n- 酸奶\r\n- 黑咖啡/绿茶\r\n```\r\n\r\n### 水分摄入\r\n\r\n成年人每天应该喝 **1.5-2升** 水：\r\n\r\n```javascript\r\n// 设置喝水提醒\r\nfunction hydrationReminder() {\r\n    setInterval(() => {\r\n        if (navigator.userActivation.isActive) {\r\n            new Notification('💧 喝水时间到！', {\r\n                body: '已经过了30分钟，喝口水休息一下吧～'\r\n            });\r\n        }\r\n    }, 1800000); // 30分钟\r\n}\r\n```\r\n\r\n## 睡眠优化\r\n\r\n### 健康作息时间表\r\n\r\n```\r\n06:30 - 起床\r\n07:00 - 早餐\r\n08:30 - 开始工作\r\n12:00 - 午餐\r\n12:30 - 午休（可选）\r\n18:00 - 下班\r\n19:00 - 晚餐\r\n20:00 - 个人时间\r\n22:00 - 准备睡觉（停止使用电子设备）\r\n22:30 - 入睡\r\n```\r\n\r\n### 提高睡眠质量\r\n\r\n1. **保持规律作息**\r\n2. **睡前1小时远离屏幕**\r\n3. **卧室温度保持在18-22°C**\r\n4. **使用遮光窗帘**\r\n5. **避免睡前咖啡因**\r\n\r\n## 心理健康\r\n\r\n### 压力管理\r\n\r\n#### 识别压力信号\r\n\r\n- 持续的疲劳感\r\n- 注意力难以集中\r\n- 易怒或情绪波动\r\n- 失眠或睡眠质量差\r\n\r\n#### 减压方法\r\n\r\n**冥想 5分钟**\r\n\r\n```\r\n1. 找一个安静的地方坐下\r\n2. 闭上眼睛\r\n3. 专注于呼吸\r\n4. 吸气4秒 - 屏息7秒 - 呼气8秒\r\n5. 重复5分钟\r\n```\r\n\r\n**运动释放**\r\n\r\n- 🏃 跑步：30分钟\r\n- 🏊 游泳：45分钟\r\n- 🚴 骑行：1小时\r\n- 🧘 瑜伽：30分钟\r\n\r\n### 社交连接\r\n\r\n不要让自己成为\"孤岛程序员\"：\r\n\r\n- 参加技术社区活动\r\n- 与朋友定期聚会\r\n- 培养业余爱好\r\n- 多与家人沟通\r\n\r\n## 培养兴趣爱好\r\n\r\n### 推荐的程序员爱好\r\n\r\n1. **摄影** 📷 - 不同的视角看世界\r\n2. **烹饪** 👨‍🍳 - 像写代码一样精确\r\n3. **健身** 💪 - 强健体魄\r\n4. **阅读** 📚 - 非技术书籍也很有趣\r\n5. **音乐** 🎵 - 放松身心\r\n\r\n## 定期体检\r\n\r\n### 建议的检查项目\r\n\r\n| 项目 | 频率 | 重点关注 |\r\n|------|------|---------|\r\n| 常规体检 | 每年 | 血压、血糖、血脂 |\r\n| 眼科检查 | 每年 | 视力、眼压 |\r\n| 颈椎/腰椎 | 每2年 | X光或MRI |\r\n| 心理评估 | 按需 | 压力、焦虑、抑郁 |\r\n\r\n## 实用工具推荐\r\n\r\n### 健康管理App\r\n\r\n- **Forest** - 专注力培养（种树游戏化）\r\n- **Sleep Cycle** - 睡眠监测\r\n- **MyFitnessPal** - 饮食记录\r\n- **Headspace** - 冥想引导\r\n\r\n### 浏览器插件\r\n\r\n```javascript\r\n// Stretchly - 定时休息提醒\r\n// 可配置参数\r\n{\r\n    \"microBreak\": 5,      // 5分钟小休息\r\n    \"microBreakInterval\": 25,  // 每25分钟一次\r\n    \"longBreak\": 15,      // 15分钟大休息\r\n    \"longBreakInterval\": 120   // 每2小时一次\r\n}\r\n```\r\n\r\n## 我的个人经验\r\n\r\n### 改变前 vs 改变后\r\n\r\n**改变前**\r\n- 每天工作12小时+\r\n- 经常熬夜到凌晨\r\n- 三餐不规律\r\n- 周末睡到中午\r\n\r\n**改变后**\r\n- 工作8小时，高效产出\r\n- 晚上11点前入睡\r\n- 规律三餐 + 健康饮食\r\n- 周末户外活动\r\n\r\n**结果**\r\n- 工作效率提升 40%\r\n- 精力更充沛\r\n- 身体指标全部正常\r\n- 心情更愉悦\r\n\r\n## 给新人程序员的建议\r\n\r\n> \"不要等到身体出问题了才重视健康。预防永远比治疗重要。\"\r\n\r\n### 建立可持续的工作方式\r\n\r\n1. **不要持续加班**：偶尔可以，长期伤身\r\n2. **学会说不**：合理拒绝过量工作\r\n3. **保持学习与生活的平衡**：技术很重要，但不是全部\r\n4. **投资健康**：好的设备、健身房会员都值得\r\n\r\n## 行动计划\r\n\r\n### 本周开始实施\r\n\r\n- [ ] 调整工作站人体工学设置\r\n- [ ] 设置每30分钟的活动提醒\r\n- [ ] 实践20-20-20护眼法则\r\n- [ ] 确定固定的睡眠时间\r\n- [ ] 准备健康零食替代垃圾食品\r\n\r\n### 本月目标\r\n\r\n- [ ] 建立运动习惯（每周3次，每次30分钟）\r\n- [ ] 完成一次体检\r\n- [ ] 学习一种减压技巧（冥想/瑜伽）\r\n- [ ] 培养一项非技术爱好\r\n\r\n## 结语\r\n\r\n代码可以重构，系统可以重启，但我们的身体只有一个，健康不能回滚。\r\n\r\n让我们在追求技术卓越的同时，也不要忽视了生活的美好。毕竟，**最好的代码，是用健康的身体写出来的。**\r\n\r\n---\r\n\r\n**记住：You are not your code. You are a human being first.**\r\n\r\n💙 关爱自己，从今天开始。\r\n\r\n---\r\n\r\n**想了解更多健康话题？欢迎留言分享你的经验！**",
+      "category": "生活",
+      "tags": [
+        "健康",
+        "工作生活平衡",
+        "程序员",
+        "自我提升"
+      ],
+      "icon": "🌱",
+      "publishDate": "2025-01-15",
+      "readTime": "6分钟",
+      "views": 0,
+      "likes": 0,
+      "featured": false,
+      "slug": "7-8-8-5-8-5-91-98-7-9-84-5-81-5-5-7-6-8-87-5-8-97-4-3-7-0-81-4-8-8-7-94-9-6-4-7-9-84-5-9-3-8-1-1-8-89-6-9",
+      "sourceFile": "example-life-article.md"
+    },
+    {
+      "id": 5,
+      "title": "Web性能优化实战指南",
+      "excerpt": "深入探讨现代Web应用的性能优化策略，从代码层面到部署优化，让您的网站飞起来。",
+      "content": "# Web性能优化实战指南\r\n\r\n在当今互联网时代，网站性能直接影响用户体验和业务转化率。研究表明，页面加载时间每增加1秒，转化率就会下降7%。本文将分享一些实用的Web性能优化策略。\r\n\r\n## 为什么性能优化如此重要？\r\n\r\n### 用户体验\r\n\r\n- **更快的加载速度** = 更好的用户体验\r\n- **更流畅的交互** = 更高的用户满意度\r\n- **更低的跳出率** = 更多的转化机会\r\n\r\n### 搜索引擎优化\r\n\r\nGoogle已将页面速度作为排名因素之一。Core Web Vitals指标包括：\r\n\r\n- **LCP** (Largest Contentful Paint) - 最大内容绘制时间\r\n- **FID** (First Input Delay) - 首次输入延迟\r\n- **CLS** (Cumulative Layout Shift) - 累积布局偏移\r\n\r\n## 优化策略\r\n\r\n### 1. 代码层面优化\r\n\r\n#### JavaScript优化\r\n\r\n```javascript\r\n// ❌ 避免：阻塞主线程的长任务\r\nfunction heavyCalculation() {\r\n    for (let i = 0; i < 1000000000; i++) {\r\n        // 计算密集型操作\r\n    }\r\n}\r\n\r\n// ✅ 推荐：使用 Web Worker\r\nconst worker = new Worker('worker.js');\r\nworker.postMessage({ task: 'calculate' });\r\nworker.onmessage = (e) => {\r\n    console.log('计算结果:', e.data);\r\n};\r\n```\r\n\r\n#### CSS优化\r\n\r\n```css\r\n/* ❌ 避免：复杂的选择器 */\r\ndiv.container > ul > li:nth-child(odd) > a:hover {\r\n    color: red;\r\n}\r\n\r\n/* ✅ 推荐：简化选择器 */\r\n.nav-link:hover {\r\n    color: red;\r\n}\r\n```\r\n\r\n### 2. 资源加载优化\r\n\r\n#### 图片优化\r\n\r\n- 使用现代图片格式（WebP、AVIF）\r\n- 实现懒加载\r\n- 使用响应式图片\r\n\r\n```html\r\n<picture>\r\n    <source srcset=\"image.avif\" type=\"image/avif\">\r\n    <source srcset=\"image.webp\" type=\"image/webp\">\r\n    <img src=\"image.jpg\" alt=\"描述\" loading=\"lazy\">\r\n</picture>\r\n```\r\n\r\n#### 代码分割\r\n\r\n```javascript\r\n// 动态导入\r\nconst loadModule = async () => {\r\n    const module = await import('./heavy-module.js');\r\n    module.init();\r\n};\r\n\r\n// 路由级别的代码分割\r\nconst routes = [\r\n    {\r\n        path: '/blog',\r\n        component: () => import('./views/Blog.vue')\r\n    }\r\n];\r\n```\r\n\r\n### 3. 缓存策略\r\n\r\n#### HTTP缓存\r\n\r\n```nginx\r\n# Nginx配置示例\r\nlocation ~* \\.(js|css|png|jpg|jpeg|gif|ico)$ {\r\n    expires 1y;\r\n    add_header Cache-Control \"public, immutable\";\r\n}\r\n```\r\n\r\n#### Service Worker缓存\r\n\r\n```javascript\r\nself.addEventListener('fetch', (event) => {\r\n    event.respondWith(\r\n        caches.match(event.request).then((response) => {\r\n            return response || fetch(event.request);\r\n        })\r\n    );\r\n});\r\n```\r\n\r\n### 4. 网络优化\r\n\r\n- 使用 CDN 加速静态资源\r\n- 启用 HTTP/2 或 HTTP/3\r\n- 实现 DNS 预解析\r\n\r\n```html\r\n<link rel=\"dns-prefetch\" href=\"//cdn.example.com\">\r\n<link rel=\"preconnect\" href=\"https://api.example.com\">\r\n```\r\n\r\n## 性能监测工具\r\n\r\n### 开发阶段\r\n\r\n1. **Chrome DevTools Performance** - 详细的性能分析\r\n2. **Lighthouse** - 综合性能评分\r\n3. **WebPageTest** - 多地域测试\r\n\r\n### 生产环境\r\n\r\n1. **Google Analytics** - 用户行为分析\r\n2. **Sentry** - 性能监控和错误追踪\r\n3. **New Relic** - 应用性能管理\r\n\r\n## 实战案例\r\n\r\n我们的网站通过以下优化，将首屏加载时间从 **3.5秒** 降低到 **1.2秒**：\r\n\r\n1. 图片格式转换为 WebP，体积减少 **65%**\r\n2. 实现路由级代码分割，初始包体积减少 **40%**\r\n3. 启用 CDN 和 Brotli 压缩\r\n4. 优化关键渲染路径，移除阻塞资源\r\n\r\n## 最佳实践清单\r\n\r\n- ✅ 压缩和合并资源文件\r\n- ✅ 使用现代图片格式\r\n- ✅ 实现懒加载和预加载\r\n- ✅ 优化字体加载\r\n- ✅ 减少第三方脚本\r\n- ✅ 使用 CDN\r\n- ✅ 启用 Gzip/Brotli 压缩\r\n- ✅ 实现有效的缓存策略\r\n- ✅ 持续监控性能指标\r\n\r\n## 结语\r\n\r\n性能优化是一个持续的过程，而不是一次性的任务。定期审查和监测网站性能，根据实际数据制定优化策略，才能确保为用户提供最佳体验。\r\n\r\n记住：**每一毫秒的优化，都是对用户体验的尊重。**\r\n\r\n---\r\n\r\n**相关阅读**\r\n- [MDN Web性能指南](https://developer.mozilla.org/zh-CN/docs/Web/Performance)\r\n- [Web.dev性能优化](https://web.dev/performance/)\r\n- [Google Core Web Vitals](https://web.dev/vitals/)",
+      "category": "技术",
+      "tags": [
+        "性能优化",
+        "Web开发",
+        "前端",
+        "最佳实践"
+      ],
+      "icon": "⚡",
+      "publishDate": "2025-01-20",
+      "readTime": "3分钟",
+      "views": 0,
+      "likes": 0,
+      "featured": true,
+      "slug": "web-6-80-7-8-83-4-98-5-8-96-5-9-6-88-98-6-8-87-5-8-97",
+      "sourceFile": "example-tech-article.md"
+    },
+    {
+      "id": 6,
+      "title": "Linux报swap空间占用过高，但物理内存还有空余",
+      "excerpt": "遇到swap空间占用过高的问题？本文详细分析swap配置对性能的影响，提供实用的解决方案，通过调整swappiness参数优化系统内存使用策略。",
+      "content": "收到报警，swap空间占用过高，登录到系统查看内存使用详情，看到物理内存还有很多未使用\n\n输入代码`free -m` ，可确认。\n\n##  **问题分析**\n\n Swap配置对性能的影响  \n分配太多的Swap空间会浪费磁盘空间，而Swap空间太少，则系统会发生错误。如果系统的物理内存用光了，系统就会跑得很慢，但仍能运行；如果Swap空间用光了，那么系统就会发生错误。例如，Web服务器能根据不同的请求数量衍生出多个服务进程（或线程），如果Swap空间用完，则服务进程无法启动，通常会出现“application is out of memory”的错误，严重时会造成服务进程的死锁。因此Swap空间的分配是很重要的。  \n通常情况下，Swap空间应大于或等于物理内存的大小，最小不应小于64M，通常Swap空间的大小应是物理内存的2-2.5倍。但根据不同的应用，应有不同的配置：如果是小的桌面系统，则只需要较小的Swap空间，而大的服务器系统则视情况不同需要不同大小的Swap空间。特别是数据库服务器和Web服务器，随着访问量的增加，对Swap空间的要求也会增加，一般来说对于4G 以下的物理内存，配置2倍的swap，4G 以上配置1倍。  \n另外，Swap分区的数量对性能也有很大的影响。因为Swap交换的操作是磁盘IO的操作，如果有多个Swap交换区，Swap空间的分配会以轮流的方式操作于所有的Swap，这样会大大均衡IO的负载，加快Swap交换的速度。如果只有一个交换区，所有的交换操作会使交换区变得很忙，使系统大多数时间处于等待状态，效率很低。用性能监视工具就会发现，此时的CPU并不很忙，而系统却慢。这说明，瓶颈在IO上，依靠提高CPU的速度是解决不了问题的。\n\n## **问题解决**\n\nswap配置优化：\n\n控制swap使用的系统参数：swappiness，wappiness的值的大小对如何使用swap分区是有着很大的联系的。\n\nswappiness=0的时候表示最大限度使用物理内存，然后才是 swap空间，swappiness＝100的时候表示积极的使用swap分区，并且把内存上的数据及时的搬运到swap空间里面。linux的基本默认设置为60，具体如下：\n\n一般默认值都是60   \n\n\\[root@swnode2 ~\\]# `cat /proc/sys/vm/swappiness`  \n60\n\n也就是说，你的内存在使用到100-60=40%的时候，就开始出现有交换分区的使用。大家知道，内存的速度会比磁盘快很多，这样子会加大系统io，同时造的成大量页的换进换出，严重影响系统的性能，所以我们在操作系统层面，要尽可能使用内存，对该参数进行调整。\n\n临时调整的方法如下，我们调成10：  \n\\[root@swnode2 ~\\]# `sysctl vm.swappiness=10`  \nvm.swappiness = 10  \n\\[root@swnode2 ~\\]# `cat /proc/sys/vm/swappiness`  \n10  \n这只是临时调整的方法，重启后会回到默认设置的\n\n 要想永久调整的话，需要将  \n需要在/etc/sysctl.conf修改，加上：  \n\\[root@swnode2 ~\\]# `cat /etc/sysctl.conf`\n\n\\# Controls the maximum number of shared memory segments, in pages  \nkernel.shmall = 4294967296  \nvm.swappiness=10\n\n激活设置：\n\n#`sysctl -p`\n\n **知识点**\n\n简单地说这个参数定义了系统对swap的使用倾向，默认值为60，值越大表示越倾向于使用swap。可以设为0，这样做并不会禁止对swap的使用，只是最大限度地降低了使用swap的可能性。\n\n通过sysctl -q vm.swappiness可以查看参数的当前设置。\n\n修改参数的方法是修改/etc/sysctl.conf文件，加入vm.swappiness=xxx，并重起系统。这个操作相当于是修改虚拟系统中的/proc/sys/vm/swappiness文件，将值改为XXX数值。\n\n参考链接：https://blog.csdn.net/lufeisan/article/details/53339991\n\nhttps://blog.csdn.net/ly890700/article/details/73695750",
+      "category": "技术",
+      "tags": [
+        "Linux",
+        "swap",
+        "系统优化",
+        "服务器运维"
+      ],
+      "icon": "🖥️",
+      "publishDate": "2024-10-15",
+      "readTime": "8分钟",
+      "views": 0,
+      "likes": 0,
+      "featured": false,
+      "slug": "linux-6-8-5swap-7-9-9-97-4-5-8-0-7-94-8-8-87-9-98-4-86-7-89-9-7-90-86-5-86-85-5-98-8-98-6-9-89-7-9-4-99",
+      "sourceFile": "Linux报swap空间占用过高，但物理内存还有空余.md"
+    },
+    {
+      "id": 7,
+      "title": "TP-LINK路由器IPv6设置",
+      "excerpt": "详细介绍TP-LINK路由器的IPv6设置方法，从确认宽带线路支持到配置路由器，再到测试连接，一步步教你开启IPv6功能，拥抱下一代互联网协议。",
+      "content": "新型路由器设置的登陆网址：tplogin.cn\n\n**确认宽带线路是否支持IPv6**\n\n确认宽带支持IPv6最直接的方法是：电脑直接连接宽带，可以获取到IPv6全球地址，则说明宽带支持IPv6，如下图：\n\n![](https://smb.tp-link.com.cn/pages/imageuploadfolder/202104/20210416163835_3793.png)\n\n注意：若电脑直连光猫无法获取到2开头的IPv6公网地址，则说明线路不支持IPv6，需要联系ISP确认和更改光猫设置。\n\n**设置方法**\n\n确认线路支持IPv6后，根据路由器IPv4的上网方式，选择合适的IPv6上网方式。\n\n**1\\. 路由器IPv4上网方式为“宽带拨号上网”，IPv6选“宽带拨号上网”**\n\n若路由器的上网方式为IPv4宽带拨号，且拨号成功后能正常上网，路由器的上网设置界面，如下图：\n\n![](https://smb.tp-link.com.cn/pages/imageuploadfolder/202104/20210416163855_3249.png)\n\n在“路由器管理界面→路由设置→IPv6设置”中，将IPv6功能开启，WAN口连接类型选择宽带拨号上网，并勾选“复用IPv4拨号链路”，然后点击“连接”，如下图：\n\n![](https://smb.tp-link.com.cn/pages/imageuploadfolder/202104/20210416163921_6539.png)\n\n**2\\. 路由器IPv4上网方式为“自动获得IP地址”，IPv6选“桥模式”**\n\n若路由器的上网方式为自动获得IP地址，且获取IP地址后能正常上网，路由器的上网设置界面，如下图：\n\n![](https://smb.tp-link.com.cn/pages/imageuploadfolder/202104/20210416163952_2281.png)\n\n则在“路由器管理界面→路由设置→IPv6设置”中，将IPv6功能开启，WAN口连接类型选择“桥模式”，点击“保存”，如下图：\n\n![](https://smb.tp-link.com.cn/pages/imageuploadfolder/202104/20210416164008_6073.png)\n\n**测试电脑获取的IPv6地址是否可以正常联网**\n\n设置完路由器的IPv6功能后，电脑重新连接路由器网络，获取到公网IPv6地址后，打开浏览器输入[www.test-ipv6.com](http://www.test-ipv6.com/)，就可以看到线路是否支持IPv6了。\n\n![](https://smb.tp-link.com.cn/pages/imageuploadfolder/202104/20210416164030_3838.png)",
+      "category": "技术",
+      "tags": [
+        "路由器",
+        "IPv6",
+        "网络配置",
+        "TP-LINK"
+      ],
+      "icon": "📡",
+      "publishDate": "2024-09-10",
+      "readTime": "6分钟",
+      "views": 0,
+      "likes": 0,
+      "featured": false,
+      "slug": "tp-link-8-7-7-94-1-5-99-8ipv6-8-7",
+      "sourceFile": "TP-LINK路由器IPv6设置.md"
+    },
+    {
+      "id": 8,
+      "title": "Ubuntu 24.04 LTS (Noble Numbat)系统部署1panel",
+      "excerpt": "从零开始在Ubuntu 24.04系统上部署1panel面板，包括系统基础命令、安装步骤、反向代理配置和SSL证书设置，适合新手快速上手。",
+      "content": "刚入了clawcloud的小鸡，怎么能让它闲着呢，赶紧部署网站吧。作为小白，之前试水了宝塔面板和wordpress搭建网站的过程，虽然整体算顺利搭建完成。但对1panel这个产品依然很好奇，决定就用clawcloud来尝试一下喽。\n\n（一）对于小白来说，普及一下ubuntu系统的基础知识：\n\n1.ubuntu系统查看服务命令：\\[+\\] 代表服务是在启动运行的状态，\\[-\\] 代表服务是在关闭停止的状态\n\n    service --status-all\n\n​\n\n启动服务：\n\n    service tomcat start\n\n查看服务状态：\n\n    service tomcat status\n\n2.查看所有监听的端口：\n\n    ss -tuln\n\n​t：显示 TCP 连接\n\nu：显示 UDP 连接\n\nl：显示监听的端口\n\nn：以数字形式显示端口（不解析服务名称）\n\n查看具体的端口（例如：端口 80）：\n\n    ss -tuln | grep ':80'\n\n​\n\n3.检查防火墙状态，请使用命令：\n\n    sudo ufw status\n\n​\n\n（二）了解系统的基本状态后，就可以着手安装1panel啦\n\n1.首先执行安装脚本\n\n    curl -sSL https://resource.fit2cloud.com/1panel/package/quick_start.sh -o quick_start.sh && sudo bash quick_start.sh\n\n2.完成初始化\n\n安装完成后，设置1Panel端口,设置1Panel安全入口,设置面板用户名和面板密码，通过浏览器访问 `http://服务器IP:目标端口/安全入口`（目标端口及安全入口为安装过程中设置字符），按提示设置管理员账户，如需修改密码可执行命令：1pctl update password\n\n3.配置1panel反向代理\n\n添加反向代理规则\n\n进入1panel面板，导航到 网站 → 反向代理 → 创建。\n\n设置域名（如 \\*.yourdomain.com），目标URL填写 http://127.0.0.1:8008。\n\n4.配置SSL证书（可选）\n\n在反向代理设置中启用HTTPS，并选择或申请SSL证书。\n\n5.验证部署：访问1panel：http://服务器IP 或绑定的域名。",
+      "category": "技术",
+      "tags": [
+        "Ubuntu",
+        "1panel",
+        "服务器部署",
+        "Linux"
+      ],
+      "icon": "🚀",
+      "publishDate": "2024-08-15",
+      "readTime": "10分钟",
+      "views": 0,
+      "likes": 0,
+      "featured": true,
+      "slug": "ubuntu-24-04-lts-noble-numbat-7-3-7-9-9-83-8-7-21panel",
+      "sourceFile": "Ubuntu 24.04 LTS (Noble Numbat)系统部署1panel.md"
+    },
+    {
+      "id": 9,
+      "title": "Ubuntu 系统安装配置 Docker",
+      "excerpt": "详细讲解在Ubuntu系统上安装和配置Docker的完整流程，包括系统要求检查、Docker CE安装、服务启动配置以及IPv6支持设置，让你快速掌握Docker容器技术。",
+      "content": "为了安装并配置 Docker ，你的系统必须满足下列最低要求：64 位 Linux 或 Windows 系统 如果使用 Linux ，内核版本必须不低于 3.10 能够使用 sudo 权限的用户 在你系统 BIOS 上启用了 VT（虚拟化技术）支持 on your system BIOS（参考: 如何查看 CPU 支持 虚拟化技术（VT）） 你的系统应该联网 在 Linux ，在终端上运行以下命令验证内核以及架构详细信息：\n\n    uname -a\n    \n\n输出样例：\n\n    Linux Ubuntu22CT 5.15.35-3-pve #1 SMP PVE 5.15.35-6 (Fri, 17 Jun 2022 13:42:35 +0200) x86_64 x86_64 x86_64 GNU/Linux\n    \n\n正如上面你看到的那样，我的 Ubuntu 系统内核版本是 5.15.35-3-pve 并且系统架构是 64 位（x86\\_64 x86\\_64 x86\\_64 GNU/Linux）。 注意： 这里，我在 Proxmox 中使用 Ubuntu 22.04 容器。这是你看到上方内核版本中有 “pve” 字符的原因。如果你正在使用 Ubuntu 实体（或者虚拟）机，你将看到系统版本为 5.15.35-3-generic 。 内核版本需要不低于最低要求的版本，并且是 64 位机器。这样不会有任何问题，我们能顺利安装并使用 Docker 。\n\n只要你的系统内核版本不低于 3.10 ，并且是 64 位系统，Docker 都会正常运行。\n\n1.  首先更新你的 Ubuntu 系统。 打开终端，依次运行下列命令：\n    \n         sudo apt update\n         sudo apt upgrade\n         sudo apt full-upgrade\n        \n    \n2.  安装必要的证书并允许 apt 包管理器使用以下命令通过 HTTPS 使用存储库：\n    \n        sudo apt install apt-transport-https ca-certificates curl software-properties-common gnupg lsb-release\n        \n        \n    \n3.  运行下列命令添加 Docker 的官方 GPG 密钥：\n    \n        curl -fsSL <https://download.docker.com/linux/ubuntu/gpg> | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg\n        \n    \n4.  添加 Docker 官方库：\n    \n        echo \"deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] <https://download.docker.com/linux/ubuntu> $(lsb_release -cs) stable\" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null\n        \n    \n5.  使用命令更新 Ubuntu 源列表：\n    \n        sudo apt update\n        \n    \n6.  最后，运行下列命令在 Ubuntu 22.04 LTS 服务器中安装最新 Docker CE：\n    \n        sudo apt install docker-ce docker-ce-cli containerd.io docker-compose-plugin\n        \n    \n7.  安装完成后，运行如下命令验证 Docker 服务是否在运行：\n    \n        systemctl status docker\n        \n    \n8.  你会看到类似下面的输出：\n    \n        docker.service - Docker Application Container Engine\n        Loaded: loaded (/lib/systemd/system/docker.service; enabled; vendor preset: enabled)\n        Active: active (running) since Mon 2022-06-27 13:07:43 UTC; 3min 4s ago\n        TriggeredBy: * docker.socket\n        Docs: https://docs.docker.com\n        Main PID: 2208 (dockerd)\n        Tasks: 8\n        Memory: 29.6M\n        CPU: 126ms\n        CGroup: /system.slice/docker.service\n        `-2208 /usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock\n        Jun 27 13:07:43 Ubuntu22CT dockerd[2208]: time=\"2022-06-27T13:07:43.071453522Z\" level=info msg=\"ccResolverWrapper: sending update to cc: {[{unix:>\n        Jun 27 13:07:43 Ubuntu22CT dockerd[2208]: time=\"2022-06-27T13:07:43.071459974Z\" level=info msg=\"ClientConn switching balancer to \\\"pick_first\\\"\" >\n        Jun 27 13:07:43 Ubuntu22CT dockerd[2208]: time=\"2022-06-27T13:07:43.130989294Z\" level=info msg=\"Loading containers: start.\"\n        Jun 27 13:07:43 Ubuntu22CT dockerd[2208]: time=\"2022-06-27T13:07:43.187439756Z\" level=info msg=\"Default bridge (docker0) is assigned with an IP a>\n        Jun 27 13:07:43 Ubuntu22CT dockerd[2208]: time=\"2022-06-27T13:07:43.235966874Z\" level=info msg=\"Loading containers: done.\"\n        Jun 27 13:07:43 Ubuntu22CT dockerd[2208]: time=\"2022-06-27T13:07:43.240149866Z\" level=warning msg=\"Not using native diff for overlay2, this may c>\n        Jun 27 13:07:43 Ubuntu22CT dockerd[2208]: time=\"2022-06-27T13:07:43.240281966Z\" level=info msg=\"Docker daemon\" commit=a89b842 graphdriver(s)=over>\n        Jun 27 13:07:43 Ubuntu22CT dockerd[2208]: time=\"2022-06-27T13:07:43.240386856Z\" level=info msg=\"Daemon has completed initialization\"\n        Jun 27 13:07:43 Ubuntu22CT systemd[1]: Started Docker Application Container Engine.\n        Jun 27 13:07:43 Ubuntu22CT dockerd[2208]: time=\"2022-06-27T13:07:43.276336600Z\" level=info msg=\"API listen on /run/docker.sock\"\n    \n9.  好极了！Docker 服务已启动并运行！\n    \n    如果没有运行，运行以下命令运行 Docker 服务：\n    \n    `sudo systemctl start docker`\n    \n    使 Docker 服务在每次重启时自动启动：\n    \n    `sudo systemctl enable docker`\n    \n    可以使用以下命令查看已安装的 Docker 版本：\n    \n    `sudo docker version`\n    \n    输出样例：\n    \n        Client: Docker Engine - Community\n        Version: 20.10.17\n        API version: 1.41\n        Go version: go1.17.11\n        Git commit: 100c701\n        Built: Mon Jun 6 23:02:46 2022\n        OS/Arch: linux/amd64\n        Context: default\n        Experimental: true\n        Server: Docker Engine - Community Engine:\n        Version: 20.10.17\n        API version: 1.41 (minimum version 1.12)\n        Go version: go1.17.11\n        Git commit: a89b842\n        Built: Mon Jun 6 23:00:51 2022\n        OS/Arch: linux/amd64\n        Experimental: false\n        containerd: Version: 1.6.6\n        GitCommit: 10c12954828e7c7c9b6e0ea9b0c02b01407d3ae1\n        runc: Version: 1.1.2\n        GitCommit: v1.1.2-0-ga916309\n        docker-init: Version: 0.19.0\n        GitCommit: de40ad0\n    \n10.  让我们继续，测试 Docker 是否运行正常：\n    \n        sudo docker run hello-world\n        \n    \n    上述命令会下载一个 Docker 测试镜像，并在容器内执行一个 “hello\\_world” 样例程序。 如果你看到类似下方的输出，那么祝贺你！Docker 正常运行在你的 Ubuntu 系统中了。\n    \n        Unable to find image 'hello-world:latest' locally\n        latest: Pulling from library/hello-world\n        2db29710123e: Pull complete\n        Digest: sha256:13e367d31ae85359f42d637adf6da428f76d75dc9afeb3c21faea0d976f5c651\n        Status: Downloaded newer image for hello-world:latestHello from Docker!\n        This message shows that your installation appears to be working correctly.To generate this message, Docker took the following steps: 1. The Docker client contacted the Docker daemon. 2. The Docker daemon pulled the \"hello-world\" image from the Docker Hub. (amd64) 3. The Docker daemon created a new container from that image which runs the executable that produces the output you are currently reading. 4. The Docker daemon streamed that output to the Docker client, which sent it to your terminal.To try something more ambitious, you can run an Ubuntu container with: $ docker run -it ubuntu bashShare images, automate workflows, and more with a free Docker ID: https://hub.docker.com/For more examples and ideas, visit: https://docs.docker.com/get-started/\n    \n11.  最后，如果您的服务器是ipv6服务器，需要明确您的宿主机是否已禁用IPv6。可以通过以下命令检查：\n    \n        cat /proc/sys/net/ipv6/conf/all/disable_ipv6\n    \n    如果输出为“1”，则表明IPv6已被禁用。\n    \n    配置Docker以支持IPv6\n    \n    编辑Docker守护进程配置文件： 通常位于/etc/docker/daemon.json，如果文件不存在则创建之：\n    \n        sudo nano /etc/docker/daemon.json\n    \n    添加以下配置以启用IPv6：\n    \n        { \"ipv6\": true, \"fixed-cidr-v6\": \"2001:db8:1::/64\" }\n    \n    这里2001:db8:1::/64是一个示例IPv6子网，您可以根据实际情况进行替换。",
+      "category": "技术",
+      "tags": [
+        "Docker",
+        "Ubuntu",
+        "容器",
+        "服务器部署"
+      ],
+      "icon": "🐳",
+      "publishDate": "2024-08-20",
+      "readTime": "12分钟",
+      "views": 0,
+      "likes": 0,
+      "featured": true,
+      "slug": "ubuntu-7-3-7-9-5-89-8-3-85-9-85-8-7-docker",
+      "sourceFile": "Ubuntu 系统安装配置 Docker.md"
+    },
+    {
+      "id": 10,
+      "title": "《好东西》观影手记：锅碗声里的共鸣与女性电影的新声",
+      "excerpt": "《好东西》以上海为舞台，讲述单亲妈妈王铁梅、邻居小叶和女儿王茉莉的互助与成长。那段锅碗瓢盆的音效蒙太奇，余音绕梁，让我重新审视生活中被忽略的琐碎。",
+      "content": "# 《好东西》观影手记：锅碗声里的共鸣与女性电影的新声\n\n  《好东西》是一部温暖又发人深思的电影。作为2024年“华语女性主义电影元年”的亮点，它以上海为舞台，讲述单亲妈妈王铁梅、邻居小叶和女儿王茉莉的互助与成长。观影后，我被它的细腻与幽默打动，尤其是那段锅碗瓢盆的音效蒙太奇，余音绕梁。同时，我也感受到它的局限与未来的可能性。以下是我的观影感受与评价。\n\n#### 锅碗瓢盆的音效蒙太奇：无声胜有声\n\n![FireShot Capture 009 - 好东西 剧照 - movie.douban.com.jpg](https://cdn.jsdelivr.net/gh/Throneto/image@main/FireShot%20Capture%20009-goodthing1-movie.douban.com.jpg)\n\n  影片中最难忘的，是那段音效蒙太奇。王茉莉戴着耳机，猜测小叶收集的声音是山川湖海，结果却是母亲日常劳作的锅碗瓢盆声。这段设计让我屏住呼吸——它用最朴实的音效，揭开女性无形劳动的面纱。哐当的锅声、淅沥的水流，像一首未被歌颂的诗，诉说王铁梅作为单亲妈妈的默默付出。对比王茉莉的天真想象，这段蒙太奇形成强烈反差，既幽默又戳心。它不仅展现了导演邵艺辉的巧思，也让我重新审视生活中被忽略的琐碎。这份细腻，是影片打动我的核心。\n\n#### 女性互助的温度\n\n   除了音效，王铁梅和小叶的友情也让我感到温暖。搬家时，小叶伸出援手；情感低谷时，王铁梅的鼓励像一剂良药。她们没有惊天动地的壮举，却在日常里彼此支撑。这种女性间的联结，像一盏灯，照亮了都市生活的孤独角落。作为女性观众，我在这份真实中找到共鸣，仿佛看到了自己与朋友间的影子。影片用这样的细节，传递出一种安静却坚韧的力量。\n\n#### 幽默里的时代回音\n\n   影片的幽默也很抓人。那句“我正直勇敢有阅读量，我有什么可怜的？”让我笑出声，又忍不住点头。它不仅是王铁梅的自我宣言，也是当下都市女性的心声——拒绝被定义，追求独立与自信。导演用轻松的笔触，包裹住月经污名、单亲家庭等话题，既不沉重，又有分量。这种“柔中带锐”的表达，像一把钥匙，打开了城市中产女性的情感世界，也精准回应了时代的情绪。\n\n#### 中产泡泡的精准与边界\n\n   不过，影片的精准也划定了边界。王铁梅搬进梧桐区老洋房，从记者转型自媒体主编，这些设定散发着浓浓的中产气息。我能理解她的职场压力和生活选择，但这种“沪漂”视角离更广泛的群体有些远。对农村女性或底层劳动者来说，生存的重量远超影片里的“悲剧”。它像一个精致的泡泡，温暖了像我这样的城市观众，却难以触及更多人的现实。这种局限让我既欣赏它的专注，又遗憾它的窄小。\n\n#### 男性角色的单薄感\n\n   男性角色的处理也让我有些 conflicted。前夫哥带来麻烦，小马的追求带着滑稽，他们更像是女性的陪衬，而非故事的血肉。我明白导演想突出女性主体性，但这种单薄化让性别关系少了层次。如果男性也能有更立体的刻画，或许能让影片的对话更丰富，而不是停留在情绪的单向输出。这点遗憾，稍稍削弱了我的沉浸感。\n\n#### 女性电影的趋势：从在地到多元\n\n   《好东西》的出现，折射出女性电影的新趋势。2024年，《出走的决心》等作品与它一道，标志着女性导演和叙事的崛起。相比《芭比》那样的全球化共鸣，它更像一封写给中国城市女性的家书，带着浓厚的在地性。那段音效蒙太奇，不仅是艺术创新，也成为社交媒体的爆点，显示女性电影正从边缘走向主流。然而，它的阶级局限提醒我们，未来的女性电影或许需要更多元的声音——不仅限于城市中产，还要走进乡村、底层，去讲述更广阔的“她的故事”。这种趋势让我既欣慰，又充满期待。\n\n#### 时代意义：一颗闪亮的种子\n\n   无论如何，《好东西》都值得肯定。它在女性意识觉醒的浪潮中站稳脚跟，用幽默与细腻为中国电影注入新意。它让我看到，女性故事可以温暖，可以勇敢，也可以直面琐碎的真实。虽然不够普世，但它是一颗种子，播在了2024年的土壤里，为未来的女性叙事铺路。\n   ![FireShot Capture 010 - 好东西 剧照 - movie.douban.com.jpg](https://cdn.jsdelivr.net/gh/Throneto/image@main/FireShot%20Capture%20010-goodthing2-movie.douban.com.jpg)\n\n#### 尾声\n\n  《好东西》是一部让人又笑又想的电影。那段锅碗瓢盆的蒙太奇，至今在我耳边回响；王铁梅和小叶的友情，也温暖了我的心。它精准地拥抱了城市女性，却也在中产泡泡里留下遗憾。作为观众，我珍惜它的存在，也期待未来的女性电影能飞得更高，走得更远——从上海的梧桐区，到更远的山川湖海。",
+      "category": "生活",
+      "tags": [
+        "电影",
+        "影评",
+        "女性主义",
+        "好东西"
+      ],
+      "icon": "🎬",
+      "publishDate": "2025-01-15",
+      "readTime": "8分钟",
+      "views": 0,
+      "likes": 0,
+      "featured": true,
+      "slug": "5-5-4-8-9-8-5-8-7-82-5-1-6-89-8-8-0-9-94-85-7-2-97-5-3-0-9-87-8-7-9-84-5-85-1-9-8-3-4-8-8-5-5-3-6-80-7-7-94-5-5-1-7-9-84-6-96-0-5-3-0",
+      "sourceFile": "《好东西》观影手记：锅碗声里的共鸣与女性电影的新声.md"
+    },
+    {
+      "id": 11,
+      "title": "《鱿鱼游戏》第二季影评：奇勋的\"圣母心\"与社会认同的撕裂",
+      "excerpt": "从社会学视角解读《鱿鱼游戏》第二季，奇勋的\"圣母心\"并非天真的仁慈，而是对共同命运的群体认同。在资本主义的残酷游戏中，他的选择是对结构性暴力的反抗。",
+      "content": "# 《鱿鱼游戏》第二季影评：奇勋的\"圣母心\"与社会认同的撕裂\n\n《鱿鱼游戏》第二季在2024年末上线后，继续以其冷酷的生存游戏揭示人性与社会的深层裂痕。主角奇勋（李政宰饰）从第一季的幸存者转身成为复仇者，却在第二季中因其看似\"圣母\"的行为引发观众争议：为何面对一群道德沦丧、为求生存不择手段的\"人渣\"，他仍试图拯救？这种行为被嘲为\"圣母心\"，但从社会学的视角看，奇勋的选择并非单纯的个人善良，而是根植于他对游戏参与者的群体认同，以及对资本主义社会结构性压迫的复杂抗争。\n\n![鱿鱼游戏剧照](https://cdn.jsdelivr.net/gh/Throneto/image@main/game1.png)\n\n## 一、奇勋的\"圣母\"表象与群体认同的本质\n\n奇勋在第二季中不再是第一季那个被动挣扎的失败者，而是主动重返游戏，试图摧毁这个残酷的体系。然而，他的行动却常被观众解读为\"优柔寡断\"或\"过度仁慈\"。例如，当他试图阻止参与者间的互相残杀，或在关键时刻选择保护弱者时，许多人质疑：这些人在游戏中展现的贪婪、自私甚至凶残，值得拯救吗？\n\n这种质疑忽略了一个关键点：**奇勋并非以道德高姿态施舍怜悯，而是将这些参与者视为\"自己人\"**——一群被社会抛弃、被迫进入绝境的边缘人。他曾是他们中的一员，这种群体认同感并非天真的同情，而是源于对共同命运的深刻体认。\n\n### 群体认同的社会学解读\n\n社会学中的\"群体认同\"（collective identity）理论认为，个体在特定社会环境中会基于共同经历形成归属感。奇勋与参与者共享的不仅是游戏的血腥规则，更是游戏之外的绝望现实：\n\n- **债务缠身** - 被金融体系压垮\n- **阶级固化** - 看不到向上流动的希望\n- **资源不公** - 社会财富分配的严重失衡\n\n无论是第一季的\"弹珠老人\"还是第二季中那些看似卑劣的玩家，他们的堕落并非完全出于本性，而是被资本主义经济体系逼入绝境后的扭曲反应。奇勋的\"救赎\"行为，因此不是对个体的宽恕，而是对这一群体的集体抗争——他试图唤醒的，是被剥削者对彼此的联结，而非单纯的个人道德救赎。\n\n## 二、游戏中的\"人渣\"与社会结构的镜像\n\n第二季的游戏设计比第一季更加残酷，参与者的\"恶\"也被放大。从投票决定生死到为了生存背叛同伴，这些行为让观众直呼\"人性恶\"。然而，社会学家**齐格蒙特·鲍曼（Zygmunt Bauman）**曾指出，现代社会的\"液态恐惧\"将个体置于不确定性和竞争中，迫使人们在生存压力下抛弃伦理。\n\n### 谁是真正的\"人渣\"？\n\n游戏中的\"人渣\"并非天生如此，而是社会结构失灵的产物：\n\n- **底层劳动者** - 被剥削的工人阶级\n- **破产商人** - 经济体系的牺牲品\n- **被遗忘的老人** - 社会保障的缺失者\n\n这些人并非恶魔，而是被资本主义榨干后丢进死亡游戏的弃子。\n\n### 对结构性暴力的反抗\n\n奇勋的\"圣母心\"因此显得刺眼而矛盾：他试图拯救的，不是一群值得怜悯的\"好人\"，而是被同一体系摧毁的\"同类\"。观众对他的批判，恰恰反映了现实中人们对底层失败者的冷漠态度——**\"活该\"\"自作自受\"的标签，掩盖了社会不公的根源**。\n\n奇勋的选择挑战了这种冷漠，他拒绝接受\"适者生存\"的丛林法则，而是试图打破游戏的逻辑本身。这种行为与其说是\"圣母\"，不如说是对结构性暴力的反抗。\n\n![鱿鱼游戏剧照](https://cdn.jsdelivr.net/gh/Throneto/image@main/game2.png)\n\n## 三、第二季的未完与社会的无解\n\n遗憾的是，第二季并未能将奇勋的抗争推向高潮。剧情在悬念中收尾，他未能摧毁游戏，反而让观众质疑其行动的有效性。这种开放性结局既是剧作上的铺垫，也是对现实的隐喻：**在一个由资本和权力操控的世界中，个体的反抗往往显得无力**。\n\n### 权力关系的悲剧性\n\n奇勋的群体认同感虽赋予他行动的动机，却无法改变游戏规则的根本——参与者仍旧自相残杀，体系依旧冷酷运转。\n\n从社会学的\"权力关系\"理论看：\n\n- **游戏设计者** = 不可见的统治阶层\n- **奇勋的挣扎** = 底层对权力的徒劳挑战\n\n他的\"圣母心\"最终化为一种悲剧性的象征：既是对人性可能的信念，也是对社会无解困境的控诉。\n\n### 犀利的灵魂拷问\n\n第二季的犀利之处在于，它拒绝提供廉价的希望，而是将观众抛入更深的反思：\n\n❓ 若奇勋放弃拯救，接受丛林法则，他是否就成了另一个\"人渣\"？  \n❓ 若他坚持抗争，又如何对抗一个吞噬一切的体系？\n\n![鱿鱼游戏剧照](https://cdn.jsdelivr.net/gh/Throneto/image@main/game3.png)\n\n## 四、结语：撕裂的认同与残酷的现实\n\n《鱿鱼游戏》第二季通过奇勋的\"圣母心\"撕开了群体认同与个体生存间的矛盾。他的行为并非愚蠢的仁慈，而是对共同命运的执着呼唤。然而，在游戏的血腥舞台和社会的冷酷现实中，这种呼唤显得脆弱而无力。\n\n### 最犀利的社会学启示\n\n观众对他的嘲讽，或许正是对自身无力改变现实的投射。\n\n> **奇勋不是圣人，也不是英雄，他只是一个被社会碾碎后试图找回人性碎片的普通人。**\n\n而这，才是第二季最犀利也最残忍的社会学启示。当我们嘲笑奇勋的\"圣母心\"时，是否也在嘲笑自己对人性最后一丝希望的坚守？在资本主义的残酷游戏中，保持人性本身就是一种反抗，即使这种反抗注定失败。",
+      "category": "生活",
+      "tags": [
+        "影评",
+        "鱿鱼游戏",
+        "韩剧",
+        "社会学",
+        "人性"
+      ],
+      "icon": "🎮",
+      "publishDate": "2025-01-18",
+      "readTime": "10分钟",
+      "views": 0,
+      "likes": 0,
+      "featured": true,
+      "slug": "9-1-9-1-6-8-8-6-88-8-7-4-8-5-3-5-1-8-84-5-5-87-5-8-8-7-9-84-5-9-3-6-8-5-83-4-8-8-7-4-4-9-8-4-5-90-8-7-9-84-6-92-95-8-3-82",
+      "sourceFile": "从“圣母心”到社会裂痕：《鱿鱼游戏》第二季对集体认同的残酷解构.md"
+    },
+    {
+      "id": 12,
+      "title": "使用 acme.sh 申请 TLS 证书（Debian_Linux）",
+      "excerpt": "使用acme.sh在Debian/Linux系统上申请TLS证书的完整教程，包括手动DNS验证和自动API验证两种方案，支持泛域名证书申请和自动续期。",
+      "content": "一、核心准备\n\n1. 必要条件\n    - 拥有一个可控域名（示例中 `mydomain.com` 需替换为你的域名）\n    - 系统要求：Debian/Ubuntu 等 Linux 发行版（需 root 权限）\n\n二、快速部署流程\n\n1. 一键安装与环境配置\n\n```bash\n安装并绑定邮箱（替换 demo@mydomain.com）\ncurl <https://get.acme.sh> | sh -s email=demo@mydomain.com\n\n```\n\n- 验证安装：出现 `Install success` 表示成功\n- 邮箱修改：编辑 `~/.acme.sh/account.conf` 调整邮箱\n1. 配置证书颁发机构（推荐 ZeroSSL）\n\n```bash\nacme.sh --set-default-ca --server zerossl\n\n```\n\n- 成功标识：输出 `Changed default CA to: <https://acme.zerossl.com/v2/DV90`>\n1. 启用自动续期\n\n```bash\n检查自动续期状态\ncrontab -l | grep \"acme.sh --cron\"\n若无输出，手动添加（默认安装时已自动配置）\necho \"0 0 * * * /root/.acme.sh/acme.sh --cron\" | crontab -\n\n```\n\n---\n\n三、证书申请方案\n方案 A：手动 DNS 验证（适合无 API 权限）\n\n1. 生成验证记录\n    \n    ```bash\n    acme.sh --issue --dns -d mydomain.com -d *.mydomain.com \\\\\n    --yes-I-know-dns-manual-mode-enough-go-ahead-please\n    \n    ```\n    \n    - 根据输出添加 `acme-challenge` 的 TXT 记录（需等待 DNS 生效，约 10 分钟）\n2. 签发证书\n    \n    ```bash\n    acme.sh --renew --dns -d mydomain.com -d *.mydomain.com \\\\\n    --yes-I-know-dns-manual-mode-enough-go-ahead-please\n    \n    ```\n    \n\n方案 B：自动 DNS API（推荐长期使用）\n以 Cloudflare 为例：\n\n1. 配置 API 凭据\n    \n    ```bash\n    export CF_Token=\"your_api_token\"\n    export CF_Account_ID=\"your_account_id\"\n    export CF_Zone_ID=\"your_zone_id\"\n    \n    ```\n    \n2. 一键签发泛域名证书\n    \n    ```bash\n    acme.sh --issue --dns dns_cf -d mydomain.com -d *.mydomain.com\n    \n    ```\n    \n    - 支持 50+ 服务商 API（如阿里云、GoDaddy）\n\n---\n\n四、证书文件与部署\n\n1. 证书路径\n\n```\n~/.acme.sh/mydomain.com_ecc/\n├── mydomain.com.key     # 私钥\n├── fullchain.cer        # 完整证书链（推荐使用）\n└── ca.cer               # 中间证书\n\n```\n\n1. 安全部署建议\n- 禁止直接引用.acme.sh目录：使用 `-install-cert` 命令复制到安全路径\n    \n    ```bash\n    acme.sh --install-cert -d mydomain.com \\\\\n    --key-file /etc/ssl/private/key.pem \\\\\n    --fullchain-file /etc/ssl/certs/cert.pem\n    \n    ```\n    \n- Nginx 配置示例：\n    \n    ```\n    ssl_certificate /etc/ssl/certs/cert.pem;\n    ssl_certificate_key /etc/ssl/private/key.pem;\n    \n    ```\n    \n\n---\n\n五、关键注意事项\n\n1. 续期监控\n    - 每日自动续期检查（通过 cron 实现）\n    - 手动测试续期：`acme.sh --cron --debug`\n2. 证书安全\n    - 私钥权限设置为 600：`chmod 600 mydomain.com.key`\n    - 避免 API 令牌泄露（Cloudflare 建议使用临时 API Token）\n3. 兼容性说明\n    - ECC 证书兼容性：现代浏览器/服务器均支持，RSA 证书可通过 `-keylength 2048` 生成\n\n---\n\n六、扩展支持\n\n- 多服务部署：支持自动部署到 Nginx/Apache/Docker 等\n- 日志排查：通过 `-debug` 参数输出详细信息\n- 官方文档：\n\n> 注：若需适配其他 DNS 服务商（如阿里云、AWS），参考 /root/.acme.sh/dnsapi/ 中的示例脚本。\n>",
+      "category": "技术",
+      "tags": [
+        "TLS",
+        "SSL证书",
+        "acme.sh",
+        "Linux",
+        "HTTPS"
+      ],
+      "icon": "🔒",
+      "publishDate": "2024-07-25",
+      "readTime": "14分钟",
+      "views": 0,
+      "likes": 0,
+      "featured": true,
+      "slug": "4-7-94-8-acme-sh-7-94-3-8-7-tls-8-81-4-9-6-debian-linux",
+      "sourceFile": "使用 acme.sh 申请 TLS 证书（Debian_Linux）.md"
+    },
+    {
+      "id": 13,
+      "title": "单ipv6小鸡怎么开局？",
+      "excerpt": "详细教你如何配置单IPv6服务器（小鸡），从路由器设置、DNS配置到添加IPv4双栈网络，还包括3x-ui和x-ui代理面板的部署方法。",
+      "content": "1. 本机环境配置，详见[TP-link路由器设置](https://pokerbounce.cc/posts/tplink-ipv6-settings)，开启ipv6功能，WAN口连接类型选择桥模式，保存即可。\n\n2. 先执行以下命令更新系统(ubuntu系统）：\n   \n       apt update && apt upgrade -y\n\n3. 再安装必要命令curl：\n   \n       apt install curl\n   \n   （出现Y/N，输入y并回车）\n\n4. 使用以下命令查看系统DNS配置，一般不用做修改：\n   \n       cat /etc/resolv.conf\n   \n   如果和图中不一样，可执行命令修改：\n   \n       cp /etc/resolv.conf{,.bak}; echo -e \"nameserver 2a00:1098:2b::1\\\\nnameserver 2a01:4f9:c010:3f02::1\\\\nnameserver 2a01:4f8:c2c:123f::1\\\\nnameserver 2a00:1098:2c::1\" > /etc/resolv.conf\n   \n   执行效果验证\n   \n   `#检查备份文件：`\n   \n       ls -l /etc/resolv.conf*\n   \n   `# 确认 nameserver 条目换行正确`\n   \n       cat /etc/resolv.conf\n   \n   `# 测试 IPv6 DNS 解析`\n   \n        ping -6 google.com \n\n5. 看个人是否有需求获取ipv4，使得服务器有双栈网络环境，执行命令选择中文或英文，然后选择**为ipv6单栈添加ipv4**，除了选择**ipv6优先**外其余回车即可：\n   \n       wget -N <https://gitlab.com/fscarmen/warp/-/raw/main/menu.sh> && bash menu.sh\n   \n   最新版本：\n   \n       wget -N https://gitlab.com/fscarmen/warp/-/raw/main/menu.sh && bash menu.sh [option] [lisence/url/token]\n   \n   ![2025-02-08 190905.png](https://cdn.jsdelivr.net/gh/Throneto/image@main/2025-02-08%20190905.png)\n\n6. 最后，祝各位玩鸡快乐！可以搭建代理节点，安装docker，构建自己的网站博客等等\n\n7. 代理\n   \n   [**3x-ui面板:**](https://github.com/MHSanaei/3x-ui)\n   \n       bash <(curl -Ls <https://raw.githubusercontent.com/mhsanaei/3x-ui/master/install.sh>)\n   \n   [**x-ui面板:**](https://github.com/sing-web/x-ui)\n   \n       bash <(wget -qO- <https://raw.githubusercontent.com/sing-web/x-ui/main/install.sh>)\n   \n   添加入站节点\n   \n   Vless 协议（vless + ws）\n   \n   备注：自己填，协议：vless，端口：自己填（或者默认，cloudflare cdn 的参考上面端口）\n   \n   点击添加用户 的 + 号，email 可留空（默认也可）\n   \n   下面一栏中，找到网络 选择 ws，路径 填入 / 用户 ID 前半部分\n   \n   最后，点击添加即可\n   \n   注意：例如这个用户 IDfaf5a80b-b4bd-4af7-fec2-20a97a16270a 的 / 用户 ID 前半部分 指的是 /faf5a80b\n   \n   端口问题\n   \n   > Cloudflare HTTPS 流量可以使用的回源端口 如下：443、2053、2083、2087、2096、8443\n   > \n   > Cloudflare HTTP 流量可以使用的回源端口 如下：80、8080、8880、2052、2082、2086、2095",
+      "category": "技术",
+      "tags": [
+        "IPv6",
+        "VPS",
+        "服务器配置",
+        "网络"
+      ],
+      "icon": "🐔",
+      "publishDate": "2024-08-05",
+      "readTime": "10分钟",
+      "views": 0,
+      "likes": 0,
+      "featured": false,
+      "slug": "5-8-95ipv6-5-0-8-9-8-1-6-80-8-4-9-88-5-80-5-1-80",
+      "sourceFile": "单ipv6小鸡怎么开局？.md"
+    },
+    {
+      "id": 14,
+      "title": "基于SEO的高质量内容扫盲",
+      "excerpt": "深入浅出讲解SEO内容的本质，从关键词调研到内容产出，从用户体验到搜索引擎优化，帮助你创作出既受用户喜爱又能获得高排名的高质量内容。",
+      "content": "## **SEO 内容是什么?**\n\n SEO 内容指的是**为了获得更高的搜索排名**所特地撰写的文字内容。狭义来说，它会是一篇能够为网站带来流量的博客软文。但广义的SEO 内容会包括：一个合理嵌入了关键词的标题、一段契合关键词主题的描述，或是一个经过关键词优化的页面。\n\n所以说，在撰写这一类型的内容时，除了要像传统文章一样，吸引受众的注意，考量内容受众的喜好之外，内容完成后，还需要从搜索引擎的角度去优化，方便搜索引擎理解。\n\n换句话说，SEO 内容产出的流程一般会包括：\n\n[关键词调研](https://www.teamone.cn/keyword-planning/) >> 产出内容 >> 调整关键词布局 >> [内链优化](https://www.teamone.cn/what-is-internal-linking-and-what-it-does-for-seo/) >> 添加[结构化数据](https://www.teamone.cn/google-seo-structured-data/) >> 排名观察\n\n 而落实好这些环节，才能够维持、提高内容在搜索引擎的排名。\n\n## **高质量的 SEO 内容对网站有什么帮助？**\n\n内容为王已经是一句老生常谈的话了，但高质量的 SEO 内容为什么对网站运营这么重要呢？有以下几个原因。\n\n### **1\\. 提升网站排名**\n\n可以理解为，网站内产出的高质量内容越多，网站的整体的品质和价值会更高，对 SEO 自然是会有正面的影响。\n\n所以除了注重单个页面的内容内容产出，提升整站内容的丰富度也会是一个积极的排名信号。举个例子，如果你在线上经营一个宠物用品类目的网站，除了优化好产品相关的内容之外，也可以增加博客文章板块，用于分享饲养宠物相关的经验，展示自家产品的品牌故事、产品测评等信息，这些内容不仅能够吸引潜在客户，同时也能增强用户对品牌认识和信赖，拓宽网站的内容关联度和深度。\n\n### **2\\. 提高网站粘性**\n\n符合[搜索意图](https://www.teamone.cn/what-is-search-intent/)且有价值的内容能够让用户在网站停留更长的时间，降低跳出率，继而改善网站互动相关的数据指标。特别是在行业背景知识比较专业的领域，内容质量高的情况下，能够更有效吸引用户收藏内容，反复查看。\n\n例如无人机行业的内容，用户可能是通过“如何选择适合你的无人机型号”这篇 SEO 文章的内容到访网站，页面内容涵盖了技术规格，而且还通过图表和视频详细解释了摄像头性能、飞行时长和操控方式。这样的内容可以帮助用户深入了解不同型号的无人机，并根据实际需求做出决策，促使用户在网站停留更长时间。\n\n### **3\\. 便于内链搭建**\n\n高质量的内容还可以方便站点的内链搭建，合理添加内链有助于提高整站链接的权重。\n\n还是用无人机网站的内容来说明，如果无人机产品的主推的使用场景和用户人群与农业生产有关，则可以在相应机型的介绍页链接到像：_“无人机在农业中的创新应用：如何提高产量？”_这种类型的文章，深入分析无人机在作物监测、喷洒农药等方面的应用，并提供成功案例。\n\n这种实用性极强的内容可以吸引特定领域的用户深入阅读，并通过内链的方式让用户的浏览路径更清晰，也更方便搜索引擎爬取和理解整站内容之间的关联。\n\n## **高质量的 SEO 内容，如何辨认？**\n\n了解了高质量的 SEO 内容会对网站带来多大的帮助之后，可能你也会好奇会不会有更具体的标准来评价 SEO 内容。\n\n那么接下来我们会以烘焙食品公司的首页内容为例，来详细说明，围绕类似**手工饼干**或**手工制作蛋糕**这样的关键词优化后的高质量 SEO 内容会具备怎样的特征。\n\n### **1\\. 清晰的品牌定位**\n\n开篇最好要明确该品牌网站的使命及为用户提供的核心价值。\n\n如：\n\n“我们是\\[品牌名\\]，致力于为您提供新鲜、手工制作的美味糕点。每一款饼干和蛋糕都用心制作，源于我们对高品质的坚持。”\n\n### **2\\. 突出产品的独特卖点**\n\n描述产品特性时，最好能够让用户明白当前浏览的产品和竞争对手之间的差异。像下面这个例子，会通过：“手工制作”、“新鲜食材”、“健康美味”这些描述性强的词语，提供更具体的语境，加强搜索引擎对关键词“手工饼干”和“手工制作蛋糕”的理解。\n\n如：\n\n“我们坚持采用天然食材，手工精心制作每一款糕点，不含任何添加剂，每一口都能品尝到家的温暖和健康的甜蜜。”\n\n### **3\\. 注重引导以提升用户体验**\n\n高质量的 SEO 内容要引导用户进一步了解并挑选产品。\n\n如：\n\n“浏览精选手工饼干和蛋糕系列，找到您最爱的甜点。无论是家庭聚会还是纪念庆祝，都能轻松定制，想要的甜点口味，唾手可得。”\n\n### **4\\. 建立信任和信誉**\n\n利用客户评价、资质认证等增强信任感。\n\n如：  \n“查看名人、顾客的好评反馈，了解甜点的口感、用料和试吃体验，帮助您做出更放心的选择。”\n\n### **5\\. 行动号召（CTA）**\n\n文章结尾应包含应包含清晰的行动号召，鼓励用户订购或进一步浏览。\n\n如：\n\n“立即选购，天然又安心的健康手工饼干，马上送到家门口。”\n\n总的来说，高质量的 SEO 内容能够做到，注重内容相关度，信息准确、专业可信，关注与用户的互动，必要时添加多媒体内容让页面形式更多样化，就已经算是一份好内容了！\n\n## **三个关键技巧，快速提升你的 SEO 内容质量**\n\n读到这里，可能你已经对 SEO 的内容的评价标准有了一定的认识。但说实在的，SEO只是帮助内容被更多人看到的手段，核心仍然是提供有价值的内容。\n\n我们还是以烘焙公司网站为例，写作时，注重这三个技巧，你的内容肯定不会差到哪里去。\n\n### **1\\. 以用户为中心，解决实际问题**\n\n高质量的SEO内容应该始终以用户需求为导向。撰写时，不仅要考虑用户的搜索意图，还要提供能解决用户问题的具体答案。不要为了堆砌关键词而牺牲内容的实用性。\n\n实例：烘焙公司网站的目标用户很可能会搜索**_如何定制蛋糕_**，那么你可以撰写有关个性化定制流程、如何选择配料以及不同口味的文章，以帮助用户做出决定。\n\n### **2\\. 保持内容的结构清晰**\n\n好的内容结构能够帮助用户快速找到他们需要的信息，这对于提高用户体验非常关键。使用清晰的[H标签](https://www.teamone.cn/h-tags/)（H1、H2、H3）分隔内容，并确保每个部分都有逻辑流畅的衔接。\n\n**实例：**在首页上，介绍公司的优势、产品种类、客户评价等内容时，可以使用短小精悍的段落和清晰的标题，将重点信息突出，让用户容易找到他们关心的部分。\n\n### **3\\. 多媒体丰富用户体验**\n\n图文并茂的内容通常更容易吸引用户并增加停留时间。高质量的内容应该合理地运用图片、视频或图表来增强表达。\n\n**实例：**烘焙公司的网站可以加入定制蛋糕的精美图片、制作过程的视频，甚至客户的庆祝场景照片，以提高用户的参与度和信任感。此外，多媒体元素还能帮助打破冗长的文字内容，让文章更有可读性。",
+      "category": "技术",
+      "tags": [
+        "SEO",
+        "内容创作",
+        "网站优化",
+        "内容营销"
+      ],
+      "icon": "✍️",
+      "publishDate": "2024-12-05",
+      "readTime": "12分钟",
+      "views": 0,
+      "likes": 0,
+      "featured": false,
+      "slug": "5-9-4-8-seo-7-9-84-9-98-8-4-8-9-87-8-5-86-85-5-9-6-89-7-9-2",
+      "sourceFile": "基于SEO的高质量内容扫盲.md"
+    },
+    {
+      "id": 15,
+      "title": "如何把docker删除干净",
+      "excerpt": "完整教程：如何彻底删除Docker，包括卸载Docker软件、删除容器/镜像/网络/卷，以及清理残留配置文件，确保系统干净无残留。",
+      "content": "**要把Docker删除干净，您需要卸载Docker软件、删除Docker相关的容器、镜像、网络和卷、清理残留的配置文件和目录。** 其中，**删除Docker相关的容器、镜像、网络和卷** 是最关键的一步，因为这些文件和数据占用了大量的磁盘空间，并且可能会在系统中留下残留数据。接下来，我们将详细讨论这个过程的每一步。\n\n## **一、卸载Docker软件**\n\n### **在Linux系统上卸载Docker**\n\n在Linux系统上卸载Docker通常比较简单。以下是具体步骤：\n\n1.  **停止所有Docker服务**:\n    \n        sudo systemctl stop docker\n        \n    \n2.  **卸载Docker引擎**:\n    \n        sudo apt-get purge docker-ce docker-ce-cli containerd.io\n        \n    \n3.  **删除Docker的相关依赖**:\n    \n        sudo apt-get autoremove -y --purge docker-ce docker-ce-cli containerd.io\n        \n    \n\n## **二、删除Docker相关的容器、镜像、网络和卷**\n\n### **1、删除所有容器**\n\n首先，需要停止并删除所有容器：\n\n    docker stop $(docker ps -aq)\n    docker rm $(docker ps -aq)\n    \n\n### **2、删除所有镜像**\n\n接下来，删除所有镜像：\n\n    docker rmi $(docker images -q)\n    \n\n### **3、删除所有网络**\n\n然后，删除所有自定义网络：\n\n    docker network rm $(docker network ls | grep -v \"bridge|host|none\" | awk '{print $1}')\n    \n\n### **4、删除所有卷**\n\n最后，删除所有卷：\n\n    docker volume rm $(docker volume ls -q)\n    \n\n## **三、清理残留的配置文件和目录**\n\n### **在Linux系统上清理残留文件**\n\n在Linux系统上，Docker的配置文件和目录通常位于以下位置：\n\n-   `/var/lib/docker`\n    \n-   `/etc/docker`\n    \n-   `/etc/systemd/system/docker.service.d`\n    \n\n清理这些目录：\n\n    sudo rm -rf /var/lib/docker\n    sudo rm -rf /etc/docker\n    sudo rm -rf /etc/systemd/system/docker.service.d\n    \n\n## **四、总结**\n\n要完全删除Docker，需要执行以下步骤：**卸载Docker软件、删除Docker相关的容器、镜像、网络和卷、清理残留的配置文件和目录**。通过这些步骤，您可以确保Docker从您的系统中完全删除。\n\n## **五、相关问答FAQs：**\n\n**1\\. 什么是Docker？**  \nDocker是一种开源的容器化平台，它允许开发者将应用程序和其依赖项打包成一个轻量级、可移植的容器，以便在不同的环境中运行。\n\n**2\\. 如何正确删除Docker容器？**  \n要删除Docker容器，您可以使用`docker rm`命令。首先，使用`docker ps -a`命令列出所有容器，然后找到要删除的容器的ID或名称。最后，运行`docker rm <container_id>`或`docker rm <container_name>`来删除容器。\n\n**3\\. 如何彻底删除Docker镜像？**  \n要删除Docker镜像，您可以使用`docker rmi`命令。首先，使用`docker images`命令列出所有镜像，然后找到要删除的镜像的ID或名称。最后，运行`docker rmi <image_id>`或`docker rmi <image_name>`来删除镜像。\n\n**4\\. 如何删除Docker网络？**  \n要删除Docker网络，您可以使用`docker network rm`命令。首先，使用`docker network ls`命令列出所有网络，然后找到要删除的网络的ID或名称。最后，运行`docker network rm <network_id>`或`docker network rm <network_name>`来删除网络。\n\n**5\\. 如何删除Docker卷？**  \n要删除Docker卷，您可以使用`docker volume rm`命令。首先，使用`docker volume ls`命令列出所有卷，然后找到要删除的卷的ID或名称。最后，运行`docker volume rm <volume_id>`或`docker volume rm <volume_name>`来删除卷。",
+      "category": "技术",
+      "tags": [
+        "Docker",
+        "Linux",
+        "服务器运维",
+        "卸载"
+      ],
+      "icon": "🗑️",
+      "publishDate": "2024-09-05",
+      "readTime": "7分钟",
+      "views": 0,
+      "likes": 0,
+      "featured": false,
+      "slug": "5-6-82-4-95-6-8-8-docker-5-88-0-9-99-4-5-9-2-5-87-80",
+      "sourceFile": "如何把docker删除干净.md"
+    },
+    {
+      "id": 16,
+      "title": "服务器重装系统了，SSH连接不上怎么办？",
+      "excerpt": "服务器重装系统后SSH连接不上？本文教你快速解决REMOTE HOST IDENTIFICATION HAS CHANGED警告，通过修改known_hosts文件恢复SSH连接。",
+      "content": "收了个ipv6的服务器，重装系统后SSH连接不上了\n\n重新进powershell，运行命令ssh root@<ipv6地址>\n\n会提示无法连接\n\n再执行命令，就会弹出WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!\n\n这时候需要查看host key文件，因为重装系统后服务器的host认证也变更了\n\n打开C:\\\\\\\\Users\\\\\\\\用户名/.ssh/known\\_hosts，打开文件修改或清除原有IP的host数据\n\n重新连接即可\n\n此教程仅适用于小白，大神笑笑路过啊",
+      "category": "技术",
+      "tags": [
+        "SSH",
+        "服务器",
+        "网络",
+        "故障排除"
+      ],
+      "icon": "🔧",
+      "publishDate": "2024-09-20",
+      "readTime": "3分钟",
+      "views": 0,
+      "likes": 0,
+      "featured": false,
+      "slug": "6-9-8-5-8-1-5-99-8-9-87-8-8-3-85-7-3-7-9-4-86-ssh-8-9-6-8-5-4-8-8-4-8-8-6-80-8-4-9-88-5-8-9",
+      "sourceFile": "服务器重装系统了，SSH连接不上怎么办？.md"
+    },
+    {
+      "id": 17,
+      "title": "简单快速重置Serv00系统",
+      "excerpt": "简单三步快速重置Serv00免费主机空间，适合新手练手和折腾。使用一键脚本即可完成系统清理和重置，让你的Serv00焕然一新。",
+      "content": "相信很多朋友都会热衷于薅Serv00主机空间，由于空间免费时间长，当然限制也会非常多，不能root,不时会重启，影响部署程序的正常运行。\n\n但是这种免费的空间，特别适合小白练手和折腾。\n\n当一番骚操作后，怎么还原重置系统呢？\n\n1. 首先下载脚本：\n   \n       curl -O https://raw.githubusercontent.com/SamueruTokeisou/serv00/main/system-cleanup-script.sh\n\n2. 添加执行权限：\n   \n       chmod +x system-cleanup-script.sh\n\n3. 运行脚本：\n   \n       ./system-cleanup-script.sh\n\n再重新登录，是不是焕然一新了？",
+      "category": "技术",
+      "tags": [
+        "Serv00",
+        "免费主机",
+        "VPS",
+        "系统重置"
+      ],
+      "icon": "🔄",
+      "publishDate": "2024-07-10",
+      "readTime": "3分钟",
+      "views": 0,
+      "likes": 0,
+      "featured": false,
+      "slug": "7-80-5-8-95-5-9-80-9-9-87-8-7-serv00-7-3-7-9",
+      "sourceFile": "简单快速重置Serv00系统.md"
+    },
+    {
+      "id": 18,
+      "title": "网站SEO优化工具Semrush完全指南：从入门到实战",
+      "excerpt": "Semrush是SEO工作者的瑞士军刀。本文从关键词研究、竞品分析、内容创作到排名追踪，全面解析Semrush的核心功能，帮助你快速掌握这个强大的SEO工具。",
+      "content": "## 一、初识Semrush：SEO工作者的瑞士军刀\n\n### 1.1 名字背后的玄机\n\nSEMRUSH = SEM（搜索引擎营销） + RUSH（快速行动）\n就像它的名字一样，这个工具能帮你**快速掌握搜索引擎营销**的核心要领。好比给网站优化装上了涡轮增压器，让SEO工作事半功倍。\n\n![FireShot Capture 006 - Semrush - 在线营销简单方便 - zh.semrush.com.jpg](https://cdn.jsdelivr.net/gh/Throneto/image@main/FireShot%20Capture%20006%20-%20Semrushzh.semrush.com.jpg)\n\n## 二、核心功能实战手册\n\n### 2.1 关键词探矿神器（Keyword Magic Tool）\n\n**操作三部曲：**\n\n1. 输入种子词（如\"健身器材\"）\n\n2. 筛选关键指标：\n   \n   - **KD值**：难度系数（0-100），新手选≤30的绿色标记词\n   - **购买意图intent**：重点关注T（交易）＞C（商业）类关键词\n   - **趋势曲线trend**：选择12个月内波动＜20%的稳定词\n   - **volume**:过去12个月的平均搜索量\n   - **CPC**：广告商的出价，一般t出价比较高\n   - **CD**：竞争程度，0-1之间，数值越大，竞争难度越高\n   - **SF**：0-10之间数量越大，非传统搜索结构就越多，相应地竞争难度越大\n\n3. 导出长尾词清单（建议首期选50-100个）\n\n*小贴士：组合使用\"健身器材+家用\"这类修饰词，能找到竞争小的蓝海词*\n\n### 2.2 竞品分析雷达（Keyword Gap-Keyword Manager）\n\n**对比秘籍：**\n\n1. 输入自己网站和3个竞品域名\n2. 重点观察：\n   - 竞品有而你没有的**流量金矿词**\n   - 双方都排名的**必争之地词**\n   - 你独家的**潜力优势词**\n\n*案例演示：某电商网站通过此功能发现竞品忽略的\"孕妇瑜伽垫\"关键词，单月流量提升37%*\n\n### 2.3 内容创作导航（SEO Content Template）\n\n**黄金模板要素：**\n\n```\n[产品词]选购指南｜2024年最新推荐｜[品牌名]\n▌必含关键词：核心词×3，长尾词×2  \n▌内容结构：痛点场景→产品对比→购买建议  \n▌可读性控制：保持70分以上（初中生能懂的水平）\n```\n\n*避坑提醒：避免关键词堆砌，每百字自然出现1-2次核心词最佳*\n\n使用Content Marketing以及SEO Writing AssistantAI写作助手\n\n复制目标文章的内容，添加关键词\n\n进行分析，拉动右侧工具条，查询结果，可读性、词语、标题问题、内容问题……推荐关键词\n\n### 2.4 排名追踪看板（Position Tracking）\n\n**监控技巧：**\n\n- 设置每日/周排名提醒\n- 重点关注11-20位的关键词（最容易优化提升区间）\n- 结合季节调整：节日词提前3个月布局\n\n## 三、高阶功能应用指南\n\n### 3.1 外链攻防战（Backlink Analysis）\n\n**优质外链三要素：**\n\n1. 来源网站DA值≥40\n2. 内容相关度≥70%\n3. 自然锚文本占比＞60%\n\n*实战案例：通过分析竞品外链，联系行业论坛获得3个高质量dofollow链接*\n\n### 3.2 网站健康体检（Site Audit）\n\n**每月必查项：**\n✅ 404死链不超过5条\n✅ 页面加载速度＜3秒\n✅ 移动端适配得分≥90\n\n*紧急处理清单：*\n\n1. 修复重复元描述\n2. 优化超过3MB的图片\n3. 补充缺失的ALT标签\n\n## 四、新手常见问题库\n\n### Q1 应该购买哪个版本？\n\n- 新手：Guru版（￥149/月）足够覆盖基础需求\n- 团队：Business版（￥449/月）解锁竞品监控等高级功能\n\n### Q2 数据更新频率如何？\n\n- 关键词数据：每3天更新\n- 排名数据：每日更新\n- 外链数据：每15天全面更新\n\n### Q3 如何避免工具依赖症？\n\n记住3:7原则：30%时间用工具，70%时间做：\n\n- 用户需求分析\n- 内容质量打磨\n- 数据策略调整\n\n---\n\n**配套资源：**\n\n- 快捷键清单：Alt+K快速启动关键词搜索\n- 周期计划表：每月1号做网站体检，每周三分析排名变化\n- 指标对照卡：KD值与实际难度的对应关系表\n\n[实战演练区]\n尝试用Keyword Magic Tool搜索你的行业关键词，记录前3个KD≤20的潜力词，在评论区分享你的发现！\n\n---\n\n**优化效果对比：**\n\n- 信息结构：从功能罗列升级为工作流导向\n- 理解成本：专业术语减少62%，新增13个实操案例\n- 可操作性：每个步骤配备检测标准和进度提示\n- 留存设计：设置互动环节和自查工具",
+      "category": "技术",
+      "tags": [
+        "SEO",
+        "Semrush",
+        "网站优化",
+        "关键词分析"
+      ],
+      "icon": "📊",
+      "publishDate": "2024-12-10",
+      "readTime": "15分钟",
+      "views": 0,
+      "likes": 0,
+      "featured": true,
+      "slug": "7-91-7-99seo-4-98-5-8-96-5-7-5-5-85-7semrush-5-8-5-85-8-6-8-87-5-8-97-4-8-5-85-5-9-97-8-5-88-0-5-9-6-88-98",
+      "sourceFile": "网站SEO优化工具Semrush完全指南：从入门到实战.md"
+    },
+    {
+      "id": 19,
+      "title": "解读一下代码ip addr以及1panel应用",
+      "excerpt": "深入解读Linux的ip addr命令输出，包括网络接口、MTU、IPv4/IPv6地址等信息，并详细讲解如何在1panel面板中配置IPv6网络。",
+      "content": "使用 `ip addr` 命令在Linux系统上获取的网络接口配置信息。以下是对每部分内容的详细解读：\n\n### **网络接口编号和名称**\n\n1: lo: <LOOPBACK,UP,LOWER\\_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000 2: sit0@NONE: mtu 1480 qdisc noop state DOWN group default qlen 1000 3: eth0@if10547: <BROADCAST,MULTICAST,UP,LOWER\\_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000 4: warp: <POINTOPOINT,NOARP,UP,LOWER\\_UP> mtu 1400 qdisc noqueue state UNKNOWN group default qlen 1000 5: docker0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN group default 6: br-b700d3bee0cc: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN group default\n\n-   每个部分开头的数字（如 `1:`、`2:` 等）是网络接口的编号。\n    \n-   冒号后面的名称（如 `lo`、`sit0`、`eth0` 等）是网络接口的名称。\n    \n\n### **接口标志**\n\n<LOOPBACK,UP,LOWER\\_UP> <BROADCAST,MULTICAST,UP,LOWER\\_UP> <POINTOPOINT,NOARP,UP,LOWER\\_UP> <NO-CARRIER,BROADCAST,MULTICAST,UP>\n\n这些标志描述了接口的状态和特性：\n\n-   `LOOPBACK`：表示这是一个环回接口，主要用于本地通信。\n    \n-   `UP`：表示接口已启用。\n    \n-   `LOWER_UP`：表示底层链路已启用。\n    \n-   `NOARP`：表示该接口不使用ARP协议。\n    \n-   `BROADCAST`：表示该接口支持广播。\n    \n-   `MULTICAST`：表示该接口支持多播。\n    \n-   `POINTOPOINT`：表示该接口是点到点连接。\n    \n-   `NO-CARRIER`：表示没有检测到载波信号，通常意味着链路没有连接。\n    \n\n### **MTU（最大传输单元）**\n\nmtu 65536 mtu 1480 mtu 1500 mtu 1400 mtu 1500 mtu 1500\n\nMTU 定义了在该接口上能够传输的最大数据包大小。\n\n### **队列规则（qdisc）**\n\nqdisc noqueue qdisc noop qdisc noqueue qdisc noqueue qdisc noqueue qdisc noqueue\n\n队列规则（qdisc）用于管理数据包在接口上的排队和调度。`noqueue` 表示不使用队列，`noop` 表示不进行任何操作。\n\n### **接口状态**\n\nstate UNKNOWN state DOWN state UP state UNKNOWN state DOWN state DOWN\n\n接口状态表示接口当前的运行状态，`UP` 表示正常运行，`DOWN` 表示接口已禁用，`UNKNOWN` 表示状态未知。\n\n### **链路层信息**\n\nlink/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00 link/sit 0.0.0.0 brd 0.0.0.0 link/ether bc:24:11:80:40:0e brd ff:ff:ff:ff:ff:ff link-netnsid 0 link/none link/ether 02:42:0e:af:1a:3d brd ff:ff:ff:ff:ff:ff link/ether 02:42:6a:f8:21:fd brd ff:ff:ff:ff:ff:ff\n\n这些信息描述了接口的链路层协议和硬件地址（MAC地址）：\n\n-   `link/loopback`：环回接口的链路层类型。\n    \n-   `link/sit`：表示IPv6-in-IPv4隧道接口。\n    \n-   `link/ether`：表示以太网接口，后面跟着MAC地址和广播地址。\n    \n-   `link-netnsid`：表示网络命名空间ID。\n    \n\n### **IP地址信息**\n\ninet....\n\n这些信息列出了接口配置的IPv4和IPv6地址：\n\n-   `inet`：表示IPv4地址，格式为 `地址/子网掩码`，`scope` 表示地址的作用域。\n    \n-   `inet6`：表示IPv6地址，格式为 `地址/子网前缀长度`，`scope` 表示地址的作用域。\n    \n-   `brd`：表示广播地址。\n    \n-   `nodad`：表示无状态自动配置（Stateless Address Autoconfiguration）。\n    \n\n### **有效期**\n\nvalid\\_lft forever preferred\\_lft forever\n\n`valid_lft` 和 `preferred_lft` 分别表示地址的有效期限和首选期限。`forever` 表示地址的有效期是无限的。\n\n通过这些信息，可以全面了解系统中各个网络接口的配置和状态。\n\n### **然后利用ipv6地址转化子网地址，可以在 1panel 面板中进行 ipv6 设置。**\n\n1.  删除容器网络\n    \n    首先点击路径：容器 - 网络 - 1panel-network，  \n    我们可以看到 `\"EnableIPv6\": false` ，ipv6 未启用。 这边我们将它直接删除。\n    \n2.  设置子网\n    \n    还记得我们开头查询过本机的 ipv6 地址为 `2a01:484:222:1d0e::1111:60/64`，我们可知它的子网是 `2a01:484:222:1d0e::/64`（具体怎么转化推荐[**IPv4/IPv6 地址转换计算器**](https://ip-calculator.wcode.net/)）。  \n    点击路径：容器 - 配置，  \n    子网填入 `2a01:484:222:1d0e::/64`，把高级设置里的 ip6tables 和 experimental 勾上。  \n    然后会自动进行一次重启。\n    \n3.  添加容器网络\n    \n    我们回到路径：容器 - 网络 - 1panel-network，  \n    将网络 `1panel-network` 添加回来，  \n    模式：bridge  \n    IPv4 子网：172.18.0.0/16  \n    IPv4 网关：172.18.0.1  \n    勾选 IPv6（子网地址可随意）  \n    IPv6 子网：fc00:0:0:1::/64  \n    IPv6 网关：fc00:0:0:1::1\n    \n4.  这样1panel的IPV6设置就完成了。",
+      "category": "技术",
+      "tags": [
+        "Linux",
+        "ip addr",
+        "1panel",
+        "网络配置",
+        "IPv6"
+      ],
+      "icon": "🔍",
+      "publishDate": "2024-08-25",
+      "readTime": "9分钟",
+      "views": 0,
+      "likes": 0,
+      "featured": false,
+      "slug": "8-7-3-8-4-8-80-4-8-8-4-3-7-0-81ip-addr-4-5-5-8-8-1panel-5-94-7-94-8",
+      "sourceFile": "解读一下代码ip addr以及1panel应用.md"
+    }
+  ]
+}
