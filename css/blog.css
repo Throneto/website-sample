@@ -1152,6 +1152,12 @@
 
 .modal-body {
     padding: 2rem;
+    overflow: visible !important;
+}
+
+/* 确保所有内容都能显示 */
+.modal-body * {
+    max-width: 100%;
 }
 
 .modal-body .article-meta {
@@ -1281,13 +1287,19 @@
 }
 
 .article-content img {
-    display: block;
-    max-width: 100%;
-    height: auto;
+    display: block !important;
+    max-width: 100% !important;
+    width: auto !important;
+    height: auto !important;
+    min-height: 1px !important;
     border-radius: 12px;
-    margin: 1.5rem auto;
+    margin: 1.5rem auto !important;
     border: 1px solid rgba(0, 243, 255, 0.2);
     box-shadow: 0 4px 20px rgba(0, 243, 255, 0.15);
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: relative !important;
+    z-index: 1 !important;
 }
 
 /* 滚动条样式 */
