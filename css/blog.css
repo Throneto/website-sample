@@ -1189,7 +1189,7 @@
     color: rgba(255, 255, 255, 0.85);
     line-height: 1.8;
     font-size: 1rem;
-    white-space: pre-wrap;
+    white-space: normal;
     word-wrap: break-word;
 }
 
@@ -1281,11 +1281,13 @@
 }
 
 .article-content img {
+    display: block;
     max-width: 100%;
     height: auto;
     border-radius: 12px;
-    margin: 1.5rem 0;
+    margin: 1.5rem auto;
     border: 1px solid rgba(0, 243, 255, 0.2);
+    box-shadow: 0 4px 20px rgba(0, 243, 255, 0.15);
 }
 
 /* 滚动条样式 */

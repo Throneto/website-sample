@@ -460,15 +460,26 @@ class BlogManager {
         html = html.replace(/^\d+\. (.+)$/gim, '<li>$1</li>');
         
         // 处理段落（将连续的非空行包装在<p>标签中）
-        html = html.split('\n\n').map(para => {
-            para = para.trim();
-            if (para && !para.startsWith('<h') && !para.startsWith('<ul') && 
-                !para.startsWith('<ol') && !para.startsWith('<pre') && 
-                !para.startsWith('<blockquote') && !para.startsWith('<img')) {
-                return `<p>${para.replace(/\n/g, '<br>')}</p>`;
+        html = html.split('\n').map(line => {
+            line = line.trim();
+            // 跳过空行
+            if (!line) return '';
+            
+            // 不处理以下元素，保持原样
+            if (line.startsWith('<h') || line.startsWith('</h') ||
+                line.startsWith('<ul') || line.startsWith('</ul') ||
+                line.startsWith('<ol') || line.startsWith('</ol') ||
+                line.startsWith('<li') || line.startsWith('</li') ||
+                line.startsWith('<pre') || line.startsWith('</pre') ||
+                line.startsWith('<code') || line.startsWith('</code') ||
+                line.startsWith('<blockquote') || line.startsWith('</blockquote') ||
+                line.startsWith('<img')) {
+                return line;
             }
-            return para;
-        }).join('\n');
+            
+            // 普通文本包裹在<p>标签中
+            return `<p>${line}</p>`;
+        }).filter(line => line).join('\n');
         
         return html;
     }
