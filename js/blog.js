@@ -18,6 +18,8 @@ class BlogManager {
 
     async init() {
         try {
+            // 强制刷新文章缓存，确保加载最新数据
+            await this.apiService.refreshArticles();
             await this.loadArticles();
             this.setupEventListeners();
             this.hideLoadingIndicator();
