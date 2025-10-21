@@ -355,6 +355,293 @@
     100% { transform: translateX(100%); }
 }
 
+/* ========== 标签云样式 ========== */
+.tag-cloud-container {
+    margin: 3rem 0;
+    padding: 2rem;
+    background: linear-gradient(135deg, 
+        rgba(10, 10, 30, 0.6),
+        rgba(20, 20, 50, 0.5)
+    );
+    border: 2px solid rgba(0, 243, 255, 0.15);
+    border-radius: 24px;
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+}
+
+.tag-cloud-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, 
+        transparent,
+        var(--primary-color),
+        var(--accent-color),
+        var(--secondary-color),
+        transparent
+    );
+    animation: gradient-flow 3s linear infinite;
+}
+
+@keyframes gradient-flow {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.tag-cloud-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.3rem;
+    color: var(--text-light);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.tag-cloud-title .title-icon {
+    font-size: 1.5rem;
+    filter: drop-shadow(0 0 8px rgba(0, 243, 255, 0.4));
+    animation: icon-pulse 2s ease-in-out infinite;
+}
+
+@keyframes icon-pulse {
+    0%, 100% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 8px rgba(0, 243, 255, 0.4));
+    }
+    50% {
+        transform: scale(1.1);
+        filter: drop-shadow(0 0 15px rgba(0, 243, 255, 0.6));
+    }
+}
+
+.tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+    min-height: 80px;
+    padding: 1rem;
+    position: relative;
+}
+
+.tag-cloud-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    background: linear-gradient(135deg,
+        rgba(0, 243, 255, 0.1),
+        rgba(123, 44, 191, 0.1)
+    );
+    border: 2px solid rgba(0, 243, 255, 0.3);
+    border-radius: 25px;
+    color: var(--text-light);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    white-space: nowrap;
+    text-decoration: none;
+}
+
+/* 标签大小变体 - 根据频率 */
+.tag-cloud-item.size-xs {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.8rem;
+}
+
+.tag-cloud-item.size-sm {
+    font-size: 0.85rem;
+    padding: 0.5rem 1rem;
+}
+
+.tag-cloud-item.size-md {
+    font-size: 1rem;
+    padding: 0.6rem 1.2rem;
+}
+
+.tag-cloud-item.size-lg {
+    font-size: 1.15rem;
+    padding: 0.7rem 1.4rem;
+}
+
+.tag-cloud-item.size-xl {
+    font-size: 1.3rem;
+    padding: 0.8rem 1.6rem;
+    border-width: 3px;
+}
+
+/* 标签背景发光效果 */
+.tag-cloud-item::before {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    background: linear-gradient(135deg,
+        rgba(0, 243, 255, 0.4),
+        rgba(123, 44, 191, 0.4)
+    );
+    border-radius: 25px;
+    opacity: 0;
+    filter: blur(10px);
+    transition: opacity 0.4s ease;
+    z-index: -1;
+}
+
+/* 标签内部光效 */
+.tag-cloud-item::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    transition: left 0.5s ease;
+}
+
+.tag-cloud-item:hover::after {
+    left: 100%;
+}
+
+.tag-cloud-item:hover::before {
+    opacity: 1;
+}
+
+.tag-cloud-item:hover {
+    transform: translateY(-5px) scale(1.08);
+    border-color: var(--primary-color);
+    box-shadow: 0 10px 30px rgba(0, 243, 255, 0.4),
+                0 0 40px rgba(0, 243, 255, 0.2),
+                inset 0 0 20px rgba(0, 243, 255, 0.1);
+    color: var(--primary-color);
+    text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+}
+
+/* 活动状态标签 */
+.tag-cloud-item.active {
+    background: linear-gradient(135deg,
+        rgba(0, 243, 255, 0.25),
+        rgba(123, 44, 191, 0.25)
+    );
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    box-shadow: 0 0 25px rgba(0, 243, 255, 0.5),
+                inset 0 0 15px rgba(0, 243, 255, 0.15);
+    text-shadow: 0 0 10px rgba(0, 243, 255, 0.6);
+}
+
+.tag-cloud-item.active::before {
+    opacity: 0.7;
+}
+
+/* 标签数量徽章 */
+.tag-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 0.4rem;
+    background: linear-gradient(135deg,
+        var(--primary-color),
+        var(--accent-color)
+    );
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+    transition: all 0.3s ease;
+}
+
+.tag-cloud-item:hover .tag-count {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(0, 243, 255, 0.8);
+}
+
+.tag-cloud-item.active .tag-count {
+    background: linear-gradient(135deg,
+        var(--accent-color),
+        var(--secondary-color)
+    );
+    animation: count-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes count-pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.15);
+    }
+}
+
+/* 标签云加载状态 */
+.tag-cloud.loading {
+    min-height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tag-cloud.loading::before {
+    content: '加载标签中...';
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.9rem;
+}
+
+/* 标签云空状态 */
+.tag-cloud.empty {
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.9rem;
+}
+
+/* 标签云入场动画 */
+.tag-cloud-item {
+    animation: tagFadeIn 0.5s ease-out forwards;
+    opacity: 0;
+}
+
+@keyframes tagFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8) translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.tag-cloud-item:nth-child(1) { animation-delay: 0.05s; }
+.tag-cloud-item:nth-child(2) { animation-delay: 0.1s; }
+.tag-cloud-item:nth-child(3) { animation-delay: 0.15s; }
+.tag-cloud-item:nth-child(4) { animation-delay: 0.2s; }
+.tag-cloud-item:nth-child(5) { animation-delay: 0.25s; }
+.tag-cloud-item:nth-child(6) { animation-delay: 0.3s; }
+.tag-cloud-item:nth-child(7) { animation-delay: 0.35s; }
+.tag-cloud-item:nth-child(8) { animation-delay: 0.4s; }
+.tag-cloud-item:nth-child(9) { animation-delay: 0.45s; }
+.tag-cloud-item:nth-child(10) { animation-delay: 0.5s; }
+.tag-cloud-item:nth-child(n+11) { animation-delay: 0.55s; }
+
 /* 博客网格 */
 .blog-grid {
     display: grid;
@@ -943,6 +1230,53 @@
         font-size: 0.85rem;
     }
     
+    /* 标签云响应式 */
+    .tag-cloud-container {
+        padding: 1.5rem;
+        margin: 2rem 0;
+    }
+    
+    .tag-cloud-title {
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+    }
+    
+    .tag-cloud {
+        gap: 0.75rem;
+        padding: 0.75rem;
+    }
+    
+    .tag-cloud-item {
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+    }
+    
+    .tag-cloud-item.size-xs {
+        font-size: 0.7rem;
+        padding: 0.35rem 0.7rem;
+    }
+    
+    .tag-cloud-item.size-sm {
+        font-size: 0.75rem;
+        padding: 0.4rem 0.85rem;
+    }
+    
+    .tag-cloud-item.size-md {
+        font-size: 0.85rem;
+        padding: 0.5rem 1rem;
+    }
+    
+    .tag-cloud-item.size-lg {
+        font-size: 0.95rem;
+        padding: 0.55rem 1.1rem;
+    }
+    
+    .tag-cloud-item.size-xl {
+        font-size: 1.05rem;
+        padding: 0.6rem 1.2rem;
+        border-width: 2px;
+    }
+    
     .blog-article {
         padding: 1.5rem;
     }
@@ -1003,6 +1337,65 @@
     .filter-btn {
         padding: 0.6rem 1.2rem;
         font-size: 0.85rem;
+    }
+    
+    /* 标签云小屏幕优化 */
+    .tag-cloud-container {
+        padding: 1rem;
+        margin: 1.5rem 0;
+    }
+    
+    .tag-cloud-title {
+        font-size: 1rem;
+        gap: 0.5rem;
+    }
+    
+    .tag-cloud-title .title-icon {
+        font-size: 1.2rem;
+    }
+    
+    .tag-cloud {
+        gap: 0.5rem;
+        padding: 0.5rem;
+    }
+    
+    .tag-cloud-item {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.75rem;
+        gap: 0.4rem;
+    }
+    
+    .tag-cloud-item.size-xs {
+        font-size: 0.65rem;
+        padding: 0.3rem 0.6rem;
+    }
+    
+    .tag-cloud-item.size-sm {
+        font-size: 0.7rem;
+        padding: 0.35rem 0.7rem;
+    }
+    
+    .tag-cloud-item.size-md {
+        font-size: 0.75rem;
+        padding: 0.4rem 0.8rem;
+    }
+    
+    .tag-cloud-item.size-lg {
+        font-size: 0.8rem;
+        padding: 0.45rem 0.9rem;
+    }
+    
+    .tag-cloud-item.size-xl {
+        font-size: 0.9rem;
+        padding: 0.5rem 1rem;
+        border-width: 2px;
+    }
+    
+    .tag-count {
+        min-width: 18px;
+        height: 18px;
+        font-size: 0.65rem;
+        padding: 0 0.3rem;
     }
     
     .section-title {

@@ -12,6 +12,8 @@ class BlogManager {
         this.articlesPerPage = 6;
         this.articles = [];
         this.isLoading = false;
+        this.selectedTag = null; // 当前选中的标签
+        this.tagStats = {}; // 标签统计数据
         
         this.init();
     }
@@ -21,6 +23,7 @@ class BlogManager {
             // 强制刷新文章缓存，确保加载最新数据
             await this.apiService.refreshArticles();
             await this.loadArticles();
+            this.generateTagCloud(); // 生成标签云
             this.setupEventListeners();
             this.hideLoadingIndicator();
         } catch (error) {
@@ -189,6 +192,8 @@ class BlogManager {
                 searchTimeout = setTimeout(() => {
                     this.currentSearch = e.target.value.trim();
                     this.currentPage = 1;
+                    this.selectedTag = null; // 清除标签筛选
+                    this.updateTagCloudState();
                     this.loadArticles();
                 }, 300);
             });
@@ -213,6 +218,8 @@ class BlogManager {
 
         this.currentCategory = category;
         this.currentPage = 1;
+        this.selectedTag = null; // 清除标签筛选
+        this.updateTagCloudState();
         this.loadArticles();
     }
 
@@ -247,13 +254,20 @@ class BlogManager {
             filtered = filtered.filter(article => article.category === this.currentCategory);
         }
 
+        // 按标签筛选
+        if (this.selectedTag) {
+            filtered = filtered.filter(article => 
+                article.tags && article.tags.includes(this.selectedTag)
+            );
+        }
+
         // 按搜索关键词筛选
         if (this.currentSearch) {
             const searchLower = this.currentSearch.toLowerCase();
             filtered = filtered.filter(article => 
                 article.title.toLowerCase().includes(searchLower) ||
                 article.excerpt.toLowerCase().includes(searchLower) ||
-                article.tags.some(tag => tag.toLowerCase().includes(searchLower))
+                (article.tags && article.tags.some(tag => tag.toLowerCase().includes(searchLower)))
             );
         }
 
@@ -539,6 +553,141 @@ class BlogManager {
                 </div>
             `;
         }
+    }
+
+    // ========== 标签云相关方法 ==========
+
+    /**
+     * 生成标签云
+     */
+    generateTagCloud() {
+        const tagCloudElement = document.getElementById('tagCloud');
+        if (!tagCloudElement) return;
+
+        // 收集所有标签并统计频率
+        this.tagStats = this.collectTagStats();
+
+        // 如果没有标签
+        if (Object.keys(this.tagStats).length === 0) {
+            tagCloudElement.innerHTML = '<div class="empty-state">暂无标签</div>';
+            tagCloudElement.classList.add('empty');
+            return;
+        }
+
+        // 根据频率排序标签
+        const sortedTags = Object.entries(this.tagStats)
+            .sort((a, b) => b[1] - a[1]) // 按频率降序
+            .slice(0, 20); // 只显示前20个标签
+
+        // 计算标签大小
+        const maxCount = sortedTags[0][1];
+        const minCount = sortedTags[sortedTags.length - 1][1];
+
+        // 生成标签云HTML
+        const tagsHTML = sortedTags.map(([tag, count]) => {
+            const size = this.getTagSize(count, minCount, maxCount);
+            return `
+                <div class="tag-cloud-item ${size}" data-tag="${this.escapeHtml(tag)}">
+                    <span class="tag-name">${this.escapeHtml(tag)}</span>
+                    <span class="tag-count">${count}</span>
+                </div>
+            `;
+        }).join('');
+
+        tagCloudElement.innerHTML = tagsHTML;
+        tagCloudElement.classList.remove('loading', 'empty');
+
+        // 添加标签点击事件
+        this.setupTagCloudListeners();
+    }
+
+    /**
+     * 收集所有文章的标签并统计频率
+     */
+    collectTagStats() {
+        const tagCounts = {};
+
+        this.articles.forEach(article => {
+            if (article.tags && Array.isArray(article.tags)) {
+                article.tags.forEach(tag => {
+                    tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+                });
+            }
+        });
+
+        return tagCounts;
+    }
+
+    /**
+     * 根据标签频率计算大小等级
+     */
+    getTagSize(count, minCount, maxCount) {
+        if (maxCount === minCount) {
+            return 'size-md';
+        }
+
+        const percentage = (count - minCount) / (maxCount - minCount);
+
+        if (percentage >= 0.8) return 'size-xl';
+        if (percentage >= 0.6) return 'size-lg';
+        if (percentage >= 0.4) return 'size-md';
+        if (percentage >= 0.2) return 'size-sm';
+        return 'size-xs';
+    }
+
+    /**
+     * 设置标签云点击事件
+     */
+    setupTagCloudListeners() {
+        const tagItems = document.querySelectorAll('.tag-cloud-item');
+        
+        tagItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                const tag = e.currentTarget.getAttribute('data-tag');
+                this.filterByTag(tag);
+            });
+        });
+    }
+
+    /**
+     * 按标签筛选文章
+     */
+    filterByTag(tag) {
+        // 如果点击的是当前已选中的标签，则取消筛选
+        if (this.selectedTag === tag) {
+            this.selectedTag = null;
+        } else {
+            this.selectedTag = tag;
+        }
+
+        // 更新标签云状态
+        this.updateTagCloudState();
+
+        // 重新加载文章
+        this.currentPage = 1;
+        this.loadArticles();
+
+        // 滚动到文章列表
+        const blogGrid = document.getElementById('blogGrid');
+        if (blogGrid) {
+            blogGrid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+
+    /**
+     * 更新标签云的选中状态
+     */
+    updateTagCloudState() {
+        const tagItems = document.querySelectorAll('.tag-cloud-item');
+        
+        tagItems.forEach(item => {
+            const tag = item.getAttribute('data-tag');
+            if (tag === this.selectedTag) {
+                item.classList.add('active');
+            } else {
+                item.classList.remove('active');
+            }
+        });
     }
 }
 

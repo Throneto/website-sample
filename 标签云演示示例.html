@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>标签云UI演示</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #0a0a1e 0%, #1a1a3e 100%);
+            color: #fff;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #00f3ff, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 3rem;
+            font-size: 1.2rem;
+        }
+
+        .demo-section {
+            background: rgba(10, 10, 30, 0.6);
+            border: 2px solid rgba(0, 243, 255, 0.15);
+            border-radius: 24px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #00f3ff;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .feature-card {
+            background: rgba(20, 20, 50, 0.5);
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            border-color: rgba(0, 243, 255, 0.5);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 243, 255, 0.3);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+
+        .feature-desc {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+
+        .tag-demo {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: rgba(10, 10, 30, 0.3);
+            border-radius: 16px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .demo-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            background: linear-gradient(135deg,
+                rgba(0, 243, 255, 0.1),
+                rgba(123, 44, 191, 0.1)
+            );
+            border: 2px solid rgba(0, 243, 255, 0.3);
+            border-radius: 25px;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .demo-tag::before {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            background: linear-gradient(135deg,
+                rgba(0, 243, 255, 0.4),
+                rgba(123, 44, 191, 0.4)
+            );
+            border-radius: 25px;
+            opacity: 0;
+            filter: blur(10px);
+            transition: opacity 0.4s ease;
+            z-index: -1;
+        }
+
+        .demo-tag:hover::before {
+            opacity: 1;
+        }
+
+        .demo-tag:hover {
+            transform: translateY(-5px) scale(1.08);
+            border-color: #00f3ff;
+            box-shadow: 0 10px 30px rgba(0, 243, 255, 0.4);
+            text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+        }
+
+        .demo-tag.active {
+            background: linear-gradient(135deg,
+                rgba(0, 243, 255, 0.25),
+                rgba(123, 44, 191, 0.25)
+            );
+            border-color: #00f3ff;
+            color: #00f3ff;
+            box-shadow: 0 0 25px rgba(0, 243, 255, 0.5);
+        }
+
+        .tag-count {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 22px;
+            height: 22px;
+            padding: 0 0.4rem;
+            background: linear-gradient(135deg, #00f3ff, #00d4ff);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 700;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+        }
+
+        .size-xs { font-size: 0.75rem; padding: 0.4rem 0.8rem; }
+        .size-sm { font-size: 0.85rem; padding: 0.5rem 1rem; }
+        .size-md { font-size: 1rem; padding: 0.6rem 1.2rem; }
+        .size-lg { font-size: 1.15rem; padding: 0.7rem 1.4rem; }
+        .size-xl { font-size: 1.3rem; padding: 0.8rem 1.6rem; border-width: 3px; }
+
+        .code-block {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+
+        .code-block code {
+            color: #00f3ff;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #00f3ff, #7b2cbf);
+            border: none;
+            border-radius: 30px;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0, 243, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0, 243, 255, 0.5);
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .highlight {
+            color: #00f3ff;
+            font-weight: 600;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: rgba(0, 243, 255, 0.1);
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #00f3ff;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏷️ 博客标签云UI演示</h1>
+        <p class="subtitle">一个精美的、交互式的标签云组件</p>
+
+        <!-- 功能特性 -->
+        <div class="demo-section">
+            <h2 class="section-title">✨ 核心特性</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3 class="feature-title">动态大小</h3>
+                    <p class="feature-desc">根据标签出现频率自动计算大小，最热门的标签显示最大</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">✨</div>
+                    <h3 class="feature-title">发光效果</h3>
+                    <p class="feature-desc">悬浮时显示渐变发光边框和阴影，提供视觉反馈</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3 class="feature-title">点击筛选</h3>
+                    <p class="feature-desc">点击标签可筛选相关文章，再次点击取消筛选</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔢</div>
+                    <h3 class="feature-title">数量徽章</h3>
+                    <p class="feature-desc">每个标签显示包含该标签的文章数量</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3 class="feature-title">响应式设计</h3>
+                    <p class="feature-desc">完美适配桌面、平板和手机端</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3 class="feature-title">高性能</h3>
+                    <p class="feature-desc">GPU加速动画，流畅的60fps体验</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 标签尺寸演示 -->
+        <div class="demo-section">
+            <h2 class="section-title">📏 标签尺寸演示</h2>
+            <p style="color: rgba(255,255,255,0.7); margin-bottom: 1.5rem;">
+                标签大小根据出现频率分为5个等级：超小(XS)、小(SM)、中(MD)、大(LG)、超大(XL)
+            </p>
+            <div class="tag-demo">
+                <div class="demo-tag size-xl">
+                    <span>超大标签</span>
+                    <span class="tag-count">8</span>
+                </div>
+                <div class="demo-tag size-lg">
+                    <span>大标签</span>
+                    <span class="tag-count">6</span>
+                </div>
+                <div class="demo-tag size-md">
+                    <span>中标签</span>
+                    <span class="tag-count">4</span>
+                </div>
+                <div class="demo-tag size-sm">
+                    <span>小标签</span>
+                    <span class="tag-count">2</span>
+                </div>
+                <div class="demo-tag size-xs">
+                    <span>超小标签</span>
+                    <span class="tag-count">1</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 实际标签示例 -->
+        <div class="demo-section">
+            <h2 class="section-title">🎨 实际效果示例</h2>
+            <p style="color: rgba(255,255,255,0.7); margin-bottom: 1.5rem;">
+                点击标签查看交互效果（模拟选中状态）
+            </p>
+            <div class="tag-demo" id="tagDemo">
+                <div class="demo-tag size-xl" data-tag="WebGL">
+                    <span>WebGL</span>
+                    <span class="tag-count">3</span>
+                </div>
+                <div class="demo-tag size-xl" data-tag="JavaScript">
+                    <span>JavaScript</span>
+                    <span class="tag-count">4</span>
+                </div>
+                <div class="demo-tag size-lg" data-tag="UI设计">
+                    <span>UI设计</span>
+                    <span class="tag-count">2</span>
+                </div>
+                <div class="demo-tag size-lg" data-tag="前端开发">
+                    <span>前端开发</span>
+                    <span class="tag-count">3</span>
+                </div>
+                <div class="demo-tag size-md" data-tag="TypeScript">
+                    <span>TypeScript</span>
+                    <span class="tag-count">1</span>
+                </div>
+                <div class="demo-tag size-md" data-tag="CSS">
+                    <span>CSS</span>
+                    <span class="tag-count">2</span>
+                </div>
+                <div class="demo-tag size-md" data-tag="动画">
+                    <span>动画</span>
+                    <span class="tag-count">2</span>
+                </div>
+                <div class="demo-tag size-sm" data-tag="玻璃态">
+                    <span>玻璃态</span>
+                    <span class="tag-count">1</span>
+                </div>
+                <div class="demo-tag size-sm" data-tag="设计趋势">
+                    <span>设计趋势</span>
+                    <span class="tag-count">1</span>
+                </div>
+                <div class="demo-tag size-xs" data-tag="图形编程">
+                    <span>图形编程</span>
+                    <span class="tag-count">1</span>
+                </div>
+                <div class="demo-tag size-xs" data-tag="用户体验">
+                    <span>用户体验</span>
+                    <span class="tag-count">1</span>
+                </div>
+                <div class="demo-tag size-xs" data-tag="色彩心理学">
+                    <span>色彩心理学</span>
+                    <span class="tag-count">1</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 技术规格 -->
+        <div class="demo-section">
+            <h2 class="section-title">⚙️ 技术规格</h2>
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number">5</div>
+                    <div class="stat-label">标签尺寸等级</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">20</div>
+                    <div class="stat-label">最多显示标签数</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">60fps</div>
+                    <div class="stat-label">动画帧率</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">0.4s</div>
+                    <div class="stat-label">过渡时间</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 代码示例 -->
+        <div class="demo-section">
+            <h2 class="section-title">💻 代码示例</h2>
+            <h3 style="color: #fff; margin-bottom: 1rem;">HTML 结构</h3>
+            <div class="code-block">
+                <code>&lt;div class="tag-cloud-container"&gt;
+    &lt;h3 class="tag-cloud-title"&gt;
+        &lt;span class="title-icon"&gt;🏷️&lt;/span&gt;
+        热门标签
+    &lt;/h3&gt;
+    &lt;div class="tag-cloud" id="tagCloud"&gt;
+        &lt;!-- 标签动态生成 --&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code>
+            </div>
+
+            <h3 style="color: #fff; margin: 1.5rem 0 1rem;">JavaScript 核心方法</h3>
+            <div class="code-block">
+                <code>// 生成标签云
+generateTagCloud() {
+    const tagStats = this.collectTagStats();
+    const sortedTags = Object.entries(tagStats)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 20);
+    // ... 渲染标签
+}
+
+// 按标签筛选
+filterByTag(tag) {
+    this.selectedTag = tag;
+    this.updateTagCloudState();
+    this.loadArticles();
+}</code>
+            </div>
+        </div>
+
+        <!-- 行动号召 -->
+        <div class="demo-section text-center">
+            <h2 class="section-title" style="justify-content: center;">🚀 立即体验</h2>
+            <p style="color: rgba(255,255,255,0.7); margin-bottom: 2rem; font-size: 1.1rem;">
+                查看完整的博客页面，体验标签云的所有功能
+            </p>
+            <a href="./pages/blog.html" class="btn-primary">
+                打开博客页面 →
+            </a>
+        </div>
+
+        <!-- 页脚 -->
+        <div style="text-align: center; margin-top: 3rem; color: rgba(255,255,255,0.5);">
+            <p>© 2025 TOGETHER. 标签云UI组件演示</p>
+            <p style="margin-top: 0.5rem;">版本 v1.0.0 | 制作于 2025-10-21</p>
+        </div>
+    </div>
+
+    <script>
+        // 标签点击交互演示
+        document.getElementById('tagDemo').addEventListener('click', (e) => {
+            const tag = e.target.closest('.demo-tag');
+            if (tag) {
+                // 移除其他标签的active状态
+                document.querySelectorAll('#tagDemo .demo-tag').forEach(t => {
+                    if (t !== tag) {
+                        t.classList.remove('active');
+                    }
+                });
+                // 切换当前标签的active状态
+                tag.classList.toggle('active');
+            }
+        });
+    </script>
+</body>
+</html>
+
