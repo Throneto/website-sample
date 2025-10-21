@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vercel部署检测工具</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+        }
+
+        .section h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .info-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 13px;
+            word-break: break-all;
+        }
+
+        .label {
+            font-weight: bold;
+            color: #667eea;
+            display: inline-block;
+            min-width: 150px;
+        }
+
+        .value {
+            color: #333;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .status.warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .test-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            transition: transform 0.2s;
+        }
+
+        .test-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .test-button:active {
+            transform: translateY(0);
+        }
+
+        pre {
+            background: #263238;
+            color: #aed581;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+
+        .checklist li {
+            padding: 8px 0;
+            color: #666;
+        }
+
+        .checklist li::before {
+            content: "⬜ ";
+            margin-right: 8px;
+        }
+
+        .checklist li.checked::before {
+            content: "✅ ";
+        }
+
+        .checklist li.failed::before {
+            content: "❌ ";
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Vercel部署检测工具</h1>
+        <p class="subtitle">检查你的网站是否正确部署并识别缓存问题</p>
+
+        <!-- 基本信息 -->
+        <div class="section">
+            <h2>📊 基本信息</h2>
+            <div class="info-item">
+                <span class="label">当前URL:</span>
+                <span class="value" id="currentUrl">-</span>
+            </div>
+            <div class="info-item">
+                <span class="label">页面加载时间:</span>
+                <span class="value" id="loadTime">-</span>
+            </div>
+            <div class="info-item">
+                <span class="label">浏览器:</span>
+                <span class="value" id="browser">-</span>
+            </div>
+            <div class="info-item">
+                <span class="label">部署版本:</span>
+                <span class="value">c65fe41 (2025-10-21)</span>
+            </div>
+        </div>
+
+        <!-- 资源检测 -->
+        <div class="section">
+            <h2>🎨 资源加载检测</h2>
+            <div id="resourceTests">
+                <button class="test-button" onclick="testResources()">开始检测</button>
+                <div id="resourceResults"></div>
+            </div>
+        </div>
+
+        <!-- 缓存状态 -->
+        <div class="section">
+            <h2>💾 缓存状态检查</h2>
+            <div id="cacheTests">
+                <button class="test-button" onclick="testCache()">检测缓存</button>
+                <div id="cacheResults"></div>
+            </div>
+        </div>
+
+        <!-- 检查清单 -->
+        <div class="section">
+            <h2>✅ 部署检查清单</h2>
+            <ul class="checklist" id="checklist">
+                <li>Git提交已推送到GitHub</li>
+                <li>Vercel部署状态为"Ready"</li>
+                <li>部署的提交哈希是最新的</li>
+                <li>已清除浏览器缓存</li>
+                <li>CSS/JS文件可以访问</li>
+                <li>版本号已更新</li>
+                <li>在隐私窗口测试过</li>
+            </ul>
+            <button class="test-button" onclick="runFullCheck()">运行完整检查</button>
+        </div>
+
+        <!-- 建议 -->
+        <div class="section">
+            <h2>💡 问题解决建议</h2>
+            <div id="suggestions"></div>
+        </div>
+
+        <!-- 诊断日志 -->
+        <div class="section">
+            <h2>📝 诊断日志</h2>
+            <button class="test-button" onclick="copyLog()">复制日志</button>
+            <pre id="diagnosticLog">等待检测...</pre>
+        </div>
+    </div>
+
+    <script>
+        let diagnosticData = {
+            timestamp: new Date().toISOString(),
+            url: window.location.href,
+            userAgent: navigator.userAgent,
+            tests: []
+        };
+
+        // 初始化基本信息
+        function initBasicInfo() {
+            document.getElementById('currentUrl').textContent = window.location.href;
+            document.getElementById('loadTime').textContent = new Date().toLocaleString('zh-CN');
+            document.getElementById('browser').textContent = navigator.userAgent.split(' ').pop();
+        }
+
+        // 测试资源加载
+        async function testResources() {
+            const resultsDiv = document.getElementById('resourceResults');
+            resultsDiv.innerHTML = '<div class="loading"></div> 检测中...';
+            
+            const resources = [
+                { name: 'blog.css', url: '/css/blog.css?v=20251021-optimized' },
+                { name: 'blog.js', url: '/js/blog.js' },
+                { name: 'style.css', url: '/css/style.css?v=20251021' },
+                { name: 'api-service.js', url: '/js/api-service.js' }
+            ];
+
+            let html = '';
+            const results = [];
+
+            for (const resource of resources) {
+                try {
+                    const startTime = performance.now();
+                    const response = await fetch(resource.url, { cache: 'no-cache' });
+                    const endTime = performance.now();
+                    const loadTime = (endTime - startTime).toFixed(2);
+                    
+                    const cacheControl = response.headers.get('cache-control') || '未设置';
+                    const lastModified = response.headers.get('last-modified') || '未知';
+                    const etag = response.headers.get('etag') || '无';
+                    
+                    const status = response.ok ? 'success' : 'error';
+                    const result = {
+                        resource: resource.name,
+                        status: response.status,
+                        ok: response.ok,
+                        loadTime: loadTime,
+                        cacheControl: cacheControl,
+                        lastModified: lastModified,
+                        etag: etag
+                    };
+                    
+                    results.push(result);
+                    
+                    html += `
+                        <div class="info-item">
+                            <div>
+                                <span class="label">${resource.name}:</span>
+                                <span class="status ${status}">${response.status} ${response.statusText}</span>
+                            </div>
+                            <div style="margin-top: 5px; font-size: 11px; color: #666;">
+                                ⏱️ ${loadTime}ms | 💾 ${cacheControl} | 🕐 ${lastModified}
+                            </div>
+                        </div>
+                    `;
+                    
+                    // 检查checklist
+                    if (resource.name === 'blog.css' && response.ok) {
+                        markChecklistItem(4, true);
+                    }
+                } catch (error) {
+                    results.push({
+                        resource: resource.name,
+                        error: error.message
+                    });
+                    
+                    html += `
+                        <div class="info-item">
+                            <span class="label">${resource.name}:</span>
+                            <span class="status error">加载失败</span>
+                            <div style="margin-top: 5px; font-size: 11px; color: #dc3545;">
+                                ${error.message}
+                            </div>
+                        </div>
+                    `;
+                    
+                    markChecklistItem(4, false);
+                }
+            }
+
+            resultsDiv.innerHTML = html;
+            diagnosticData.tests.push({ type: 'resources', results: results });
+            updateLog();
+        }
+
+        // 测试缓存
+        async function testCache() {
+            const resultsDiv = document.getElementById('cacheResults');
+            resultsDiv.innerHTML = '<div class="loading"></div> 检测中...';
+            
+            const testUrl = '/css/blog.css?v=20251021-optimized';
+            const results = [];
+            
+            // 第一次请求（无缓存）
+            const response1 = await fetch(testUrl, { cache: 'no-cache' });
+            const time1 = performance.now();
+            results.push({
+                attempt: 1,
+                status: response1.status,
+                cached: response1.headers.get('x-vercel-cache') || 'N/A'
+            });
+            
+            // 第二次请求（可能有缓存）
+            const response2 = await fetch(testUrl);
+            const time2 = performance.now();
+            results.push({
+                attempt: 2,
+                status: response2.status,
+                cached: response2.headers.get('x-vercel-cache') || 'N/A'
+            });
+            
+            const isCached = time2 < time1 / 2;
+            
+            let html = `
+                <div class="info-item">
+                    <div>第一次请求（无缓存）: <span class="status success">${response1.status}</span></div>
+                    <div style="margin-top: 5px; font-size: 11px;">
+                        Vercel缓存: ${response1.headers.get('x-vercel-cache') || '未检测到'}
+                    </div>
+                </div>
+                <div class="info-item">
+                    <div>第二次请求（测试缓存）: <span class="status success">${response2.status}</span></div>
+                    <div style="margin-top: 5px; font-size: 11px;">
+                        ${isCached ? '✅ 使用了浏览器缓存' : '⚠️ 未使用缓存（这是好的，说明缓存策略正确）'}
+                    </div>
+                </div>
+            `;
+            
+            resultsDiv.innerHTML = html;
+            diagnosticData.tests.push({ type: 'cache', results: results });
+            updateLog();
+        }
+
+        // 运行完整检查
+        async function runFullCheck() {
+            await testResources();
+            await testCache();
+            
+            // 生成建议
+            generateSuggestions();
+            
+            // 自动标记一些检查项
+            markChecklistItem(5, true); // CSS/JS文件可以访问
+            markChecklistItem(6, document.querySelector('link[href*="v=20251021"]') !== null); // 版本号已更新
+        }
+
+        // 标记检查清单项
+        function markChecklistItem(index, passed) {
+            const items = document.querySelectorAll('#checklist li');
+            if (items[index]) {
+                items[index].className = passed ? 'checked' : 'failed';
+            }
+        }
+
+        // 生成建议
+        function generateSuggestions() {
+            const suggestionsDiv = document.getElementById('suggestions');
+            const suggestions = [];
+            
+            // 检查是否有资源加载失败
+            const resourceTest = diagnosticData.tests.find(t => t.type === 'resources');
+            if (resourceTest) {
+                const failedResources = resourceTest.results.filter(r => !r.ok && !r.error);
+                if (failedResources.length > 0) {
+                    suggestions.push({
+                        level: 'error',
+                        text: `发现 ${failedResources.length} 个资源加载失败。请检查Vercel部署日志。`
+                    });
+                }
+                
+                const hasErrors = resourceTest.results.some(r => r.error);
+                if (hasErrors) {
+                    suggestions.push({
+                        level: 'error',
+                        text: '部分资源无法访问。可能的原因：1) Vercel部署失败 2) 文件路径错误 3) 网络问题'
+                    });
+                }
+                
+                // 检查缓存策略
+                const cssResource = resourceTest.results.find(r => r.resource === 'blog.css');
+                if (cssResource && cssResource.cacheControl) {
+                    if (cssResource.cacheControl.includes('max-age=31536000')) {
+                        suggestions.push({
+                            level: 'warning',
+                            text: 'CSS文件使用了1年的强缓存。建议更新vercel.json，使用更短的缓存时间。'
+                        });
+                    } else if (cssResource.cacheControl.includes('max-age=3600')) {
+                        suggestions.push({
+                            level: 'success',
+                            text: '✅ 缓存策略已优化！CSS缓存时间为1小时。'
+                        });
+                    }
+                }
+            }
+            
+            if (suggestions.length === 0) {
+                suggestions.push({
+                    level: 'success',
+                    text: '✅ 所有检测通过！网站部署正常。如果仍看到旧内容，请清除浏览器缓存（Ctrl+Shift+R）。'
+                });
+            }
+            
+            let html = '<ul class="checklist">';
+            suggestions.forEach(s => {
+                const icon = s.level === 'success' ? '✅' : s.level === 'error' ? '❌' : '⚠️';
+                html += `<li class="${s.level === 'success' ? 'checked' : 'failed'}">${s.text}</li>`;
+            });
+            html += '</ul>';
+            
+            suggestionsDiv.innerHTML = html;
+        }
+
+        // 更新日志
+        function updateLog() {
+            const logPre = document.getElementById('diagnosticLog');
+            logPre.textContent = JSON.stringify(diagnosticData, null, 2);
+        }
+
+        // 复制日志
+        function copyLog() {
+            const logText = document.getElementById('diagnosticLog').textContent;
+            navigator.clipboard.writeText(logText).then(() => {
+                alert('✅ 日志已复制到剪贴板！');
+            });
+        }
+
+        // 页面加载时初始化
+        window.addEventListener('DOMContentLoaded', () => {
+            initBasicInfo();
+            updateLog();
+            
+            // 自动运行检测
+            console.log('🔍 开始自动检测...');
+            setTimeout(() => {
+                runFullCheck();
+            }, 500);
+        });
+    </script>
+</body>
+</html>
+

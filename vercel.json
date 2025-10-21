@@ -35,6 +35,15 @@
   ],
   "headers": [
     {
+      "source": "/pages/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    },
+    {
       "source": "/data/(.*)",
       "headers": [
         {
@@ -44,7 +53,16 @@
       ]
     },
     {
-      "source": "/(.*\\.(css|js|jpg|jpeg|png|gif|ico|svg|webp|woff|woff2|ttf|eot))",
+      "source": "/(.*\\.(css|js))",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/(.*\\.(jpg|jpeg|png|gif|ico|svg|webp|woff|woff2|ttf|eot))",
       "headers": [
         {
           "key": "Cache-Control",
