@@ -110,10 +110,81 @@ class ApiService {
     return this.getLocalData(this.localKeys.categories) || [];
   }
 
-  // ========== Articles (本地) ==========
+  // ========== Articles (本地 - 支持增量式 JSON) ==========
+  
+  /**
+   * 加载文章索引文件
+   */
+  async loadArticlesIndex() {
+    try {
+      const index = await this.loadLocalJSON('/data/articles-index.json');
+      return index;
+    } catch (error) {
+      console.warn('索引文件不存在，尝试使用单一 articles.json', error);
+      return null;
+    }
+  }
+
+  /**
+   * 加载增量式文章文件
+   */
+  async loadIncrementalArticles() {
+    try {
+      const index = await this.loadArticlesIndex();
+      
+      if (!index || !index.files || index.files.length === 0) {
+        // 回退到单一文件模式
+        console.log('使用单一文件模式加载文章');
+        return await this.loadLocalJSON('/data/articles.json');
+      }
+
+      console.log(`[增量模式] 发现 ${index.files.length} 个文章文件，总计 ${index.totalArticles} 篇文章`);
+
+      // 加载所有文章文件
+      const allArticles = [];
+      for (const fileInfo of index.files) {
+        try {
+          const articleData = await this.loadLocalJSON(`/data/articles/${fileInfo.filename}`);
+          if (articleData.articles && Array.isArray(articleData.articles)) {
+            allArticles.push(...articleData.articles);
+            console.log(`  ✓ 加载 ${fileInfo.filename}: ${articleData.articles.length} 篇`);
+          }
+        } catch (error) {
+          console.warn(`  ✗ 加载 ${fileInfo.filename} 失败:`, error);
+        }
+      }
+
+      console.log(`[增量模式] 共加载 ${allArticles.length} 篇文章`);
+      return allArticles;
+    } catch (error) {
+      console.error('加载增量式文章失败，尝试回退到单一文件模式:', error);
+      try {
+        return await this.loadLocalJSON('/data/articles.json');
+      } catch (fallbackError) {
+        console.error('单一文件模式也失败，返回空数组:', fallbackError);
+        return [];
+      }
+    }
+  }
+
+  /**
+   * 获取文章列表（支持增量式和单一文件两种模式）
+   */
   async getArticles(params = {}) {
     await this.ensureInitialized();
-    const all = this.getLocalData(this.localKeys.articles) || [];
+    
+    // 尝试从缓存获取
+    let all = this.getLocalData(this.localKeys.articles);
+    
+    // 如果缓存为空或需要刷新，尝试加载增量式文章
+    if (!all || all.length === 0 || params.forceRefresh) {
+      all = await this.loadIncrementalArticles();
+      if (all && all.length > 0) {
+        this.setLocalData(this.localKeys.articles, all);
+      }
+    }
+
+    all = all || [];
 
     const search = (params.search || '').toLowerCase();
     const category = params.category && params.category !== 'all' ? params.category : null;
@@ -143,6 +214,19 @@ class ApiService {
     const items = limit ? filtered.slice(offset, offset + limit) : filtered;
 
     return { total: filtered.length, items };
+  }
+
+  /**
+   * 刷新文章缓存（重新加载所有文章）
+   */
+  async refreshArticles() {
+    console.log('刷新文章缓存...');
+    const articles = await this.loadIncrementalArticles();
+    if (articles && articles.length > 0) {
+      this.setLocalData(this.localKeys.articles, articles);
+      console.log(`✓ 已刷新 ${articles.length} 篇文章`);
+    }
+    return articles;
   }
 
   async createArticle(article) {

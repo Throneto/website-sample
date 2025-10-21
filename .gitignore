@@ -39,6 +39,15 @@ logs/
 # 草稿（如果不想提交草稿）
 posts/drafts/
 
+# Markdown 源文件（本地处理，不上传）
+posts/
+# 但保留示例文件供参考
+!posts/example-*.md
+!posts/.gitkeep
+
+# 增量博客系统 - 本地处理记录（不提交）
+data/.processed-files.json
+
 # Vercel
 .vercel
 
