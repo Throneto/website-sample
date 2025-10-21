@@ -2,8 +2,8 @@
 
 /* 搜索容器 */
 .search-container {
-    max-width: 600px;
-    margin: 2rem auto 3rem;
+    max-width: 700px;
+    margin: 2rem auto 4rem;
     position: relative;
 }
 
@@ -63,139 +63,175 @@
     height: 20px;
 }
 
-/* 分类筛选器 */
-.category-filter {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin-bottom: 3rem;
-    flex-wrap: wrap;
-}
-
-.filter-btn {
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    color: var(--text-light);
-    padding: 0.5rem 1.5rem;
-    border-radius: 25px;
-    cursor: pointer;
-    transition: var(--transition-smooth);
-    font-size: 0.9rem;
-    font-weight: 500;
-    backdrop-filter: blur(10px);
-}
-
-.filter-btn:hover {
-    border-color: var(--primary-color);
-    color: var(--primary-color);
-    transform: translateY(-2px);
-}
-
-.filter-btn.active {
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-    border-color: var(--primary-color);
-    color: white;
-    box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
-}
-
-/* 知识库网格 */
-.knowledge-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 2rem;
+/* 分类容器 */
+.categories-container {
     margin-top: 2rem;
 }
 
-.knowledge-item {
+/* 单个分类区块 */
+.category-section {
+    margin-bottom: 4rem;
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.category-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid rgba(0, 243, 255, 0.2);
+}
+
+.category-icon {
+    font-size: 2.5rem;
+    filter: drop-shadow(0 0 10px rgba(0, 243, 255, 0.3));
+}
+
+.category-title {
+    font-size: 2rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* 网站卡片网格 */
+.websites-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 1.5rem;
+}
+
+/* 网站卡片样式 */
+.website-card {
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
-    border-radius: 20px;
-    padding: 2rem;
+    border-radius: 16px;
+    padding: 1.75rem;
     backdrop-filter: blur(10px);
     transition: var(--transition-smooth);
     position: relative;
     overflow: hidden;
-    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
-.knowledge-item::before {
+.website-card::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    height: 2px;
+    height: 3px;
     background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
     transform: scaleX(0);
     transition: transform 0.3s ease;
 }
 
-.knowledge-item:hover::before {
+.website-card:hover::before {
     transform: scaleX(1);
 }
 
-.knowledge-item:hover {
-    transform: translateY(-10px) scale(1.02);
+.website-card:hover {
+    transform: translateY(-8px);
     border-color: rgba(0, 243, 255, 0.5);
-    box-shadow: 0 10px 40px rgba(0, 243, 255, 0.2),
+    box-shadow: 0 15px 40px rgba(0, 243, 255, 0.2),
                 0 0 0 1px rgba(0, 243, 255, 0.1);
 }
 
-.knowledge-item h3 {
-    font-size: 1.3rem;
-    margin-bottom: 0.5rem;
-    color: var(--text-light);
+.website-card-header {
     display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.knowledge-item .item-icon {
-    font-size: 1.5rem;
-}
-
-.knowledge-item p {
-    color: var(--text-gray);
-    line-height: 1.6;
+    align-items: flex-start;
+    justify-content: space-between;
     margin-bottom: 1rem;
 }
 
-.knowledge-item .item-url {
-    color: var(--primary-color);
-    text-decoration: none;
-    font-size: 0.9rem;
-    font-weight: 500;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    transition: var(--transition-smooth);
+.website-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-light);
+    margin: 0;
+    line-height: 1.4;
+    flex: 1;
 }
 
-.knowledge-item .item-url:hover {
-    transform: translateX(5px);
-    text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
-}
-
-.knowledge-item .item-url svg {
-    width: 16px;
-    height: 16px;
-}
-
-.knowledge-item .item-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-top: 1rem;
-}
-
-.knowledge-item .tag {
+.website-number {
     background: rgba(0, 243, 255, 0.1);
     border: 1px solid rgba(0, 243, 255, 0.3);
     color: var(--primary-color);
-    padding: 0.25rem 0.75rem;
-    border-radius: 15px;
-    font-size: 0.8rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    min-width: 2rem;
+    text-align: center;
+}
+
+.website-description {
+    color: var(--text-gray);
+    line-height: 1.7;
+    margin-bottom: 1.25rem;
+    font-size: 0.95rem;
+    flex: 1;
+}
+
+.website-subscription {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--primary-color);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    background: rgba(0, 243, 255, 0.05);
+    border-radius: 10px;
+    border: 1px solid rgba(0, 243, 255, 0.1);
+}
+
+.website-subscription strong {
+    color: var(--text-light);
+}
+
+.website-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--primary-color);
+    text-decoration: none;
     font-weight: 500;
+    font-size: 0.95rem;
+    padding: 0.75rem 1.25rem;
+    background: rgba(0, 243, 255, 0.1);
+    border: 1px solid rgba(0, 243, 255, 0.3);
+    border-radius: 10px;
+    transition: var(--transition-smooth);
+    margin-top: auto;
+}
+
+.website-link:hover {
+    background: rgba(0, 243, 255, 0.2);
+    border-color: var(--primary-color);
+    transform: translateX(5px);
+    box-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
+}
+
+.website-link svg {
+    width: 18px;
+    height: 18px;
 }
 
 /* 加载指示器 */
@@ -234,41 +270,62 @@
 }
 
 /* 响应式设计 */
+@media (max-width: 1024px) {
+    .websites-grid {
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    }
+}
+
 @media (max-width: 768px) {
-    .knowledge-grid {
+    .websites-grid {
         grid-template-columns: 1fr;
-        gap: 1.5rem;
-    }
-    
-    .category-filter {
-        gap: 0.5rem;
-    }
-    
-    .filter-btn {
-        padding: 0.4rem 1rem;
-        font-size: 0.85rem;
+        gap: 1.25rem;
     }
     
     .search-container {
-        margin: 1.5rem auto 2rem;
+        margin: 1.5rem auto 2.5rem;
     }
     
-    .knowledge-item {
+    .website-card {
         padding: 1.5rem;
+    }
+    
+    .category-header {
+        margin-bottom: 1.5rem;
+    }
+    
+    .category-icon {
+        font-size: 2rem;
+    }
+    
+    .category-title {
+        font-size: 1.5rem;
+    }
+    
+    .category-section {
+        margin-bottom: 3rem;
     }
 }
 
 @media (max-width: 480px) {
-    .knowledge-item h3 {
+    .website-name {
         font-size: 1.1rem;
     }
     
-    .knowledge-item p {
+    .website-description {
         font-size: 0.9rem;
     }
     
     .search-input {
         font-size: 0.9rem;
         padding: 0.6rem 0.8rem;
+    }
+    
+    .category-title {
+        font-size: 1.3rem;
+    }
+    
+    .category-icon {
+        font-size: 1.75rem;
     }
 }

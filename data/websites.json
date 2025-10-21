@@ -1,0 +1,179 @@
+{
+  "categories": [
+    {
+      "name": "Gaming",
+      "icon": "🎮",
+      "websites": [
+        {
+          "name": "The GameDiscoverCo Newsletter",
+          "description": "由资深游戏业分析师Simon Carless主持，专注于游戏市场的商业分析、数据洞察和平台策略。对于想了解游戏如何被发现、定价和盈利的专业人士来说是无价之宝。",
+          "subscription": "在Substack上搜索",
+          "url": "https://gamediscover.co/"
+        },
+        {
+          "name": "The Axios Gaming Newsletter",
+          "description": "Axios出品的游戏通讯，以其标志性的"Smart Brevity"格式呈现，快速传递游戏行业最重要的新闻和趋势，信息密度高，无废话。",
+          "subscription": "Axios官网",
+          "url": "https://www.axios.com/gaming"
+        }
+      ]
+    },
+    {
+      "name": "Photography",
+      "icon": "📸",
+      "websites": [
+        {
+          "name": "The Phoblographer",
+          "description": "提供深入的相机评测、摄影技巧、艺术家访谈和后处理教程。内容质量高，适合严肃的摄影爱好者。",
+          "subscription": "在其官网填写邮箱",
+          "url": "https://www.thephoblographer.com/"
+        },
+        {
+          "name": "PetaPixel Newsletter",
+          "description": "PetaPixel是领先的摄影新闻网站，其newsletter汇总了网站上的精华内容，包括行业新闻、创意灵感和技术教程。",
+          "subscription": "PetaPixel官网",
+          "url": "https://petapixel.com/"
+        }
+      ]
+    },
+    {
+      "name": "Music",
+      "icon": "🎵",
+      "websites": [
+        {
+          "name": "The New York Times - Popcast",
+          "description": "虽然是播客，但其配套的newsletter会提供每期讨论的深度背景、歌曲链接和延伸阅读，是了解流行音乐深度评论的绝佳来源。",
+          "subscription": "NYT官网",
+          "url": "https://www.nytimes.com/column/popcast"
+        },
+        {
+          "name": "Water & Music",
+          "description": "一个非常专业的、研究驱动的通讯，专注于音乐产业的科技与战略转型。内容涉及Web3、流媒体经济、数据分析等，非常硬核。",
+          "subscription": "在Substack上搜索",
+          "url": "https://www.waterandmusic.com/"
+        }
+      ]
+    },
+    {
+      "name": "Reading",
+      "icon": "📚",
+      "websites": [
+        {
+          "name": "The New Yorker: The Books Briefing",
+          "description": "每周为你带来《纽约客》中最精彩的图书评论、作者专访和文学文化随笔。品味极高，是发现好书和深度评论的首选。",
+          "subscription": "New Yorker官网",
+          "url": "https://www.newyorker.com/newsletter/books"
+        },
+        {
+          "name": "Literary Hub",
+          "description": "汇集了来自全球各大出版社、作家和文学杂志的精华内容。其newsletter是获取新书发布信息、节选、评论和文学界动态的完美渠道。",
+          "subscription": "Literary Hub官网",
+          "url": "https://lithub.com/"
+        }
+      ]
+    },
+    {
+      "name": "Travel",
+      "icon": "✈️",
+      "websites": [
+        {
+          "name": "The Points Guy (TPG)",
+          "description": "如果你对常旅客计划、信用卡积分、航空公司和酒店忠诚度计划感兴趣，这是圣经级别的存在。提供最专业的建议和最新优惠信息。",
+          "subscription": "The Points Guy官网",
+          "url": "https://thepointsguy.com/"
+        },
+        {
+          "name": "Atlas Obscura Newsletter",
+          "description": "为你发现世界上那些奇妙、怪异和不起眼的角落。每周推送一个不可思议的地点，激发你的旅行灵感，适合喜欢探险和独特体验的旅行者。",
+          "subscription": "Atlas Obscura官网",
+          "url": "https://www.atlasobscura.com/"
+        }
+      ]
+    },
+    {
+      "name": "Web Development",
+      "icon": "🌐",
+      "websites": [
+        {
+          "name": "Frontend Focus",
+          "description": "一份高质量的免费周刊，汇总前端开发领域的最新文章、教程、工具和新闻。内容经过精心筛选，是前端开发者的必读刊物。",
+          "subscription": "Cooper Press（搜索Frontend Focus）",
+          "url": "https://frontendfoc.us/"
+        },
+        {
+          "name": "JavaScript Weekly",
+          "description": "同上，由Cooper Press出品，专注于JavaScript生态圈。无论是新闻、框架更新（React, Vue, Svelte等）、还是深度教程，这里都有。",
+          "subscription": "Cooper Press官网",
+          "url": "https://javascriptweekly.com/"
+        },
+        {
+          "name": "CSS-Tricks Newsletter",
+          "description": "CSS-Tricks网站的精华内容推送，包含最新的CSS特性、布局技巧、前端开发文章和优质代码笔。",
+          "subscription": "CSS-Tricks官网",
+          "url": "https://css-tricks.com/"
+        }
+      ]
+    },
+    {
+      "name": "Design",
+      "icon": "🎨",
+      "websites": [
+        {
+          "name": "Sidebar",
+          "description": "每天只推送5个他们认为当天最好的设计链接，可能是关于UI/UX、产品设计、工具、技巧等。内容极其精炼，质量极高。",
+          "subscription": "Sidebar官网",
+          "url": "https://sidebar.io/"
+        },
+        {
+          "name": "UX Design Weekly",
+          "description": "每周为你筛选和推荐关于用户体验设计的最佳文章、工具和资源。非常适合UX从业者保持学习和灵感更新。",
+          "subscription": "在其官网填写邮箱",
+          "url": "https://uxdesignweekly.com/"
+        }
+      ]
+    },
+    {
+      "name": "DevOps",
+      "icon": "⚙️",
+      "websites": [
+        {
+          "name": "DevOps Weekly",
+          "description": "由知名顾问Gareth Rushgrove主持，是历史最悠久、最受尊敬的DevOps通讯之一。内容涵盖技术文章、工具发布、文化讨论等。",
+          "subscription": "Cooper Press官网",
+          "url": "https://www.devopsweekly.com/"
+        },
+        {
+          "name": "SRE Weekly",
+          "description": "专注于网站可靠性工程、运维和系统管理。内容非常技术导向，适合SRE和平台工程师。",
+          "subscription": "在其官网填写邮箱",
+          "url": "https://sreweekly.com/"
+        }
+      ]
+    },
+    {
+      "name": "AI Security",
+      "icon": "🤖",
+      "websites": [
+        {
+          "name": "The Algorithm Bridge (by Gary Marcus)",
+          "description": "虽然不完全是安全导向，但Gary Marcus是AI领域对当前深度学习范式最著名的批评者之一。阅读他的文章能让你从根本层面思考AI的可靠性、鲁棒性和安全性问题。",
+          "subscription": "在Substack上搜索",
+          "url": "https://garymarcus.substack.com/"
+        },
+        {
+          "name": "AI Security Newsletter (by Reith & Associates)",
+          "description": "一个专门关注AI与机器学习安全、隐私和对抗性攻击的通讯。内容专业，紧跟学术和工业界的最新进展。",
+          "subscription": "在其官网填写邮箱",
+          "url": ""
+        },
+        {
+          "name": "The Batch (by DeepLearning.AI)",
+          "description": "由吴恩达的DeepLearning.AI团队出品，每周汇总AI领域的重要新闻、研究论文解读和行业趋势。其中经常包含关于AI伦理、偏见和模型安全的内容。",
+          "subscription": "DeepLearning.AI官网",
+          "url": "https://www.deeplearning.ai/the-batch/"
+        }
+      ]
+    }
+  ]
+}
+

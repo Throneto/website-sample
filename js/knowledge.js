@@ -1,154 +1,197 @@
 /**
- * 知识库页面功能脚本
- * 处理搜索、筛选、数据加载等功能
+ * 知识库页面 - 网站导航
+ * 展示精选的优质网站和资源
  */
 
-class KnowledgeManager {
+class KnowledgeNavigator {
     constructor() {
-        this.apiService = window.apiService;
-        this.currentCategory = 'all';
-        this.currentSearch = '';
-        this.knowledgeItems = [];
-        this.categories = [];
-        this.isLoading = false;
-        
+        this.allCategories = this.getWebsiteData();
+        this.filteredCategories = [...this.allCategories];
+        this.searchTerm = '';
         this.init();
     }
 
-    async init() {
-        try {
-            await this.loadCategories();
-            await this.loadKnowledgeItems();
-            this.setupEventListeners();
-            this.hideLoadingIndicator();
-        } catch (error) {
-            console.error('初始化知识库失败:', error);
-            this.showError('加载知识库数据失败，请刷新页面重试');
-        }
+    init() {
+        this.render();
+        this.setupEventListeners();
     }
 
-    async loadCategories() {
-        try {
-            const data = await this.apiService.getCategories();
-            this.categories = data.categories || [];
-            console.log('加载分类成功:', this.categories);
-        } catch (error) {
-            console.error('加载分类失败:', error);
-            // 使用默认分类
-            this.categories = [
-                { id: 1, name: '前端开发', slug: 'frontend', type: 'knowledge' },
-                { id: 2, name: '后端开发', slug: 'backend', type: 'knowledge' },
-                { id: 3, name: '开发工具', slug: 'tools', type: 'knowledge' },
-                { id: 4, name: '学习资源', slug: 'learning', type: 'knowledge' }
-            ];
-        }
-    }
-
-    async loadKnowledgeItems() {
-        this.showLoadingIndicator();
-        this.isLoading = true;
-
-        try {
-            const params = {
-                limit: 50,
-                offset: 0
-            };
-
-            if (this.currentCategory !== 'all') {
-                params.category = this.currentCategory;
-            }
-
-            if (this.currentSearch) {
-                params.search = this.currentSearch;
-            }
-
-            const data = await this.apiService.getKnowledgeItems(params);
-            this.knowledgeItems = data.items || [];
-            this.renderKnowledgeItems();
-        } catch (error) {
-            console.error('加载知识库条目失败:', error);
-            // 使用模拟数据
-            this.knowledgeItems = this.getMockKnowledgeItems();
-            this.renderKnowledgeItems();
-        } finally {
-            this.hideLoadingIndicator();
-            this.isLoading = false;
-        }
-    }
-
-    getMockKnowledgeItems() {
+    // 网站数据
+    getWebsiteData() {
         return [
             {
-                id: 1,
-                title: 'React 18 新特性详解',
-                description: '深入解析React 18的并发特性、Suspense改进和新的Hooks',
-                url: 'https://react.dev/blog/2022/03/29/react-v18',
-                category: 'frontend',
-                tags: ['React', 'JavaScript', '前端'],
-                icon: '⚛️'
+                name: 'Gaming',
+                icon: '🎮',
+                websites: [
+                    {
+                        name: 'The GameDiscoverCo Newsletter',
+                        description: '由资深游戏业分析师Simon Carless主持，专注于游戏市场的商业分析、数据洞察和平台策略。对于想了解游戏如何被发现、定价和盈利的专业人士来说是无价之宝。',
+                        subscription: '在Substack上搜索',
+                        url: 'https://gamediscover.co/'
+                    },
+                    {
+                        name: 'The Axios Gaming Newsletter',
+                        description: 'Axios出品的游戏通讯，以其标志性的"Smart Brevity"格式呈现，快速传递游戏行业最重要的新闻和趋势，信息密度高，无废话。',
+                        subscription: 'Axios官网',
+                        url: 'https://www.axios.com/gaming'
+                    }
+                ]
             },
             {
-                id: 2,
-                title: 'Node.js 性能优化指南',
-                description: '从内存管理到异步处理，全面提升Node.js应用性能',
-                url: 'https://nodejs.org/en/docs/guides/performance/',
-                category: 'backend',
-                tags: ['Node.js', '性能优化', '后端'],
-                icon: '🚀'
+                name: 'Photography',
+                icon: '📸',
+                websites: [
+                    {
+                        name: 'The Phoblographer',
+                        description: '提供深入的相机评测、摄影技巧、艺术家访谈和后处理教程。内容质量高，适合严肃的摄影爱好者。',
+                        subscription: '在其官网填写邮箱',
+                        url: 'https://www.thephoblographer.com/'
+                    },
+                    {
+                        name: 'PetaPixel Newsletter',
+                        description: 'PetaPixel是领先的摄影新闻网站，其newsletter汇总了网站上的精华内容，包括行业新闻、创意灵感和技术教程。',
+                        subscription: 'PetaPixel官网',
+                        url: 'https://petapixel.com/'
+                    }
+                ]
             },
             {
-                id: 3,
-                title: 'VS Code 插件开发',
-                description: '从零开始学习VS Code插件开发，打造专属开发工具',
-                url: 'https://code.visualstudio.com/api',
-                category: 'tools',
-                tags: ['VS Code', '插件开发', '工具'],
-                icon: '🔧'
+                name: 'Music',
+                icon: '🎵',
+                websites: [
+                    {
+                        name: 'The New York Times - Popcast',
+                        description: '虽然是播客，但其配套的newsletter会提供每期讨论的深度背景、歌曲链接和延伸阅读，是了解流行音乐深度评论的绝佳来源。',
+                        subscription: 'NYT官网',
+                        url: 'https://www.nytimes.com/column/popcast'
+                    },
+                    {
+                        name: 'Water & Music',
+                        description: '一个非常专业的、研究驱动的通讯，专注于音乐产业的科技与战略转型。内容涉及Web3、流媒体经济、数据分析等，非常硬核。',
+                        subscription: '在Substack上搜索',
+                        url: 'https://www.waterandmusic.com/'
+                    }
+                ]
             },
             {
-                id: 4,
-                title: 'TypeScript 高级类型',
-                description: '掌握TypeScript的高级类型系统，提升代码质量',
-                url: 'https://www.typescriptlang.org/docs/handbook/2/types.html',
-                category: 'frontend',
-                tags: ['TypeScript', '类型系统', '前端'],
-                icon: '📘'
+                name: 'Reading',
+                icon: '📚',
+                websites: [
+                    {
+                        name: 'The New Yorker: The Books Briefing',
+                        description: '每周为你带来《纽约客》中最精彩的图书评论、作者专访和文学文化随笔。品味极高，是发现好书和深度评论的首选。',
+                        subscription: 'New Yorker官网',
+                        url: 'https://www.newyorker.com/newsletter/books'
+                    },
+                    {
+                        name: 'Literary Hub',
+                        description: '汇集了来自全球各大出版社、作家和文学杂志的精华内容。其newsletter是获取新书发布信息、节选、评论和文学界动态的完美渠道。',
+                        subscription: 'Literary Hub官网',
+                        url: 'https://lithub.com/'
+                    }
+                ]
             },
             {
-                id: 5,
-                title: 'Docker 容器化实践',
-                description: '学习Docker容器化技术，实现应用的快速部署和扩展',
-                url: 'https://docs.docker.com/',
-                category: 'tools',
-                tags: ['Docker', '容器化', 'DevOps'],
-                icon: '🐳'
+                name: 'Travel',
+                icon: '✈️',
+                websites: [
+                    {
+                        name: 'The Points Guy (TPG)',
+                        description: '如果你对常旅客计划、信用卡积分、航空公司和酒店忠诚度计划感兴趣，这是圣经级别的存在。提供最专业的建议和最新优惠信息。',
+                        subscription: 'The Points Guy官网',
+                        url: 'https://thepointsguy.com/'
+                    },
+                    {
+                        name: 'Atlas Obscura Newsletter',
+                        description: '为你发现世界上那些奇妙、怪异和不起眼的角落。每周推送一个不可思议的地点，激发你的旅行灵感，适合喜欢探险和独特体验的旅行者。',
+                        subscription: 'Atlas Obscura官网',
+                        url: 'https://www.atlasobscura.com/'
+                    }
+                ]
             },
             {
-                id: 6,
-                title: '算法与数据结构',
-                description: '计算机科学基础，提升编程思维和问题解决能力',
-                url: 'https://leetcode.cn/',
-                category: 'learning',
-                tags: ['算法', '数据结构', '编程基础'],
-                icon: '🧮'
+                name: 'Web Development',
+                icon: '🌐',
+                websites: [
+                    {
+                        name: 'Frontend Focus',
+                        description: '一份高质量的免费周刊，汇总前端开发领域的最新文章、教程、工具和新闻。内容经过精心筛选，是前端开发者的必读刊物。',
+                        subscription: 'Cooper Press（搜索Frontend Focus）',
+                        url: 'https://frontendfoc.us/'
+                    },
+                    {
+                        name: 'JavaScript Weekly',
+                        description: '同上，由Cooper Press出品，专注于JavaScript生态圈。无论是新闻、框架更新（React, Vue, Svelte等）、还是深度教程，这里都有。',
+                        subscription: 'Cooper Press官网',
+                        url: 'https://javascriptweekly.com/'
+                    },
+                    {
+                        name: 'CSS-Tricks Newsletter',
+                        description: 'CSS-Tricks网站的精华内容推送，包含最新的CSS特性、布局技巧、前端开发文章和优质代码笔。',
+                        subscription: 'CSS-Tricks官网',
+                        url: 'https://css-tricks.com/'
+                    }
+                ]
             },
             {
-                id: 7,
-                title: 'WebGL 图形编程',
-                description: '学习WebGL技术，创建炫酷的3D图形和动画效果',
-                url: 'https://webglfundamentals.org/',
-                category: 'frontend',
-                tags: ['WebGL', '3D图形', '前端'],
-                icon: '🎨'
+                name: 'Design',
+                icon: '🎨',
+                websites: [
+                    {
+                        name: 'Sidebar',
+                        description: '每天只推送5个他们认为当天最好的设计链接，可能是关于UI/UX、产品设计、工具、技巧等。内容极其精炼，质量极高。',
+                        subscription: 'Sidebar官网',
+                        url: 'https://sidebar.io/'
+                    },
+                    {
+                        name: 'UX Design Weekly',
+                        description: '每周为你筛选和推荐关于用户体验设计的最佳文章、工具和资源。非常适合UX从业者保持学习和灵感更新。',
+                        subscription: '在其官网填写邮箱',
+                        url: 'https://uxdesignweekly.com/'
+                    }
+                ]
             },
             {
-                id: 8,
-                title: 'PostgreSQL 数据库优化',
-                description: '深入PostgreSQL数据库，掌握查询优化和性能调优',
-                url: 'https://www.postgresql.org/docs/',
-                category: 'backend',
-                tags: ['PostgreSQL', '数据库', '后端'],
-                icon: '🐘'
+                name: 'DevOps',
+                icon: '⚙️',
+                websites: [
+                    {
+                        name: 'DevOps Weekly',
+                        description: '由知名顾问Gareth Rushgrove主持，是历史最悠久、最受尊敬的DevOps通讯之一。内容涵盖技术文章、工具发布、文化讨论等。',
+                        subscription: 'Cooper Press官网',
+                        url: 'https://www.devopsweekly.com/'
+                    },
+                    {
+                        name: 'SRE Weekly',
+                        description: '专注于网站可靠性工程、运维和系统管理。内容非常技术导向，适合SRE和平台工程师。',
+                        subscription: '在其官网填写邮箱',
+                        url: 'https://sreweekly.com/'
+                    }
+                ]
+            },
+            {
+                name: 'AI Security',
+                icon: '🤖',
+                websites: [
+                    {
+                        name: 'The Algorithm Bridge (by Gary Marcus)',
+                        description: '虽然不完全是安全导向，但Gary Marcus是AI领域对当前深度学习范式最著名的批评者之一。阅读他的文章能让你从根本层面思考AI的可靠性、鲁棒性和安全性问题。',
+                        subscription: '在Substack上搜索',
+                        url: 'https://garymarcus.substack.com/'
+                    },
+                    {
+                        name: 'AI Security Newsletter (by Reith & Associates)',
+                        description: '一个专门关注AI与机器学习安全、隐私和对抗性攻击的通讯。内容专业，紧跟学术和工业界的最新进展。',
+                        subscription: '在其官网填写邮箱',
+                        url: '#'
+                    },
+                    {
+                        name: 'The Batch (by DeepLearning.AI)',
+                        description: '由吴恩达的DeepLearning.AI团队出品，每周汇总AI领域的重要新闻、研究论文解读和行业趋势。其中经常包含关于AI伦理、偏见和模型安全的内容。',
+                        subscription: 'DeepLearning.AI官网',
+                        url: 'https://www.deeplearning.ai/the-batch/'
+                    }
+                ]
             }
         ];
     }
@@ -161,73 +204,95 @@ class KnowledgeManager {
             searchInput.addEventListener('input', (e) => {
                 clearTimeout(searchTimeout);
                 searchTimeout = setTimeout(() => {
-                    this.currentSearch = e.target.value.trim();
-                    this.loadKnowledgeItems();
+                    this.searchTerm = e.target.value.trim().toLowerCase();
+                    this.filterAndRender();
                 }, 300);
             });
         }
-
-        // 分类筛选
-        const filterButtons = document.querySelectorAll('.filter-btn');
-        filterButtons.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const category = e.target.getAttribute('data-category');
-                this.filterByCategory(category);
-            });
-        });
     }
 
-    filterByCategory(category) {
-        // 更新按钮状态
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.classList.remove('active');
-        });
-        document.querySelector(`[data-category="${category}"]`).classList.add('active');
+    filterAndRender() {
+        if (!this.searchTerm) {
+            this.filteredCategories = [...this.allCategories];
+        } else {
+            this.filteredCategories = this.allCategories
+                .map(category => {
+                    // 检查分类名是否匹配
+                    const categoryMatches = category.name.toLowerCase().includes(this.searchTerm);
+                    
+                    // 过滤网站
+                    const filteredWebsites = category.websites.filter(website => {
+                        return website.name.toLowerCase().includes(this.searchTerm) ||
+                               website.description.toLowerCase().includes(this.searchTerm) ||
+                               website.subscription.toLowerCase().includes(this.searchTerm);
+                    });
 
-        this.currentCategory = category;
-        this.loadKnowledgeItems();
+                    // 如果分类名匹配或有匹配的网站，则保留该分类
+                    if (categoryMatches) {
+                        return category;
+                    } else if (filteredWebsites.length > 0) {
+                        return {
+                            ...category,
+                            websites: filteredWebsites
+                        };
+                    }
+                    return null;
+                })
+                .filter(category => category !== null);
+        }
+
+        this.render();
     }
 
-    renderKnowledgeItems() {
-        const grid = document.getElementById('knowledgeGrid');
-        if (!grid) return;
+    render() {
+        const container = document.getElementById('categoriesContainer');
+        if (!container) return;
 
-        if (this.knowledgeItems.length === 0) {
-            grid.innerHTML = this.getEmptyStateHTML();
+        if (this.filteredCategories.length === 0) {
+            container.innerHTML = this.getEmptyStateHTML();
             return;
         }
 
-        const itemsHTML = this.knowledgeItems.map(item => this.createKnowledgeItemHTML(item)).join('');
-        grid.innerHTML = itemsHTML;
+        const html = this.filteredCategories.map((category, index) => 
+            this.renderCategory(category, index)
+        ).join('');
 
-        // 添加点击事件
-        grid.querySelectorAll('.knowledge-item').forEach((item, index) => {
-            item.addEventListener('click', () => {
-                const knowledgeItem = this.knowledgeItems[index];
-                if (knowledgeItem.url) {
-                    window.open(knowledgeItem.url, '_blank', 'noopener,noreferrer');
-                }
-            });
-        });
+        container.innerHTML = html;
+        this.addAnimationDelays();
     }
 
-    createKnowledgeItemHTML(item) {
-        const categoryName = this.getCategoryName(item.category);
-        
+    renderCategory(category, index) {
+        const websitesHTML = category.websites.map((website, websiteIndex) => 
+            this.renderWebsiteCard(website, websiteIndex + 1)
+        ).join('');
+
         return `
-            <div class="knowledge-item" data-category="${item.category}">
-                <h3>
-                    <span class="item-icon">${item.icon || '📚'}</span>
-                    ${item.title}
-                </h3>
-                <p>${item.description}</p>
-                <div class="item-tags">
-                    <span class="tag">${categoryName}</span>
-                    ${item.tags ? item.tags.map(tag => `<span class="tag">${tag}</span>`).join('') : ''}
+            <div class="category-section" style="animation-delay: ${index * 0.1}s">
+                <div class="category-header">
+                    <span class="category-icon">${category.icon}</span>
+                    <h2 class="category-title">${category.name}</h2>
                 </div>
-                ${item.url ? `
-                    <a href="${item.url}" class="item-url" target="_blank" rel="noopener noreferrer">
-                        访问链接
+                <div class="websites-grid">
+                    ${websitesHTML}
+                </div>
+            </div>
+        `;
+    }
+
+    renderWebsiteCard(website, number) {
+        return `
+            <div class="website-card">
+                <div class="website-card-header">
+                    <h3 class="website-name">${website.name}</h3>
+                    <span class="website-number">${number}</span>
+                </div>
+                <p class="website-description">${website.description}</p>
+                <div class="website-subscription">
+                    <strong>订阅：</strong>${website.subscription}
+                </div>
+                ${website.url && website.url !== '#' ? `
+                    <a href="${website.url}" class="website-link" target="_blank" rel="noopener noreferrer">
+                        访问网站
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                             <path d="M7 17L17 7M17 7H7M17 7V17" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
@@ -237,9 +302,11 @@ class KnowledgeManager {
         `;
     }
 
-    getCategoryName(categorySlug) {
-        const category = this.categories.find(cat => cat.slug === categorySlug);
-        return category ? category.name : categorySlug;
+    addAnimationDelays() {
+        const sections = document.querySelectorAll('.category-section');
+        sections.forEach((section, index) => {
+            section.style.animationDelay = `${index * 0.1}s`;
+        });
     }
 
     getEmptyStateHTML() {
@@ -247,40 +314,13 @@ class KnowledgeManager {
             <div class="empty-state">
                 <div class="empty-icon">🔍</div>
                 <h3>未找到相关内容</h3>
-                <p>尝试调整搜索关键词或选择其他分类</p>
+                <p>尝试调整搜索关键词或清空搜索框查看所有内容</p>
             </div>
         `;
-    }
-
-    showLoadingIndicator() {
-        const indicator = document.getElementById('loadingIndicator');
-        if (indicator) {
-            indicator.classList.remove('hidden');
-        }
-    }
-
-    hideLoadingIndicator() {
-        const indicator = document.getElementById('loadingIndicator');
-        if (indicator) {
-            indicator.classList.add('hidden');
-        }
-    }
-
-    showError(message) {
-        const grid = document.getElementById('knowledgeGrid');
-        if (grid) {
-            grid.innerHTML = `
-                <div class="empty-state">
-                    <div class="empty-icon">⚠️</div>
-                    <h3>加载失败</h3>
-                    <p>${message}</p>
-                </div>
-            `;
-        }
     }
 }
 
 // 页面加载完成后初始化
 document.addEventListener('DOMContentLoaded', () => {
-    new KnowledgeManager();
+    new KnowledgeNavigator();
 });

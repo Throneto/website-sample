@@ -50,12 +50,12 @@
         <section class="content-section">
             <div class="section-container">
                 <h1 class="section-title">知识库</h1>
-                <p class="section-subtitle">精选技术文档与学习资源</p>
+                <p class="section-subtitle">精选网站与优质资源导航</p>
 
                 <!-- Search Bar -->
                 <div class="search-container">
                     <div class="search-box">
-                        <input type="text" id="searchInput" placeholder="搜索知识库内容..." class="search-input">
+                        <input type="text" id="searchInput" placeholder="搜索网站、分类或关键词..." class="search-input">
                         <button class="search-btn" aria-label="搜索">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                 <circle cx="11" cy="11" r="8" stroke-width="2"/>
@@ -65,24 +65,9 @@
                     </div>
                 </div>
 
-                <!-- Category Filter -->
-                <div class="category-filter">
-                    <button class="filter-btn active" data-category="all">全部</button>
-                    <button class="filter-btn" data-category="frontend">前端开发</button>
-                    <button class="filter-btn" data-category="backend">后端开发</button>
-                    <button class="filter-btn" data-category="tools">开发工具</button>
-                    <button class="filter-btn" data-category="learning">学习资源</button>
-                </div>
-
-                <!-- Knowledge Grid -->
-                <div class="knowledge-grid" id="knowledgeGrid">
+                <!-- Categories Section -->
+                <div class="categories-container" id="categoriesContainer">
                     <!-- 内容将通过 JavaScript 动态加载 -->
-                </div>
-
-                <!-- Loading Indicator -->
-                <div class="loading-indicator" id="loadingIndicator">
-                    <div class="loading-spinner"></div>
-                    <p>加载中...</p>
                 </div>
             </div>
         </section>
