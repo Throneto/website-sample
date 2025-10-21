@@ -421,67 +421,81 @@ class BlogManager {
     formatMarkdownContent(content) {
         if (!content) return '';
         
-        // 转义HTML标签
-        let html = content
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;');
+        let html = content;
+        
+        // ⚠️ 先处理图片和链接（在转义之前）
+        // 处理图片（带感叹号）- 必须在链接之前
+        html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (match, alt, url) => {
+            // 转义alt文本，但保持URL原样
+            const safeAlt = this.escapeHtml(alt);
+            return `<img src="${url}" alt="${safeAlt}" loading="lazy">`;
+        });
+        
+        // 处理链接（不带感叹号）
+        html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, text, url) => {
+            const safeText = this.escapeHtml(text);
+            return `<a href="${url}" target="_blank" rel="noopener noreferrer">${safeText}</a>`;
+        });
+        
+        // 处理代码块（在其他转义之前）
+        html = html.replace(/```([\s\S]+?)```/g, (match, code) => {
+            return '<pre><code>' + this.escapeHtml(code) + '</code></pre>';
+        });
+        
+        html = html.replace(/`([^`]+)`/g, (match, code) => {
+            return '<code>' + this.escapeHtml(code) + '</code>';
+        });
         
         // 处理标题
-        html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
-        html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
-        html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
+        html = html.replace(/^### (.+)$/gim, '<h3>$1</h3>');
+        html = html.replace(/^## (.+)$/gim, '<h2>$1</h2>');
+        html = html.replace(/^# (.+)$/gim, '<h1>$1</h1>');
         
         // 处理粗体和斜体
         html = html.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
         html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
         html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
         
-        // ⚠️ 重要：必须先处理图片，再处理链接！
-        // 处理图片（带感叹号）
-        html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" loading="lazy">');
-        
-        // 处理链接（不带感叹号）
-        html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
-        
-        // 处理代码块（多行代码优先）
-        html = html.replace(/```([^`]+)```/g, '<pre><code>$1</code></pre>');
-        html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
-        
         // 处理引用
-        html = html.replace(/^&gt; (.*$)/gim, '<blockquote>$1</blockquote>');
+        html = html.replace(/^> (.+)$/gim, '<blockquote>$1</blockquote>');
         
         // 处理无序列表
-        html = html.replace(/^\* (.+)$/gim, '<li>$1</li>');
-        html = html.replace(/^- (.+)$/gim, '<li>$1</li>');
-        html = html.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
+        html = html.replace(/^[\*\-] (.+)$/gim, '<li>$1</li>');
+        // 包裹连续的<li>为<ul>
+        html = html.replace(/(<li>.*?<\/li>\s*)+/gs, (match) => {
+            return '<ul>' + match + '</ul>';
+        });
         
         // 处理有序列表
         html = html.replace(/^\d+\. (.+)$/gim, '<li>$1</li>');
-        
-        // 处理段落（将连续的非空行包装在<p>标签中）
-        html = html.split('\n').map(line => {
-            line = line.trim();
-            // 跳过空行
-            if (!line) return '';
-            
-            // 不处理以下元素，保持原样
-            if (line.startsWith('<h') || line.startsWith('</h') ||
-                line.startsWith('<ul') || line.startsWith('</ul') ||
-                line.startsWith('<ol') || line.startsWith('</ol') ||
-                line.startsWith('<li') || line.startsWith('</li') ||
-                line.startsWith('<pre') || line.startsWith('</pre') ||
-                line.startsWith('<code') || line.startsWith('</code') ||
-                line.startsWith('<blockquote') || line.startsWith('</blockquote') ||
-                line.startsWith('<img')) {
-                return line;
+        // 包裹连续的<li>为<ol>（如果不在<ul>中）
+        html = html.replace(/(<li>.*?<\/li>\s*)+/gs, (match) => {
+            if (!match.includes('<ul>')) {
+                return '<ol>' + match + '</ol>';
             }
-            
-            // 普通文本包裹在<p>标签中
-            return `<p>${line}</p>`;
-        }).filter(line => line).join('\n');
+            return match;
+        });
         
-        return html;
+        // 处理换行和段落
+        const lines = html.split('\n');
+        const processed = [];
+        
+        for (let i = 0; i < lines.length; i++) {
+            const line = lines[i].trim();
+            
+            // 跳过空行
+            if (!line) continue;
+            
+            // 检查是否是HTML标签开头（不需要包裹<p>）
+            if (line.match(/^<(h[1-6]|img|ul|ol|li|pre|code|blockquote|a|strong|em)/)) {
+                processed.push(line);
+            } else {
+                // 普通文本包裹在<p>标签中
+                processed.push(`<p>${line}</p>`);
+            }
+        }
+        
+        return processed.join('\n');
     }
     
     escapeHtml(text) {
