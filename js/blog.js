@@ -361,11 +361,15 @@ class BlogManager {
         // 创建模态框显示文章内容
         const modal = document.createElement('div');
         modal.className = 'article-modal';
+        
+        // 简单的Markdown转HTML处理
+        const formattedContent = this.formatMarkdownContent(article.content);
+        
         modal.innerHTML = `
             <div class="modal-overlay">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h2>${article.title}</h2>
+                        <h2>${this.escapeHtml(article.title)}</h2>
                         <button class="modal-close">&times;</button>
                     </div>
                     <div class="modal-body">
@@ -375,7 +379,7 @@ class BlogManager {
                             <span>${article.readTime}</span>
                         </div>
                         <div class="article-content">
-                            ${article.content}
+                            ${formattedContent}
                         </div>
                     </div>
                 </div>
@@ -384,16 +388,94 @@ class BlogManager {
         
         document.body.appendChild(modal);
         
+        // 防止背景滚动
+        document.body.style.overflow = 'hidden';
+        
         // 添加关闭事件
-        modal.querySelector('.modal-close').addEventListener('click', () => {
-            document.body.removeChild(modal);
-        });
+        const closeModal = () => {
+            modal.style.animation = 'modalFadeOut 0.3s ease-out forwards';
+            setTimeout(() => {
+                document.body.removeChild(modal);
+                document.body.style.overflow = '';
+            }, 300);
+        };
+        
+        modal.querySelector('.modal-close').addEventListener('click', closeModal);
         
         modal.querySelector('.modal-overlay').addEventListener('click', (e) => {
             if (e.target === modal.querySelector('.modal-overlay')) {
-                document.body.removeChild(modal);
+                closeModal();
             }
         });
+        
+        // ESC键关闭
+        const handleEscape = (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+                document.removeEventListener('keydown', handleEscape);
+            }
+        };
+        document.addEventListener('keydown', handleEscape);
+    }
+    
+    formatMarkdownContent(content) {
+        if (!content) return '';
+        
+        // 转义HTML标签
+        let html = content
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+        
+        // 处理标题
+        html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
+        html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
+        html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
+        
+        // 处理粗体和斜体
+        html = html.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
+        html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+        html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+        
+        // 处理链接
+        html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+        
+        // 处理图片
+        html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" loading="lazy">');
+        
+        // 处理代码块
+        html = html.replace(/```([^`]+)```/g, '<pre><code>$1</code></pre>');
+        html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+        
+        // 处理引用
+        html = html.replace(/^&gt; (.*$)/gim, '<blockquote>$1</blockquote>');
+        
+        // 处理无序列表
+        html = html.replace(/^\* (.+)$/gim, '<li>$1</li>');
+        html = html.replace(/^- (.+)$/gim, '<li>$1</li>');
+        html = html.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
+        
+        // 处理有序列表
+        html = html.replace(/^\d+\. (.+)$/gim, '<li>$1</li>');
+        
+        // 处理段落（将连续的非空行包装在<p>标签中）
+        html = html.split('\n\n').map(para => {
+            para = para.trim();
+            if (para && !para.startsWith('<h') && !para.startsWith('<ul') && 
+                !para.startsWith('<ol') && !para.startsWith('<pre') && 
+                !para.startsWith('<blockquote')) {
+                return `<p>${para.replace(/\n/g, '<br>')}</p>`;
+            }
+            return para;
+        }).join('\n');
+        
+        return html;
+    }
+    
+    escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
     }
 
     getEmptyStateHTML() {
