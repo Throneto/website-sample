@@ -55,7 +55,6 @@ class DevelopmentManager {
                 status: 'active',
                 icon: '🎮',
                 technologies: ['HTML5', 'Canvas', 'JavaScript', 'Web Audio'],
-                githubUrl: 'https://github.com/yourusername/h5-games',
                 demoUrl: 'https://h5.171780.xyz',
                 features: ['即点即玩', '跨平台', '无需安装', '响应式设计'],
                 startDate: '2024-08-01',
@@ -68,7 +67,6 @@ class DevelopmentManager {
                 status: 'active',
                 icon: '🎵',
                 technologies: ['Web Audio API', 'React', 'CSS3', 'IndexedDB'],
-                githubUrl: 'https://github.com/yourusername/white-noise',
                 demoUrl: 'https://mood.171780.xyz',
                 features: ['多种场景', '定时功能', '混音器', '收藏列表'],
                 startDate: '2024-09-10',
@@ -81,7 +79,6 @@ class DevelopmentManager {
                 status: 'active',
                 icon: '✏️',
                 technologies: ['Canvas', 'SVG', 'Excalidraw', 'TypeScript'],
-                githubUrl: 'https://github.com/yourusername/draw-board',
                 demoUrl: 'https://draw.171780.xyz',
                 features: ['手绘风格', '实时协作', '导出多格式', '丰富组件库'],
                 startDate: '2024-07-15',
@@ -94,7 +91,6 @@ class DevelopmentManager {
                 status: 'active',
                 icon: '🛠️',
                 technologies: ['Vue.js', 'TypeScript', 'Vite', 'TailwindCSS'],
-                githubUrl: 'https://github.com/yourusername/it-tools',
                 demoUrl: 'https://ittools.171780.xyz',
                 features: ['工具齐全', '纯前端', '隐私安全', '快速便捷'],
                 startDate: '2024-06-20',
@@ -107,7 +103,6 @@ class DevelopmentManager {
                 status: 'active',
                 icon: '📺',
                 technologies: ['React', 'Node.js', 'Video.js', 'MongoDB'],
-                githubUrl: 'https://github.com/yourusername/online-tv',
                 demoUrl: 'https://tv.171780.xyz',
                 features: ['海量资源', '高清播放', '智能推荐', '断点续播'],
                 startDate: '2024-05-01',
@@ -120,7 +115,6 @@ class DevelopmentManager {
                 status: 'active',
                 icon: '⏱️',
                 technologies: ['HTML5', 'JavaScript', 'CSS3', 'LocalStorage'],
-                githubUrl: 'https://github.com/yourusername/countdown-timer',
                 demoUrl: 'https://time.loc.cc',
                 features: ['世界时钟', '倒计时器', '番茄工作法', '主题切换'],
                 startDate: '2024-04-10',
@@ -205,14 +199,6 @@ class DevelopmentManager {
                 </div>
                 
                 <div class="project-links">
-                    ${project.githubUrl ? `
-                        <a href="${project.githubUrl}" class="project-link github" target="_blank" rel="noopener noreferrer">
-                            <svg viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
-                            </svg>
-                            GitHub
-                        </a>
-                    ` : ''}
                     ${project.demoUrl ? `
                         <a href="${project.demoUrl}" class="project-link demo" target="_blank" rel="noopener noreferrer">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">

@@ -227,18 +227,6 @@
     flex-shrink: 0;
 }
 
-.project-link.github {
-    background: linear-gradient(135deg, rgba(51, 51, 51, 0.1), rgba(0, 0, 0, 0.1));
-    border-color: rgba(51, 51, 51, 0.3);
-}
-
-.project-link.github:hover {
-    border-color: #24292e;
-    color: #24292e;
-    background: linear-gradient(135deg, rgba(51, 51, 51, 0.2), rgba(0, 0, 0, 0.15));
-    box-shadow: 0 8px 20px rgba(36, 41, 46, 0.3);
-}
-
 .project-link.demo {
     background: linear-gradient(135deg, rgba(0, 243, 255, 0.1), rgba(102, 126, 234, 0.1));
 }
