@@ -1,8 +1,14 @@
 {
   "version": "1.0",
-  "lastUpdate": "2025-10-21T07:54:51.892Z",
-  "totalArticles": 19,
+  "lastUpdate": "2025-10-22T11:17:27.116Z",
+  "totalArticles": 21,
   "files": [
+    {
+      "filename": "articles-2025-10-22.json",
+      "date": "2025-10-22",
+      "count": 2,
+      "createdAt": "2025-10-22T11:17:27.114Z"
+    },
     {
       "filename": "articles-2025-10-21.json",
       "date": "2025-10-21",

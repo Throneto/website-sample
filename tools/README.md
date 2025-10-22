@@ -7,6 +7,7 @@
 ### 方法 1：增量式转换工具（推荐 ✨新功能）
 
 **优势：**
+
 - ✅ 每次只转换新增或修改的文章
 - ✅ 不覆盖现有数据，更安全
 - ✅ 减少单次处理的数据量
@@ -18,6 +19,7 @@
 1. **准备 Markdown 文件**
    
    将您的 Markdown 文件放入 `posts/` 目录：
+   
    ```
    posts/
    ├── my-first-post.md
@@ -26,6 +28,7 @@
    ```
 
 2. **运行增量转换脚本**
+   
    ```bash
    node tools/md-to-json-incremental.js
    ```
@@ -38,6 +41,7 @@
    - 网页端自动加载所有文章文件
 
 **文件结构：**
+
 ```
 data/
 ├── articles-index.json          # 索引文件（记录所有文章文件）
@@ -86,16 +90,16 @@ readTime: 8分钟
 
 ### 元数据字段说明
 
-| 字段 | 必需 | 说明 | 示例 |
-|------|------|------|------|
-| `title` | ✓ | 文章标题 | `我的第一篇博客` |
-| `category` | ✓ | 分类 | `technology`、`design`、`life` |
-| `tags` | 推荐 | 标签（逗号分隔） | `JavaScript, 前端, 教程` |
-| `icon` | 可选 | 文章图标 emoji | `🚀`、`📝`、`💡` |
-| `excerpt` | 可选 | 文章摘要（未提供则自动生成） | `这是一篇关于...的文章` |
-| `featured` | 可选 | 是否为精选文章 | `true` 或 `false` |
-| `publishDate` | 可选 | 发布日期（未提供则使用当前日期） | `2025-01-20` |
-| `readTime` | 可选 | 阅读时间（未提供则自动计算） | `8分钟` |
+| 字段            | 必需  | 说明               | 示例                           |
+| ------------- | --- | ---------------- | ---------------------------- |
+| `title`       | ✓   | 文章标题             | `我的第一篇博客`                    |
+| `category`    | ✓   | 分类               | `technology`、`design`、`life` |
+| `tags`        | 推荐  | 标签（逗号分隔）         | `JavaScript, 前端, 教程`         |
+| `icon`        | 可选  | 文章图标 emoji       | `🚀`、`📝`、`💡`               |
+| `excerpt`     | 可选  | 文章摘要（未提供则自动生成）   | `这是一篇关于...的文章`               |
+| `featured`    | 可选  | 是否为精选文章          | `true` 或 `false`             |
+| `publishDate` | 可选  | 发布日期（未提供则使用当前日期） | `2025-01-20`                 |
+| `readTime`    | 可选  | 阅读时间（未提供则自动计算）   | `8分钟`                        |
 
 ### 分类选项
 
@@ -113,12 +117,12 @@ readTime: 8分钟
 
 **A:** 
 
-| 特性 | 增量模式 | 单一文件模式 |
-|------|---------|-------------|
+| 特性   | 增量模式           | 单一文件模式             |
+| ---- | -------------- | ------------------ |
 | 文件生成 | 每次生成新的 JSON 文件 | 覆盖单一 articles.json |
-| 安全性 | ✅ 不会覆盖旧数据 | ⚠️ 会覆盖旧数据 |
-| 处理速度 | ✅ 只处理新增/修改的文章 | ⚠️ 每次处理所有文章 |
-| 适用场景 | 适合文章数量多、频繁更新 | 适合文章数量少、偶尔更新 |
+| 安全性  | ✅ 不会覆盖旧数据      | ⚠️ 会覆盖旧数据          |
+| 处理速度 | ✅ 只处理新增/修改的文章  | ⚠️ 每次处理所有文章        |
+| 适用场景 | 适合文章数量多、频繁更新   | 适合文章数量少、偶尔更新       |
 
 **推荐：** 对于长期维护的博客，推荐使用增量模式。
 
@@ -127,14 +131,17 @@ readTime: 8分钟
 **A:** 
 
 **增量模式：**
+
 ```bash
 # 1. 将所有 Markdown 文件放入 posts/ 目录
 # 2. 运行增量转换
 node tools/md-to-json-incremental.js
 ```
+
 脚本会自动检测并转换所有新文章。
 
 **单一文件模式：**
+
 ```bash
 node tools/md-to-json.js
 ```
@@ -148,22 +155,26 @@ node tools/md-to-json.js
 **A:** 可以，有以下几种方式：
 
 1. **修改原始 Markdown 文件后重新转换**（推荐）
+   
    ```bash
    # 增量模式会自动检测文件变化
    node tools/md-to-json-incremental.js
    ```
 
 2. **直接编辑 JSON 文件**
+   
    - 增量模式：编辑 `data/articles/articles-YYYY-MM-DD.json`
    - 单一文件模式：编辑 `data/articles.json`
 
 3. **删除旧记录重新生成**
+   
    - 增量模式：删除 `data/.processed-files.json` 中的记录
    - 单一文件模式：删除 JSON 中的对应条目
 
 ### Q: 增量模式如何避免重复？
 
 **A:** 增量模式通过 `data/.processed-files.json` 文件跟踪已处理的文件：
+
 - 记录文件路径、修改时间、文件大小
 - 只转换新增或修改的文件
 - 自动跳过已处理的文件
@@ -173,12 +184,14 @@ node tools/md-to-json.js
 ### Q: 如何清空缓存重新加载文章？
 
 **A:** 
+
 ```javascript
 // 在浏览器控制台执行
 await window.apiService.refreshArticles();
 ```
 
 或者清除浏览器的 localStorage：
+
 ```javascript
 localStorage.removeItem('valarz_articles');
 ```
@@ -186,9 +199,11 @@ localStorage.removeItem('valarz_articles');
 ### Q: 支持图片吗？
 
 **A:** 支持。在 Markdown 中使用标准图片语法：
+
 ```markdown
 ![图片描述](/path/to/image.jpg)
 ```
+
 建议将图片放在 `assets/images/blog/` 目录。
 
 ### Q: 如何使文章显示在首页？
@@ -242,11 +257,13 @@ localStorage.removeItem('valarz_articles');
 编辑转换脚本可以修改：
 
 **增量模式 (`md-to-json-incremental.js`)：**
+
 - `articlesDir` - 文章文件存储目录
 - `indexPath` - 索引文件路径
 - `processedFilesPath` - 已处理文件记录路径
 
 **单一文件模式 (`md-to-json.js`)：**
+
 - `articlesJsonPath` - 输出文件路径
 
 ### 性能优化建议
@@ -256,6 +273,7 @@ localStorage.removeItem('valarz_articles');
 3. **文章数量 > 200 篇：** 强烈推荐增量模式
 
 增量模式优势在文章数量多时更明显：
+
 - 减少 JSON 文件体积
 - 加快首次加载速度
 - 便于实现懒加载和分页
@@ -265,23 +283,28 @@ localStorage.removeItem('valarz_articles');
 如有问题，请检查：
 
 1. **环境检查**
+   
    - Node.js 是否已安装（`node --version`）
    - 是否在项目根目录运行脚本
 
 2. **文件检查**
+   
    - Markdown 文件格式是否正确
    - Front Matter 分隔符是否为 `---`
    - 文件编码是否为 UTF-8
 
 3. **目录检查**
+   
    - `posts/` 目录是否存在
    - `data/` 目录是否有写入权限
 
 4. **浏览器控制台**
+   
    - 检查是否有加载错误
    - 查看文章加载日志
 
 **调试技巧：**
+
 ```javascript
 // 浏览器控制台查看加载模式
 window.apiService.loadArticlesIndex().then(console.log)
@@ -296,7 +319,7 @@ window.apiService.refreshArticles().then(console.log)
 ---
 
 **💡 提示：**
+
 - 增量模式会自动创建备份（`backups/` 目录）
 - 单一文件模式建议手动备份 `data/articles.json`
 - 两种模式可以共存，网站会自动选择可用的模式
-

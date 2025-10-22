@@ -1,0 +1,49 @@
+{
+  "generatedAt": "2025-10-22T11:17:27.114Z",
+  "date": "2025-10-22",
+  "count": 2,
+  "articles": [
+    {
+      "id": 20,
+      "title": "解决 Git 连接报错的两种方法",
+      "excerpt": "解决 Git 克隆或拉取代码时出现的连接重置错误，提供两种实用方法",
+      "content": "# 解决 Git 连接报错的两种方法\n\n使用 Git 进行代码管理时，执行 `git clone` 或 `git pull` 操作可能出现 \"fatal: unable to access 'https://github.com/.../.git': Recv failure Connection was reset\" 报错。这个问题由网络连接问题或代理设置错误引起。本文介绍两种解决方法。\n\n## 方法一：取消代理设置\n\n在终端执行以下命令，取消 Git 的代理设置：\n\n```c\ngit config --global --unset http.proxy\ngit config --global --unset https.proxy\n```\n\n这样可以清除 Git 的代理设置，Git 会直接连接网络。\n\n## 方法二：设置系统代理\n\n取消代理设置后仍然报错时，可以设置系统代理。步骤如下：\n\n打开系统设置，搜索代理设置，点击编辑按钮。\n\n![image.png](https://cdn.jsdelivr.net/gh/Throneto/image@main/solve-git-error1.png)\n\n在代理服务器中，将端口设置为 7890，点击保存。此端口不影响正常上网。\n\n![image.png](https://cdn.jsdelivr.net/gh/Throneto/image@main/solve-git-error2.png)\n\n在终端输入以下命令，让 Git 使用本地代理：\n\n```c\ngit config --global http.proxy [http://127.0.0.1:7890](http://127.0.0.1:7890/)\ngit config --global http.proxy http://127.0.0.1:10808\n```\n\n设置完成后，用以下命令检查设置是否成功：\n\n```c\ngit config --global -l\n```",
+      "category": "技术",
+      "tags": [
+        "Git",
+        "开发工具",
+        "问题解决"
+      ],
+      "icon": "🔧",
+      "publishDate": "2025-10-22",
+      "readTime": "5分钟",
+      "views": 0,
+      "likes": 0,
+      "featured": false,
+      "slug": "8-7-3-5-86-3-git-8-9-6-8-5-6-8-5-9-94-99-7-9-84-4-8-4-7-7-8-6-96-9-6-3-95",
+      "sourceFile": "solve-git-error.md"
+    },
+    {
+      "id": 21,
+      "title": "Vibe Coding 初学者指南",
+      "excerpt": "介绍如何使用 AI 编程工具进行代码开发，包括 Cursor 和 Git 的配置使用方法",
+      "content": "# Vibe Coding 初学者指南\r\n\r\n## 初识 AI 编程\r\n\r\n我接触过 Midjourney、Stable Diffusion、Cursor、Augment 等 AIGC 产品。这些工具让我打开了新世界的大门。AI 提高了我的认知上限。Vibe coding 走进了我的工作和生活。它带来了惊喜、疑惑和成长。\r\n\r\n过去一年，我体验了很多 vibe coding 的方式。我学习了提示词优化、上下文联想和 rules 设定。生成的代码质量参差不齐。坦白说，很多代码写得不好。资深程序员可能不屑这些不合逻辑和臃肿的代码。但是对初学者来说，AI 编程是个神器。它让想法变成 demo。它让 demo 迭代成产品。这个过程在以前不可能实现。非计算机专业的人无法独立完成这些工作。\r\n\r\n## 准备开发工具\r\n\r\n开始 vibe coding 之前，你需要准备工具。\r\n\r\n**代码托管平台**：使用 GitHub 创建仓库、PR 和 Action。它对新手很友好。\r\n\r\n**AI 编码助手**：Codex、Claude 或 Cursor 都可以。这些工具容易上手。它们帮助你开发代码。\r\n\r\n**Cloudflare 服务**：申请 CF 账号（号称赛博菩萨）。Cloudflare Pages 可以托管前端。它帮你快速发布静态站点。无服务器后端和邮件服务可以用 Cloudflare Worker 实现。\r\n\r\n**域名注册**：如果要把产品上线，你需要域名。Spaceship 网站可以注册域名。它的性价比很高。\r\n\r\n## Git 版本管理\r\n\r\n工具准备好后，让 Cursor 和 GitHub 互动起来。使用 Cursor 编写项目时，你会遇到问题。Cursor 优化代码时可能把正常代码改坏。使用 Composer 功能时，这种问题更多。所以你需要工具来管理代码。这样可以方便回滚。\r\n\r\nGit 是版本管理工具。它可以追踪本地代码的改动。只有提交成功才会实际更新代码。它在编程中非常好用。\r\n\r\n### 一、安装 Git\r\n\r\n访问下方网站下载 Git 安装包：\r\n\r\n网址：https://git-scm.com/downloads/win\r\n\r\n默认会装在 C 盘。你也可以更换到其他位置。\r\n\r\n安装过程中有一些配置项。按照图中的配置勾选。然后点击下一步。\r\n\r\n![](https://cdn.jsdelivr.net/gh/Throneto/image@main/Vibe-coding-jonurney1.png)\r\n\r\n其他选项选择默认或推荐就行。\r\n\r\n等待安装结束。\r\n\r\n安装完成后，系统右键菜单会出现\"Git GUI Here\"选项。\r\n\r\n### 二、配置用户信息\r\n\r\n打开 Git Bash 或终端。输入以下命令设置用户名和邮箱：\r\n\r\n```bash\r\ngit config --global user.name \"Your Name\"\r\ngit config --global user.email \"your@email.com\"\r\n```\r\n\r\n示例：\r\n\r\n```bash\r\ngit config --global user.name \"Throneto\"\r\ngit config --global user.email \"thronetofreedom@gmail.com\"\r\n```\r\n\r\n### 三、生成 SSH 密钥（可选）\r\n\r\n如果需要连接远程仓库（如 Gitee、GitHub），可以生成 SSH 密钥：\r\n\r\n1. 打开 Git GUI\r\n2. 点击菜单栏\"Help\"→\"Show SSH Key\"→\"Generate Key\"\r\n3. 按提示完成密钥生成\r\n4. 复制公钥内容\r\n5. 添加到远程仓库的 SSH 公钥设置中\r\n\r\n## Git GUI 基本操作\r\n\r\n### 1. 初始化仓库\r\n\r\n在项目文件夹中右键选择\"Git GUI Here\"。点击\"Create New Repository\"。输入仓库名称和路径。点击\"Create\"。\r\n\r\n### 2. 克隆远程仓库\r\n\r\n在 Git GUI 中选择\"Clone Existing Repository\"。输入远程仓库 URL 和本地目标路径。点击\"Clone\"。\r\n\r\n### 3. 添加文件到暂存区\r\n\r\n修改或新增文件后，文件会显示在\"Unstaged Changes\"区域。选中文件点击\"Stage Changed\"。文件会添加到暂存区。\r\n\r\n### 4. 提交更改\r\n\r\n在\"Commit Message\"框中输入提交描述。点击\"Commit\"。暂存区的文件会提交到本地仓库。\r\n\r\n### 5. 推送至远程仓库\r\n\r\n点击\"Push\"。选择远程仓库和分支。确认推送。如果是首次推送，需要关联远程仓库。通过\"Remote\"→\"Add\"设置远程地址。\r\n\r\n### 6. 拉取远程更新\r\n\r\n点击\"Remote\"→\"Fetch from\"→\"Origin\"。这会获取远程仓库的最新更改。然后通过\"Merge\"→\"Local Merge\"合并到本地分支。\r\n\r\n## 分支管理\r\n\r\n### 1. 创建分支\r\n\r\n点击\"Branch\"→\"Create\"。输入分支名称。点击\"Create\"。\r\n\r\n### 2. 切换分支\r\n\r\n在分支列表中选择目标分支。点击\"Checkout\"切换。\r\n\r\n### 3. 合并分支\r\n\r\n切换到目标分支。点击\"Merge\"→\"Local Merge\"。选择要合并的分支进行合并。\r\n\r\n## 查看历史记录\r\n\r\n点击\"Repository\"→\"Visualize All Branch History\"。你可以查看提交历史和分支关系。这方便回溯代码版本。\r\n\r\n## 忽略文件\r\n\r\n在项目根目录创建 `.gitignore` 文件。列出要忽略的文件或文件夹。例如：\r\n\r\n```\r\n# 忽略所有临时文件\r\n*.tmp\r\n\r\n# 忽略 node_modules 目录\r\nnode_modules/\r\n```\r\n\r\n保存后在 Git GUI 中点击\"Rescan\"。这会重新扫描文件状态。\r\n\r\n## 注意事项\r\n\r\n### 冲突处理\r\n\r\n合并时如果出现冲突，Git GUI 会提示。你需要手动编辑冲突文件。选择保留本地或远程版本。或者自行整合后提交。\r\n\r\n### 环境变量配置\r\n\r\n如果使用 SSH 连接远程仓库，可能需要设置 `HOME` 路径。Windows 系统可以在\"系统属性\"→\"环境变量\"中添加 `HOME=%USERPROFILE%`。\r\n\r\n## 在 Cursor 中使用 Git\r\n\r\n打开 Cursor。进行 Git 配置。点击下图红色框所示的按钮。你会看到初始化界面。点击初始化仓库。\r\n\r\n![](https://cdn.jsdelivr.net/gh/Throneto/image@main/Vibe-coding-jonurney2.png)\r\n\r\n初始化完成后，你可以提交文件到 Git 仓库。\r\n\r\n如果出现问题，按照提示修复。记得提前配置 Git 的邮箱和用户名。\r\n\r\n## 常用 Git 命令\r\n\r\n在项目根目录执行：\r\n\r\n```bash\r\n# 添加所有更改到暂存区\r\ngit add .\r\n\r\n# 提交更改\r\ngit commit -m \"Add ......\"\r\n\r\n# 推送到远程仓库\r\ngit push origin master\r\n```",
+      "category": "技术",
+      "tags": [
+        "AI编程",
+        "Cursor",
+        "Git",
+        "代码管理",
+        "开发工具"
+      ],
+      "icon": "🚀",
+      "publishDate": "2025-10-22",
+      "readTime": "8分钟",
+      "views": 0,
+      "likes": 0,
+      "featured": false,
+      "slug": "vibe-coding-5-88-9-5-6-8-80-85-6-8-87-5-8-97",
+      "sourceFile": "Vibe-coding-jonurney.md"
+    }
+  ]
+}
