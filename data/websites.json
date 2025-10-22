@@ -11,10 +11,10 @@
           "url": "https://gamediscover.co/"
         },
         {
-          "name": "The Axios Gaming Newsletter",
-          "description": "Axios出品的游戏通讯，以其标志性的"Smart Brevity"格式呈现，快速传递游戏行业最重要的新闻和趋势，信息密度高，无废话。",
-          "subscription": "Axios官网",
-          "url": "https://www.axios.com/gaming"
+          "name": "红色井界™ - 网页红警",
+          "description": "首个完全基于网页技术的红色警戒2游戏引擎，支持跨平台（PC、Mac、手机、平板）在线对战。无需下载安装，打开浏览器即玩，支持全球联机和自定义地图，让您随时放松一下！",
+          "subscription": "直接访问即可游玩",
+          "url": "https://ra2web.com/"
         }
       ]
     },
