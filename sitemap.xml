@@ -1,33 +1,219 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+  
+  <!-- 主页 -->
   <url>
     <loc>https://171780.xyz/</loc>
-    <lastmod>2025-01-15</lastmod>
-    <changefreq>weekly</changefreq>
+    <lastmod>2025-01-20</lastmod>
+    <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
+  
+  <!-- 知识库页面 -->
   <url>
     <loc>https://171780.xyz/pages/knowledge.html</loc>
-    <lastmod>2025-01-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://171780.xyz/pages/development.html</loc>
-    <lastmod>2025-01-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://171780.xyz/pages/blog.html</loc>
-    <lastmod>2025-01-15</lastmod>
+    <lastmod>2025-01-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
+  
+  <!-- 开发地带页面 -->
+  <url>
+    <loc>https://171780.xyz/pages/development.html</loc>
+    <lastmod>2025-01-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- 博客页面 -->
+  <url>
+    <loc>https://171780.xyz/pages/blog.html</loc>
+    <lastmod>2025-01-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- 关于页面 -->
   <url>
     <loc>https://171780.xyz/pages/about.html</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+  
+  <!-- 隐私政策 -->
+  <url>
+    <loc>https://171780.xyz/privacy-policy.html</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  
+  <!-- 服务条款 -->
+  <url>
+    <loc>https://171780.xyz/terms-of-service.html</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  
+  <!-- 博客文章 -->
+  
+  <!-- Web性能优化实战指南 -->
+  <url>
+    <loc>https://171780.xyz/pages/blog.html#web-6-80-7-8-83-4-98-5-8-96-5-9-6-88-98-6-8-87-5-8-97</loc>
+    <lastmod>2025-01-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- 《鱿鱼游戏》第二季影评 -->
+  <url>
+    <loc>https://171780.xyz/pages/blog.html#9-1-9-1-6-8-8-6-88-8-7-4-8-5-3-5-1-8-84-5-5-87-5-8-8-7-9-84-5-9-3-6-8-5-83-4-8-8-7-4-4-9-8-4-5-90-8-7-9-84-6-92-95-8-3-82</loc>
+    <lastmod>2025-01-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- 2025年UI设计趋势展望 -->
+  <url>
+    <loc>https://171780.xyz/pages/blog.html#2025-5-9-4ui-8-8-1-8-6-8-5-8-5-1-95-6-9-9</loc>
+    <lastmod>2025-01-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- 《好东西》观影手记 -->
+  <url>
+    <loc>https://171780.xyz/pages/blog.html#5-5-4-8-9-8-5-8-7-82-5-1-6-89-8-8-0-9-94-85-7-2-97-5-3-0-9-87-8-7-9-84-5-85-1-9-8-3-4-8-8-5-5-3-6-80-7-7-94-5-5-1-7-9-84-6-96-0-5-3-0</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- 程序员的健康指南 -->
+  <url>
+    <loc>https://171780.xyz/pages/blog.html#7-8-8-5-8-5-91-98-7-9-84-5-81-5-5-7-6-8-87-5-8-97-4-3-7-0-81-4-8-8-7-94-9-6-4-7-9-84-5-9-3-8-1-1-8-89-6-9</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <!-- Canonical标签的设置技巧 -->
+  <url>
+    <loc>https://171780.xyz/pages/blog.html#canonical-6-0-87-7-7-9-84-8-7-6-8-80-5-7-7</loc>
+    <lastmod>2024-12-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- 网站SEO优化工具Semrush完全指南 -->
+  <url>
+    <loc>https://171780.xyz/pages/blog.html#7-91-7-99seo-4-98-5-8-96-5-7-5-5-85-7semrush-5-8-5-85-8-6-8-87-5-8-97-4-8-5-85-5-9-97-8-5-88-0-5-9-6-88-98</loc>
+    <lastmod>2024-12-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- 基于SEO的高质量内容扫盲 -->
+  <url>
+    <loc>https://171780.xyz/pages/blog.html#5-9-4-8-seo-7-9-84-9-98-8-4-8-9-87-8-5-86-85-5-9-6-89-7-9-2</loc>
+    <lastmod>2024-12-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- DNS的记录类型 -->
+  <url>
+    <loc>https://171780.xyz/pages/blog.html#dns-7-9-84-8-0-5-95-7-1-5-9-8</loc>
+    <lastmod>2024-11-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <!-- Linux报swap空间占用过高 -->
+  <url>
+    <loc>https://171780.xyz/pages/blog.html#linux-6-8-5swap-7-9-9-97-4-5-8-0-7-94-8-8-87-9-98-4-86-7-89-9-7-90-86-5-86-85-5-98-8-98-6-9-89-7-9-4-99</loc>
+    <lastmod>2024-10-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <!-- 服务器重装系统了，SSH连接不上怎么办？ -->
+  <url>
+    <loc>https://171780.xyz/pages/blog.html#6-9-8-5-8-1-5-99-8-9-87-8-8-3-85-7-3-7-9-4-86-ssh-8-9-6-8-5-4-8-8-4-8-8-6-80-8-4-9-88-5-8-9</loc>
+    <lastmod>2024-09-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <!-- TP-LINK路由器IPv6设置 -->
+  <url>
+    <loc>https://171780.xyz/pages/blog.html#tp-link-8-7-7-94-1-5-99-8ipv6-8-7</loc>
+    <lastmod>2024-09-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <!-- 如何把docker删除干净 -->
+  <url>
+    <loc>https://171780.xyz/pages/blog.html#5-6-82-4-95-6-8-8-docker-5-88-0-9-99-4-5-9-2-5-87-80</loc>
+    <lastmod>2024-09-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <!-- 解读一下代码ip addr以及1panel应用 -->
+  <url>
+    <loc>https://171780.xyz/pages/blog.html#8-7-3-8-4-8-80-4-8-8-4-3-7-0-81ip-addr-4-5-5-8-8-1panel-5-94-7-94-8</loc>
+    <lastmod>2024-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <!-- Ubuntu 系统安装配置 Docker -->
+  <url>
+    <loc>https://171780.xyz/pages/blog.html#ubuntu-7-3-7-9-5-89-8-3-85-9-85-8-7-docker</loc>
+    <lastmod>2024-08-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Ubuntu 24.04 LTS系统部署1panel -->
+  <url>
+    <loc>https://171780.xyz/pages/blog.html#ubuntu-24-04-lts-noble-numbat-7-3-7-9-9-83-8-7-21panel</loc>
+    <lastmod>2024-08-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- 单ipv6小鸡怎么开局？ -->
+  <url>
+    <loc>https://171780.xyz/pages/blog.html#5-8-95ipv6-5-0-8-9-8-1-6-80-8-4-9-88-5-80-5-1-80</loc>
+    <lastmod>2024-08-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <!-- 使用 acme.sh 申请 TLS 证书 -->
+  <url>
+    <loc>https://171780.xyz/pages/blog.html#4-7-94-8-acme-sh-7-94-3-8-7-tls-8-81-4-9-6-debian-linux</loc>
+    <lastmod>2024-07-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- 简单快速重置Serv00系统 -->
+  <url>
+    <loc>https://171780.xyz/pages/blog.html#7-80-5-8-95-5-9-80-9-9-87-8-7-serv00-7-3-7-9</loc>
+    <lastmod>2024-07-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
 </urlset>
