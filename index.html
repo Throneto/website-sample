@@ -138,22 +138,27 @@
         <section id="knowledge" class="content-section">
             <div class="section-container">
                 <h2 class="section-title">知识库</h2>
-                <p class="section-subtitle">技术文档与学习资源</p>
+                <p class="section-subtitle">精选网站与优质资源导航</p>
                 <div class="card-grid">
-                    <div class="glass-card">
-                        <div class="card-icon">📚</div>
-                        <h3>技术文档</h3>
-                        <p>精选的技术文档和教程资源</p>
+                    <div class="glass-card" onclick="location.href='/pages/knowledge.html'" style="cursor: pointer;">
+                        <div class="card-icon">🎮</div>
+                        <h3>游戏与娱乐</h3>
+                        <p>精选游戏资讯、在线游戏平台</p>
                     </div>
-                    <div class="glass-card">
-                        <div class="card-icon">🛠️</div>
-                        <h3>开发工具</h3>
-                        <p>实用的开发工具和插件推荐</p>
+                    <div class="glass-card" onclick="location.href='/pages/knowledge.html'" style="cursor: pointer;">
+                        <div class="card-icon">🌐</div>
+                        <h3>Web开发</h3>
+                        <p>前端、JavaScript、CSS最新资讯</p>
                     </div>
-                    <div class="glass-card">
-                        <div class="card-icon">💡</div>
-                        <h3>学习资源</h3>
-                        <p>优质的学习平台和课程推荐</p>
+                    <div class="glass-card" onclick="location.href='/pages/knowledge.html'" style="cursor: pointer;">
+                        <div class="card-icon">🎨</div>
+                        <h3>设计与艺术</h3>
+                        <p>UI/UX设计、摄影、音乐资源</p>
+                    </div>
+                    <div class="glass-card" onclick="location.href='/pages/knowledge.html'" style="cursor: pointer;">
+                        <div class="card-icon">⚙️</div>
+                        <h3>DevOps与AI</h3>
+                        <p>运维工具、人工智能安全资讯</p>
                     </div>
                 </div>
             </div>
@@ -163,22 +168,27 @@
         <section id="development" class="content-section">
             <div class="section-container">
                 <h2 class="section-title">开发地带</h2>
-                <p class="section-subtitle">项目展示与技术实践</p>
+                <p class="section-subtitle">精选产品与工具集合 · 为创造力赋能</p>
                 <div class="card-grid">
-                    <div class="glass-card">
-                        <div class="card-icon">💻</div>
-                        <h3>前端开发</h3>
-                        <p>构建现代化和可扩展的Web应用</p>
+                    <div class="glass-card" onclick="location.href='/pages/development.html'" style="cursor: pointer;">
+                        <div class="card-icon">🎮</div>
+                        <h3>H5游戏</h3>
+                        <p>在线小游戏，随时放松娱乐</p>
                     </div>
-                    <div class="glass-card">
-                        <div class="card-icon">🤖</div>
-                        <h3>人工智能</h3>
-                        <p>探索前沿AI技术应用</p>
+                    <div class="glass-card" onclick="location.href='/pages/development.html'" style="cursor: pointer;">
+                        <div class="card-icon">🎵</div>
+                        <h3>白噪音</h3>
+                        <p>专注工作，提升效率</p>
                     </div>
-                    <div class="glass-card">
-                        <div class="card-icon">🎨</div>
-                        <h3>UI/UX设计</h3>
-                        <p>创造优雅直观的用户体验</p>
+                    <div class="glass-card" onclick="location.href='/pages/development.html'" style="cursor: pointer;">
+                        <div class="card-icon">🛠️</div>
+                        <h3>开发工具</h3>
+                        <p>IT工具箱、绘图工具等实用应用</p>
+                    </div>
+                    <div class="glass-card" onclick="location.href='/pages/development.html'" style="cursor: pointer;">
+                        <div class="card-icon">📺</div>
+                        <h3>在线视频</h3>
+                        <p>多媒体播放与编辑工具</p>
                     </div>
                 </div>
             </div>
@@ -189,25 +199,19 @@
             <div class="section-container">
                 <h2 class="section-title">博客</h2>
                 <p class="section-subtitle">最新文章</p>
-                <div class="blog-list">
-                    <article class="blog-card glass-card">
-                        <div class="blog-meta">
-                            <span class="blog-date">2025-01-15</span>
-                            <span class="blog-category">技术</span>
-                        </div>
-                        <h3>WebGL流体动画实现</h3>
-                        <p>深入探索基于WebGL的流体动力学模拟技术...</p>
-                        <a href="#" class="read-more">阅读更多 →</a>
-                    </article>
-                    <article class="blog-card glass-card">
-                        <div class="blog-meta">
-                            <span class="blog-date">2025-01-14</span>
-                            <span class="blog-category">设计</span>
-                        </div>
-                        <h3>玻璃态设计趋势分析</h3>
-                        <p>2025年最受欢迎的UI设计风格——玻璃态设计详解...</p>
-                        <a href="#" class="read-more">阅读更多 →</a>
-                    </article>
+                <div class="blog-list" id="homeBlogList">
+                    <!-- 文章将通过 JavaScript 动态加载 -->
+                    <div class="loading-indicator" style="text-align: center; padding: 2rem;">
+                        <p style="color: rgba(255, 255, 255, 0.6);">加载最新文章...</p>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 2rem;">
+                    <a href="/pages/blog.html" class="cta-button" style="display: inline-flex; text-decoration: none;">
+                        <span>查看更多文章</span>
+                        <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M5 12h14M12 5l7 7-7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
                 </div>
             </div>
         </section>
@@ -313,6 +317,61 @@
     </script>
     <script defer src="js/nav.js"></script>
     <script defer src="js/api-service.js"></script>
+    
+    <!-- 首页博客文章加载 -->
+    <script>
+        // 加载最新博客文章到首页
+        async function loadLatestBlogArticles() {
+            try {
+                const response = await fetch('/data/articles-index.json?t=' + Date.now());
+                const index = await response.json();
+                
+                if (index.files && index.files.length > 0) {
+                    // 获取最新的文章文件
+                    const latestFile = index.files[0];
+                    const articlesResponse = await fetch(`/data/articles/${latestFile.filename}?t=` + Date.now());
+                    const articlesData = await articlesResponse.json();
+                    
+                    // 只显示最新的3篇文章
+                    const latestArticles = articlesData.articles.slice(0, 3);
+                    
+                    const blogList = document.getElementById('homeBlogList');
+                    blogList.innerHTML = '';
+                    
+                    latestArticles.forEach(article => {
+                        const articleCard = document.createElement('article');
+                        articleCard.className = 'blog-card glass-card';
+                        articleCard.style.cursor = 'pointer';
+                        articleCard.onclick = () => window.location.href = `/pages/blog.html?article=${article.slug}`;
+                        
+                        articleCard.innerHTML = `
+                            <div class="blog-meta">
+                                <span class="blog-date">${article.publishDate}</span>
+                                <span class="blog-category">${article.category}</span>
+                            </div>
+                            <h3>${article.icon || '📝'} ${article.title}</h3>
+                            <p>${article.excerpt}</p>
+                            <a href="/pages/blog.html?article=${article.slug}" class="read-more" onclick="event.stopPropagation();">阅读更多 →</a>
+                        `;
+                        
+                        blogList.appendChild(articleCard);
+                    });
+                }
+            } catch (error) {
+                console.error('加载博客文章失败:', error);
+                const blogList = document.getElementById('homeBlogList');
+                blogList.innerHTML = '<p style="text-align: center; color: rgba(255, 255, 255, 0.6);">暂无文章</p>';
+            }
+        }
+        
+        // 页面加载完成后执行
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', loadLatestBlogArticles);
+        } else {
+            loadLatestBlogArticles();
+        }
+    </script>
+    
     <!-- 不蒜子访问统计 -->
     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
