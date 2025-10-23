@@ -1,22 +1,30 @@
+# 允许所有搜索引擎抓取
 User-agent: *
 Allow: /
 
-# Disallow admin and sensitive areas
+# 禁止抓取敏感区域
 Disallow: /admin/
 Disallow: /api/
 Disallow: /private/
 Disallow: /.env
 Disallow: /.git/
+Disallow: /tools/
+Disallow: /data/
 
-# Allow important pages
-Allow: /
+# 明确允许重要资源
 Allow: /pages/
 Allow: /css/
 Allow: /js/
 Allow: /assets/
+Allow: /posts/
+Allow: /sitemap.xml
 
-# Sitemap location
+# 站点地图位置
 Sitemap: https://171780.xyz/sitemap.xml
 
-# Crawl delay (be respectful)
+# 针对其他搜索引擎的抓取延迟（Googlebot 不支持此指令）
+User-agent: Bingbot
+Crawl-delay: 1
+
+User-agent: Yandex
 Crawl-delay: 1
