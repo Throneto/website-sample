@@ -1,30 +1,33 @@
-# 允许所有搜索引擎抓取
+# robots.txt for 171780.xyz
+# 允许所有搜索引擎抓取（默认行为）
 User-agent: *
-Allow: /
 
-# 禁止抓取敏感区域
-Disallow: /admin/
-Disallow: /api/
-Disallow: /private/
-Disallow: /.env
-Disallow: /.git/
+# 禁止抓取敏感区域和后台管理
+Disallow: /pages/admin.html
 Disallow: /tools/
 Disallow: /data/
 
-# 明确允许重要资源
-Allow: /pages/
-Allow: /css/
-Allow: /js/
-Allow: /assets/
-Allow: /posts/
-Allow: /sitemap.xml
+# 禁止抓取配置和系统文件
+Disallow: /*.env$
+Disallow: /.git/
+Disallow: /package.json
+Disallow: /vercel.json
+Disallow: /Dockerfile
+Disallow: /*.conf$
 
 # 站点地图位置
 Sitemap: https://171780.xyz/sitemap.xml
 
-# 针对其他搜索引擎的抓取延迟（Googlebot 不支持此指令）
+# 针对特定搜索引擎的抓取延迟
 User-agent: Bingbot
 Crawl-delay: 1
 
 User-agent: Yandex
 Crawl-delay: 1
+
+# 针对常见爬虫的优化
+User-agent: Googlebot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
