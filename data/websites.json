@@ -5,10 +5,10 @@
       "icon": "🎮",
       "websites": [
         {
-          "name": "The GameDiscoverCo Newsletter",
-          "description": "由资深游戏业分析师Simon Carless主持，专注于游戏市场的商业分析、数据洞察和平台策略。对于想了解游戏如何被发现、定价和盈利的专业人士来说是无价之宝。",
-          "subscription": "在Substack上搜索",
-          "url": "https://gamediscover.co/"
+          "name": "2.5D 卡通城市放置系统 (CubeCity)",
+          "description": "一个有趣的2.5D卡通风格城市建设放置系统，采用等距视角设计，让您可以自由布置和规划自己的虚拟城市。轻松体验城市规划的乐趣，适合放松和创意发挥。",
+          "subscription": "直接访问即可体验",
+          "url": "https://cube-city.vercel.app/"
         },
         {
           "name": "红色井界™ - 网页红警",
