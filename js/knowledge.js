@@ -82,6 +82,24 @@ class KnowledgeNavigator {
                         description: '专业的声音分享平台，采用CC知识共享授权协议。汇集众多录音师作品，提供自然、生活、人声、器乐、音效等多类型声音资源。非营利性开放项目，完全免费，支持智能音频解析和高效合辑管理。',
                         subscription: '直接访问即可使用',
                         url: 'https://www.ear0.com/'
+                    },
+                    {
+                        name: 'LesFM 唱片公司',
+                        description: '专业音乐版权平台，为YouTube博主和创作者提供2000+优质背景音乐曲目。涵盖Acoustic、Folk、Jazz、Electronic等多种风格，从平和宁静到充满活力应有尽有。支持商用授权，提供无限下载和在线发布服务。',
+                        subscription: '免费试听，订阅后使用',
+                        url: 'https://lesfm.net/zh-CN/'
+                    },
+                    {
+                        name: 'Musicca 音乐工具',
+                        description: '免费在线音乐学习工具集，提供虚拟钢琴、吉他、贝斯、鼓组等多种乐器练习工具。包含和弦播放器、节拍器、调音器、音程查找、音阶查找等实用功能，还有五度圈、空白五线谱等理论学习资源，适合音乐爱好者和学习者使用。',
+                        subscription: '直接访问即可使用',
+                        url: 'https://www.musicca.com/zh/tools'
+                    },
+                    {
+                        name: 'Yue AI 音乐生成器',
+                        description: '开源AI音乐生成器，可根据歌词自动生成带人声的专业级音乐作品。支持多种音乐风格和语言，可自定义曲风、节奏和人声类型。生成的音乐可商用，支持分轨下载（人声、伴奏分离），提供MP3和WAV高质量格式，让音乐创作变得简单高效。',
+                        subscription: '直接访问即可使用',
+                        url: 'https://yueai.ai/'
                     }
                 ]
             },
@@ -162,16 +180,34 @@ class KnowledgeNavigator {
                 icon: '🎨',
                 websites: [
                     {
-                        name: 'Sidebar',
-                        description: '每天只推送5个他们认为当天最好的设计链接，可能是关于UI/UX、产品设计、工具、技巧等。内容极其精炼，质量极高。',
-                        subscription: 'Sidebar官网',
-                        url: 'https://sidebar.io/'
+                        name: 'React Bits',
+                        description: 'React开发者的优质资源平台，提供React组件、设计模式、最佳实践和开发技巧。精心整理的React生态系统工具和资源，帮助开发者构建更好的React应用。',
+                        subscription: '直接访问即可使用',
+                        url: 'https://www.reactbits.dev/'
                     },
                     {
-                        name: 'UX Design Weekly',
-                        description: '每周为你筛选和推荐关于用户体验设计的最佳文章、工具和资源。非常适合UX从业者保持学习和灵感更新。',
-                        subscription: '在其官网填写邮箱',
-                        url: 'https://uxdesignweekly.com/'
+                        name: 'SVG Loaders - MageCDN',
+                        description: '100+ 开源SVG加载动画（Spinners）工具库。所有动画采用MIT许可证，可商用且无需归属。包含各种精美的SVG加载图标，可直接用于网站和应用的内容加载提示。',
+                        subscription: '直接访问即可使用',
+                        url: 'https://magecdn.com/tools/svg-loaders'
+                    },
+                    {
+                        name: 'Icon-icons',
+                        description: '海量免费图标资源库，提供数十万个高质量图标，支持SVG、PNG等多种格式下载。涵盖各种主题和风格，适合网站、应用和设计项目使用。支持中文界面，方便国内设计师使用。',
+                        subscription: '直接访问即可下载',
+                        url: 'https://icon-icons.com/zh/'
+                    },
+                    {
+                        name: 'PatternCraft',
+                        description: '专业级背景图案和渐变工具库，提供200+精美的CSS和Tailwind背景图案。包含渐变、几何、装饰和特效等多种分类，支持实时预览和一键复制代码，帮助开发者快速打造精美的网页背景。',
+                        subscription: '直接访问即可使用',
+                        url: 'https://patterncraft.fun/'
+                    },
+                    {
+                        name: 'Icon Library',
+                        description: '直观的图标库资源聚合平台，精心分类整理了多个优质开源图标库，包括Ionicons、Iconoir、Tabler Icons、Feather等。支持按风格（圆角、尖角、像素、手绘）分类浏览，方便设计师快速找到合适的图标资源。',
+                        subscription: '直接访问即可浏览',
+                        url: 'https://iconlibrary.framer.website/'
                     }
                 ]
             },
