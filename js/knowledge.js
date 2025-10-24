@@ -100,6 +100,12 @@ class KnowledgeNavigator {
                         description: '人类历史上最大的真正开放图书馆，拥有超过5959万本书籍和9552万篇学术论文。代码和数据100%开源，致力于永久保存人类知识。支持多种数据源整合，包括Library Genesis、Sci-Hub、Z-Library等，提供强大的搜索和下载功能。',
                         subscription: '直接访问即可使用',
                         url: 'https://annas-archive.org/'
+                    },
+                    {
+                        name: 'Project Gutenberg',
+                        description: '拥有超过75,000本免费电子书的经典文学图书馆，自1971年以来一直致力于数字化保存人类文学遗产。100%免费无需注册，专注于美国版权已过期的世界名著，支持epub和Kindle格式在线阅读或下载，由数百名志愿者精心数字化和校对。',
+                        subscription: '直接访问即可使用',
+                        url: 'https://www.gutenberg.org/'
                     }
                 ]
             },
