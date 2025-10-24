@@ -114,16 +114,22 @@ class KnowledgeNavigator {
                 icon: '✈️',
                 websites: [
                     {
-                        name: 'The Points Guy (TPG)',
-                        description: '如果你对常旅客计划、信用卡积分、航空公司和酒店忠诚度计划感兴趣，这是圣经级别的存在。提供最专业的建议和最新优惠信息。',
-                        subscription: 'The Points Guy官网',
-                        url: 'https://thepointsguy.com/'
+                        name: 'Lonely Planet',
+                        description: '全球最权威的旅行指南品牌，提供世界各地的目的地指南、旅行灵感、Best in Travel 年度榜单以及详尽的旅行规划工具。从热门景点到小众秘境，从预算旅行到奢华体验，帮助您规划完美的旅程。',
+                        subscription: '直接访问即可浏览',
+                        url: 'https://www.lonelyplanet.com/'
                     },
                     {
-                        name: 'Atlas Obscura Newsletter',
-                        description: '为你发现世界上那些奇妙、怪异和不起眼的角落。每周推送一个不可思议的地点，激发你的旅行灵感，适合喜欢探险和独特体验的旅行者。',
-                        subscription: 'Atlas Obscura官网',
-                        url: 'https://www.atlasobscura.com/'
+                        name: 'National Geographic Travel',
+                        description: '国家地理旅行频道，提供高品质的旅行目的地指南、摄影作品、文化探索和可持续旅行建议。从 UNESCO 世界遗产到隐藏宝藏，带您探索世界最精彩的地方和体验，适合追求深度旅行的探险者。',
+                        subscription: '直接访问即可浏览',
+                        url: 'https://www.nationalgeographic.com/travel/'
+                    },
+                    {
+                        name: '马蜂窝',
+                        description: '中国领先的旅行玩乐平台，汇聚海量真实旅行攻略、游记分享和旅行问答。提供全球热门目的地的自由行攻略、酒店预订、景点门票和当地玩乐服务，帮助旅行者规划个性化行程，发现小众玩法，适合中文用户深度了解目的地。',
+                        subscription: '直接访问即可使用',
+                        url: 'https://www.mafengwo.cn/'
                     }
                 ]
             },
