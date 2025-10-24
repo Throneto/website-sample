@@ -58,6 +58,12 @@ class KnowledgeNavigator {
                         description: '专业的摄影器材租赁平台社区，提供器材讨论、使用心得分享和摄影交流。适合想要体验各种摄影器材但不想立即购买的摄影爱好者，是了解器材性能和租赁服务的好去处。',
                         subscription: '注册后即可参与',
                         url: 'https://community.irentals.cn/community'
+                    },
+                    {
+                        name: '视觉中国 VCG.COM',
+                        description: '视觉中国旗下正版图片素材平台，提供海量高质量创意图片、视频、设计素材和版权字体。覆盖各主题类别，包含大量独家内容，支持4K分辨率及多种文件格式，满足不同项目的创意设计与配图需求。',
+                        subscription: '注册登录后使用',
+                        url: 'https://www.vcg.com/'
                     }
                 ]
             },
