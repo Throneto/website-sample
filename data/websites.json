@@ -15,6 +15,12 @@
           "description": "首个完全基于网页技术的红色警戒2游戏引擎，支持跨平台（PC、Mac、手机、平板）在线对战。无需下载安装，打开浏览器即玩，支持全球联机和自定义地图，让您随时放松一下！",
           "subscription": "直接访问即可游玩",
           "url": "https://ra2web.com/"
+        },
+        {
+          "name": "Pokemon Auto Chess",
+          "description": "一款基于宝可梦（Pokemon）主题的在线自走棋游戏。它免费、开源、非盈利，结合了宠物小精灵和自走棋玩法，玩家可以选择不同的神奇宝贝和策略进行对战，支持多人对战、创建房间、物品、进化和排名等机制，增加了游戏的可玩性。",
+          "subscription": "直接访问即可游玩",
+          "url": "https://pokemon-auto-chess.com/"
         }
       ]
     },
