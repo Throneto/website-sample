@@ -156,22 +156,22 @@ class KnowledgeNavigator {
                 icon: '🌐',
                 websites: [
                     {
-                        name: 'Frontend Focus',
-                        description: '一份高质量的免费周刊，汇总前端开发领域的最新文章、教程、工具和新闻。内容经过精心筛选，是前端开发者的必读刊物。',
-                        subscription: 'Cooper Press（搜索Frontend Focus）',
-                        url: 'https://frontendfoc.us/'
+                        name: 'HelloGitHub',
+                        description: '一个发现和分享有趣、入门级开源项目的平台。希望大家能够在这里找到编程的快乐、轻松搞定问题的技术方案、大呼过瘾的开源神器，顺其自然地开启开源之旅。',
+                        subscription: '直接访问即可浏览',
+                        url: 'https://hellogithub.com/'
                     },
                     {
-                        name: 'JavaScript Weekly',
-                        description: '同上，由Cooper Press出品，专注于JavaScript生态圈。无论是新闻、框架更新（React, Vue, Svelte等）、还是深度教程，这里都有。',
-                        subscription: 'Cooper Press官网',
-                        url: 'https://javascriptweekly.com/'
+                        name: '菜鸟教程',
+                        description: '学的不仅是技术，更是梦想！提供 HTML、CSS、JavaScript、Python、Java、SQL、PHP 等各种编程语言的免费在线教程、在线实例和工具。适合初学者和进阶开发者学习参考。',
+                        subscription: '直接访问即可学习',
+                        url: 'https://www.runoob.com/'
                     },
                     {
-                        name: 'CSS-Tricks Newsletter',
-                        description: 'CSS-Tricks网站的精华内容推送，包含最新的CSS特性、布局技巧、前端开发文章和优质代码笔。',
-                        subscription: 'CSS-Tricks官网',
-                        url: 'https://css-tricks.com/'
+                        name: 'GTmetrix',
+                        description: '专业的网站性能分析和优化工具，提供详细的页面加载速度分析、性能评分和优化建议。支持多地测试、真实设备模拟和历史记录追踪，帮助开发者优化网站性能和用户体验。',
+                        subscription: '免费使用，注册后解锁更多功能',
+                        url: 'https://gtmetrix.com/'
                     }
                 ]
             },
@@ -208,48 +208,12 @@ class KnowledgeNavigator {
                         description: '直观的图标库资源聚合平台，精心分类整理了多个优质开源图标库，包括Ionicons、Iconoir、Tabler Icons、Feather等。支持按风格（圆角、尖角、像素、手绘）分类浏览，方便设计师快速找到合适的图标资源。',
                         subscription: '直接访问即可浏览',
                         url: 'https://iconlibrary.framer.website/'
-                    }
-                ]
-            },
-            {
-                name: 'DevOps',
-                icon: '⚙️',
-                websites: [
-                    {
-                        name: 'DevOps Weekly',
-                        description: '由知名顾问Gareth Rushgrove主持，是历史最悠久、最受尊敬的DevOps通讯之一。内容涵盖技术文章、工具发布、文化讨论等。',
-                        subscription: 'Cooper Press官网',
-                        url: 'https://www.devopsweekly.com/'
                     },
                     {
-                        name: 'SRE Weekly',
-                        description: '专注于网站可靠性工程、运维和系统管理。内容非常技术导向，适合SRE和平台工程师。',
-                        subscription: '在其官网填写邮箱',
-                        url: 'https://sreweekly.com/'
-                    }
-                ]
-            },
-            {
-                name: 'AI Security',
-                icon: '🤖',
-                websites: [
-                    {
-                        name: 'The Algorithm Bridge (by Gary Marcus)',
-                        description: '虽然不完全是安全导向，但Gary Marcus是AI领域对当前深度学习范式最著名的批评者之一。阅读他的文章能让你从根本层面思考AI的可靠性、鲁棒性和安全性问题。',
-                        subscription: '在Substack上搜索',
-                        url: 'https://garymarcus.substack.com/'
-                    },
-                    {
-                        name: 'AI Security Newsletter (by Reith & Associates)',
-                        description: '一个专门关注AI与机器学习安全、隐私和对抗性攻击的通讯。内容专业，紧跟学术和工业界的最新进展。',
-                        subscription: '在其官网填写邮箱',
-                        url: '#'
-                    },
-                    {
-                        name: 'The Batch (by DeepLearning.AI)',
-                        description: '由吴恩达的DeepLearning.AI团队出品，每周汇总AI领域的重要新闻、研究论文解读和行业趋势。其中经常包含关于AI伦理、偏见和模型安全的内容。',
-                        subscription: 'DeepLearning.AI官网',
-                        url: 'https://www.deeplearning.ai/the-batch/'
+                        name: 'Maple Mono',
+                        description: '专为极客匠心打造的编程字体，优雅的等宽字体设计，提供手写风格斜体和圆角设计。支持可变字重、丰富的智能连字、内置 Nerd-Font 图标，中英文 2:1 等宽设计，可精细自定义 OpenType 功能。让代码阅读体验更加丝滑流畅，提升工作效率。',
+                        subscription: '直接访问即可下载',
+                        url: 'https://font.subf.dev/zh-cn/'
                     }
                 ]
             }
