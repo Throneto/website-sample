@@ -90,16 +90,16 @@ class KnowledgeNavigator {
                 icon: '📚',
                 websites: [
                     {
-                        name: 'The New Yorker: The Books Briefing',
-                        description: '每周为你带来《纽约客》中最精彩的图书评论、作者专访和文学文化随笔。品味极高，是发现好书和深度评论的首选。',
-                        subscription: 'New Yorker官网',
-                        url: 'https://www.newyorker.com/newsletter/books'
+                        name: 'Z-Library',
+                        description: '世界上最大的数字图书馆之一，您的知识和文化之门。提供数百万本书籍和学术论文的在线阅读和下载，支持多种格式，包括个性化推荐、电子书转换、Telegram机器人等功能，让每个人都能轻松获取知识。',
+                        subscription: '注册登录后使用',
+                        url: 'https://z-library.ec/'
                     },
                     {
-                        name: 'Literary Hub',
-                        description: '汇集了来自全球各大出版社、作家和文学杂志的精华内容。其newsletter是获取新书发布信息、节选、评论和文学界动态的完美渠道。',
-                        subscription: 'Literary Hub官网',
-                        url: 'https://lithub.com/'
+                        name: 'Anna\'s Archive',
+                        description: '人类历史上最大的真正开放图书馆，拥有超过5959万本书籍和9552万篇学术论文。代码和数据100%开源，致力于永久保存人类知识。支持多种数据源整合，包括Library Genesis、Sci-Hub、Z-Library等，提供强大的搜索和下载功能。',
+                        subscription: '直接访问即可使用',
+                        url: 'https://annas-archive.org/'
                     }
                 ]
             },
