@@ -48,16 +48,16 @@ class KnowledgeNavigator {
                 icon: '📸',
                 websites: [
                     {
-                        name: 'The Phoblographer',
-                        description: '提供深入的相机评测、摄影技巧、艺术家访谈和后处理教程。内容质量高，适合严肃的摄影爱好者。',
-                        subscription: '在其官网填写邮箱',
-                        url: 'https://www.thephoblographer.com/'
+                        name: '蜂鸟网',
+                        description: '国内知名的摄影门户网站，提供丰富的摄影器材评测、摄影作品展示、摄影技巧教程和活跃的摄影社区。汇聚了大量摄影爱好者和专业摄影师，是中文摄影爱好者的优质交流平台。',
+                        subscription: '直接访问浏览',
+                        url: 'https://www.fengniao.com/'
                     },
                     {
-                        name: 'PetaPixel Newsletter',
-                        description: 'PetaPixel是领先的摄影新闻网站，其newsletter汇总了网站上的精华内容，包括行业新闻、创意灵感和技术教程。',
-                        subscription: 'PetaPixel官网',
-                        url: 'https://petapixel.com/'
+                        name: 'iRentals 摄影器材社区',
+                        description: '专业的摄影器材租赁平台社区，提供器材讨论、使用心得分享和摄影交流。适合想要体验各种摄影器材但不想立即购买的摄影爱好者，是了解器材性能和租赁服务的好去处。',
+                        subscription: '注册后即可参与',
+                        url: 'https://community.irentals.cn/community'
                     }
                 ]
             },
