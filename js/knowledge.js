@@ -72,16 +72,16 @@ class KnowledgeNavigator {
                 icon: '🎵',
                 websites: [
                     {
-                        name: 'The New York Times - Popcast',
-                        description: '虽然是播客，但其配套的newsletter会提供每期讨论的深度背景、歌曲链接和延伸阅读，是了解流行音乐深度评论的绝佳来源。',
-                        subscription: 'NYT官网',
-                        url: 'https://www.nytimes.com/column/popcast'
+                        name: '国家大剧院古典音乐频道',
+                        description: '国家大剧院官方古典音乐平台，提供海量高清演出实况、歌剧、音乐会、纪录片等精品内容。汇集世界顶级指挥大师、名团巡礼和中国音乐精品，支持手机、电脑、平板多平台观看。',
+                        subscription: '注册会员后观看',
+                        url: 'https://www.ncpa-classic.com/'
                     },
                     {
-                        name: 'Water & Music',
-                        description: '一个非常专业的、研究驱动的通讯，专注于音乐产业的科技与战略转型。内容涉及Web3、流媒体经济、数据分析等，非常硬核。',
-                        subscription: '在Substack上搜索',
-                        url: 'https://www.waterandmusic.com/'
+                        name: '耳聆网 Ear0',
+                        description: '专业的声音分享平台，采用CC知识共享授权协议。汇集众多录音师作品，提供自然、生活、人声、器乐、音效等多类型声音资源。非营利性开放项目，完全免费，支持智能音频解析和高效合辑管理。',
+                        subscription: '直接访问即可使用',
+                        url: 'https://www.ear0.com/'
                     }
                 ]
             },
