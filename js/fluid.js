@@ -17,18 +17,21 @@
         this.color = [0, 0, 0];
     }
 
+    // 检测是否为移动设备并调整配置
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
     let config = {
-        SIM_RESOLUTION: 128,
-        DYE_RESOLUTION: 900,
-        CAPTURE_RESOLUTION: 512,
+        SIM_RESOLUTION: isMobile ? 64 : 128,
+        DYE_RESOLUTION: isMobile ? 512 : 900,
+        CAPTURE_RESOLUTION: isMobile ? 256 : 512,
         DENSITY_DISSIPATION: 4.5,
         VELOCITY_DISSIPATION: 2,
         PRESSURE: 0.1,
-        PRESSURE_ITERATIONS: 20,
+        PRESSURE_ITERATIONS: isMobile ? 15 : 20,
         CURL: 3,
         SPLAT_RADIUS: 0.2,
         SPLAT_FORCE: 3500,
-        SHADING: true,
+        SHADING: !isMobile,
         COLOR_UPDATE_SPEED: 10,
         PAUSED: false,
         BACK_COLOR: { r: 0, g: 0, b: 0 },

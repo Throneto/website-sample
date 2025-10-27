@@ -323,14 +323,52 @@
     <script>
         (function(){
             try {
+                // 检测用户是否偏好减少动画
                 var prefersReduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                
+                // 检测是否为移动设备
+                var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+                
+                // 网络检测
                 var connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-                var slowNetwork = connection && (connection.saveData || /^(slow-2g|2g)$/.test(connection.effectiveType || '') || (connection.downlink && connection.downlink < 1));
-                var lowCores = (navigator.hardwareConcurrency || 2) < 4;
-                var lowMemory = navigator.deviceMemory && navigator.deviceMemory < 4;
-                var isLowEnd = lowCores || lowMemory;
+                var slowNetwork = connection && connection.saveData;
+                var verySlowNetwork = connection && /^(slow-2g|2g)$/.test(connection.effectiveType || '');
+                
+                // 性能检测 - 放宽条件
+                var lowCores = (navigator.hardwareConcurrency || 2) < 2;
+                var lowMemory = navigator.deviceMemory && navigator.deviceMemory < 2;
+                var isVeryLowEnd = lowCores || lowMemory;
 
-                if (!prefersReduce && !slowNetwork && !isLowEnd) {
+                // 决策逻辑优化
+                if (prefersReduce) {
+                    // 用户明确偏好减少动画，完全隐藏背景
+                    var style = document.createElement('style');
+                    style.textContent = '.bg-container{display:none !important;}';
+                    document.head.appendChild(style);
+                } else if (verySlowNetwork || isVeryLowEnd) {
+                    // 非常低端的设备或网络：只加载星云，不加载流体
+                    var g = document.createElement('script');
+                    g.src = 'js/galaxy.js';
+                    g.defer = true;
+                    document.body.appendChild(g);
+                } else if (isMobile || slowNetwork) {
+                    // 移动设备或慢速网络：只加载星云（已针对移动端优化为500颗星）
+                    var g = document.createElement('script');
+                    g.src = 'js/galaxy.js';
+                    g.defer = true;
+                    document.body.appendChild(g);
+                    
+                    // 移动端可选：在网络条件好时延迟加载流体动画
+                    if (!slowNetwork) {
+                        setTimeout(function() {
+                            var f = document.createElement('script');
+                            f.src = 'js/fluid.js';
+                            f.defer = true;
+                            document.body.appendChild(f);
+                        }, 2000);
+                    }
+                } else {
+                    // 桌面设备或高性能设备：加载完整动画
                     var g = document.createElement('script');
                     g.src = 'js/galaxy.js';
                     g.defer = true;
@@ -340,14 +378,17 @@
                     f.src = 'js/fluid.js';
                     f.defer = true;
                     document.body.appendChild(f);
-                } else {
-                    // 低性能或节流：隐藏复杂背景，避免不必要的GPU占用
-                    var style = document.createElement('style');
-                    style.textContent = '.bg-container{display:none !important;}';
-                    document.head.appendChild(style);
                 }
             } catch (e) {
-                // 发生异常时不阻塞页面
+                // 发生异常时加载基础星云效果
+                try {
+                    var g = document.createElement('script');
+                    g.src = 'js/galaxy.js';
+                    g.defer = true;
+                    document.body.appendChild(g);
+                } catch (err) {
+                    // 如果仍然失败，则不阻塞页面
+                }
             }
         })();
     </script>

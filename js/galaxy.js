@@ -81,9 +81,10 @@ for (var i = 0; i < maxStars; i++) {
     new Star();
 }
 
-// 性能优化：添加FPS控制
+// 性能优化：根据设备动态调整FPS
+var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 var lastFrameTime = 0;
-var fps = 30; // 目标帧率
+var fps = isMobile ? 24 : 30; // 移动端降低帧率以提升性能
 var fpsInterval = 1000 / fps;
 
 function animation(currentTime) {
