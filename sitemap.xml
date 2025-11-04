@@ -45,7 +45,7 @@
   <!-- 注意：已移除带查询参数的博客文章URL，改为只索引博客列表页 -->
   <!-- 个别文章页面会通过博客列表页自然被发现和索引 -->
   
-  <!-- 法律页面 -->
+  <!-- 法律页面 - 只包含最终URL，不包含重定向URL -->
   <url>
     <loc>https://171780.xyz/privacy-policy.html</loc>
     <lastmod>2025-11-04T00:00:00+00:00</lastmod>
@@ -60,26 +60,7 @@
     <priority>0.3</priority>
   </url>
   
-  <!-- Google 报告需要索引的页面 -->
-  <url>
-    <loc>https://171780.xyz/terms.html</loc>
-    <lastmod>2025-01-27T00:00:00+00:00</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://171780.xyz/privacy.html</loc>
-    <lastmod>2025-01-27T00:00:00+00:00</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://171780.xyz/about.html</loc>
-    <lastmod>2025-01-27T00:00:00+00:00</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
+  <!-- 注意：已移除重定向URL（terms.html, privacy.html, about.html）
+       这些URL会自动重定向到最终页面，不需要在sitemap中列出 -->
   
 </urlset>
