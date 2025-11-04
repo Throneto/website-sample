@@ -60,4 +60,26 @@
     <priority>0.3</priority>
   </url>
   
+  <!-- Google 报告需要索引的页面 -->
+  <url>
+    <loc>https://171780.xyz/terms.html</loc>
+    <lastmod>2025-01-27T00:00:00+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://171780.xyz/privacy.html</loc>
+    <lastmod>2025-01-27T00:00:00+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://171780.xyz/about.html</loc>
+    <lastmod>2025-01-27T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
 </urlset>

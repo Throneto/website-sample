@@ -86,6 +86,21 @@
       "source": "/index.html",
       "destination": "/",
       "permanent": true
+    },
+    {
+      "source": "/terms.html",
+      "destination": "/terms-of-service.html",
+      "permanent": true
+    },
+    {
+      "source": "/privacy.html",
+      "destination": "/privacy-policy.html",
+      "permanent": true
+    },
+    {
+      "source": "/about.html",
+      "destination": "/pages/about.html",
+      "permanent": true
     }
   ],
   "cleanUrls": true,
