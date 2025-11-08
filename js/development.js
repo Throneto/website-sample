@@ -75,14 +75,14 @@ class DevelopmentManager {
             {
                 id: 3,
                 title: 'Draw虚拟白板',
-                description: '在线手绘风格图表绘制工具。支持流程图、架构图、思维导图等多种图表类型，采用手绘风格呈现，让你的图表更具个性和艺术感。',
+                description: '专业的在线手绘风格图表绘制工具，基于 Excalidraw 技术构建。支持流程图、架构图、思维导图、UML 图等多种图表类型，采用自然手绘风格呈现，让技术文档更具个性和艺术感。支持实时协作、版本历史、多格式导出等功能，是团队协作和知识可视化的理想选择。',
                 status: 'active',
                 icon: '✏️',
-                technologies: ['Canvas', 'SVG', 'Excalidraw', 'TypeScript'],
+                technologies: ['Canvas', 'SVG', 'Excalidraw', 'TypeScript', 'React'],
                 demoUrl: 'https://draw.171780.xyz',
-                features: ['手绘风格', '实时协作', '导出多格式', '丰富组件库'],
+                features: ['手绘风格', '实时协作', '多格式导出', '丰富组件库', '版本历史', '云端同步'],
                 startDate: '2024-07-15',
-                lastUpdate: '2025-10-18'
+                lastUpdate: '2025-01-21'
             },
             {
                 id: 4,
