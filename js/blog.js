@@ -237,9 +237,13 @@ class BlogManager {
         const articlesHTML = filteredArticles.map(article => this.createArticleHTML(article)).join('');
         grid.innerHTML = articlesHTML;
 
-        // 添加文章点击事件
+        // 添加文章点击事件（排除"阅读更多"按钮）
         grid.querySelectorAll('.blog-article').forEach((article, index) => {
-            article.addEventListener('click', () => {
+            article.addEventListener('click', (e) => {
+                // 如果点击的是链接或按钮，不触发文章卡片点击
+                if (e.target.closest('a') || e.target.closest('button')) {
+                    return;
+                }
                 const articleData = filteredArticles[index];
                 this.openArticle(articleData);
             });
@@ -323,7 +327,7 @@ class BlogManager {
                 </div>
                 
                 <div class="article-actions">
-                    <a href="#" class="read-more" data-slug="${article.slug}">
+                    <a href="/pages/blog/article.html?slug=${article.slug || article.id}" class="read-more" data-slug="${article.slug || article.id}">
                         阅读更多
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                             <path d="M5 12h14M12 5l7 7-7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -360,15 +364,13 @@ class BlogManager {
     }
 
     openArticle(article) {
-        // 这里可以实现文章详情页面的打开逻辑
-        // 目前只是简单的跳转或显示
-        console.log('打开文章:', article.title);
-        
-        // 可以跳转到文章详情页
-        // window.location.href = `/blog/${article.slug}`;
-        
-        // 或者显示文章内容模态框
-        this.showArticleModal(article);
+        // 跳转到文章详情页
+        const slug = article.slug || article.id;
+        if (slug) {
+            window.location.href = `/pages/blog/article.html?slug=${encodeURIComponent(slug)}`;
+        } else {
+            console.error('文章缺少slug或id:', article);
+        }
     }
 
     showArticleModal(article) {
