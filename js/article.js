@@ -161,6 +161,9 @@ class ArticleManager {
         if (body) {
             const formattedContent = this.formatMarkdownContent(article.content || '');
             body.innerHTML = formattedContent;
+            
+            // 处理图片加载
+            this.setupImageLoading();
         }
 
         // 渲染统计信息
@@ -182,7 +185,9 @@ class ArticleManager {
         // 处理图片（带感叹号）- 必须在链接之前
         html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (match, alt, url) => {
             const safeAlt = this.escapeHtml(alt);
-            return `<img src="${url}" alt="${safeAlt}" loading="lazy" class="article-image">`;
+            // 处理图片URL：确保正确编码和路径处理
+            const processedUrl = this.processImageUrl(url);
+            return `<img src="${processedUrl}" alt="${safeAlt}" loading="lazy" class="article-image" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'200\'%3E%3Crect fill=\'%23f0f0f0\' width=\'400\' height=\'200\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' dy=\'.3em\' fill=\'%23999\' font-family=\'Arial\' font-size=\'14\'%3E图片加载失败%3C/text%3E%3C/svg%3E'; this.style.border='1px solid rgba(255,59,48,0.3)'; this.style.background='rgba(255,59,48,0.05)';" onload="this.style.opacity='1'; this.style.transition='opacity 0.3s ease';">`;
         });
 
         // 处理链接（不带感叹号）
@@ -259,6 +264,106 @@ class ArticleManager {
         const div = document.createElement('div');
         div.textContent = text;
         return div.innerHTML;
+    }
+
+    /**
+     * 处理图片URL，确保正确编码和路径转换
+     */
+    processImageUrl(url) {
+        if (!url) return '';
+        
+        // 去除首尾空格
+        url = url.trim();
+        
+        // 如果已经是完整的URL（http:// 或 https://），直接返回
+        // URL对象会自动处理编码
+        if (url.match(/^https?:\/\//i)) {
+            try {
+                // 尝试解析URL，如果成功则返回标准化的URL
+                const urlObj = new URL(url);
+                return urlObj.href;
+            } catch (e) {
+                // 如果URL解析失败（可能是相对路径被误判），返回原URL
+                console.warn('URL解析失败，使用原URL:', url);
+                return url;
+            }
+        }
+        
+        // 如果是data URI，直接返回
+        if (url.match(/^data:/i)) {
+            return url;
+        }
+        
+        // 处理相对路径
+        // 如果以 / 开头，从根目录开始
+        if (url.startsWith('/')) {
+            // 编码路径中的特殊字符（但保留 /）
+            return url.split('/').map(part => part ? encodeURIComponent(part) : '').join('/');
+        }
+        
+        // 如果以 ../ 开头，需要根据当前页面路径计算
+        if (url.startsWith('../')) {
+            // 当前页面是 /pages/blog/article.html
+            // 需要回到根目录，所以 ../ 会到 /pages/，../../ 会到根目录
+            const basePath = window.location.pathname;
+            const pathParts = basePath.split('/').filter(p => p);
+            // 移除 article.html
+            pathParts.pop();
+            
+            // 计算需要向上几级
+            let upLevels = 0;
+            let remainingUrl = url;
+            while (remainingUrl.startsWith('../')) {
+                upLevels++;
+                remainingUrl = remainingUrl.substring(3);
+            }
+            
+            // 构建新路径
+            const newPathParts = pathParts.slice(0, -upLevels);
+            const newPath = '/' + newPathParts.join('/') + '/' + remainingUrl;
+            // 编码路径
+            return newPath.split('/').map(part => part ? encodeURIComponent(part) : '').join('/');
+        }
+        
+        // 如果是相对路径（不以 / 开头），相对于当前页面
+        // 当前页面是 /pages/blog/article.html，所以相对路径应该相对于 /pages/blog/
+        if (!url.startsWith('/') && !url.match(/^https?:\/\//i)) {
+            const basePath = window.location.pathname;
+            const pathParts = basePath.split('/').filter(p => p);
+            pathParts.pop(); // 移除 article.html
+            const baseDir = '/' + pathParts.join('/') + '/';
+            // 编码路径
+            const encodedUrl = url.split('/').map(part => encodeURIComponent(part)).join('/');
+            return baseDir + encodedUrl;
+        }
+        
+        // 默认返回原URL（已经处理过的情况）
+        return url;
+    }
+
+    /**
+     * 设置图片加载处理
+     */
+    setupImageLoading() {
+        const images = document.querySelectorAll('.article-body img');
+        
+        images.forEach(img => {
+            // 如果图片已经加载完成
+            if (img.complete && img.naturalHeight !== 0) {
+                img.style.opacity = '1';
+            } else {
+                // 等待图片加载
+                img.addEventListener('load', function() {
+                    this.style.opacity = '1';
+                });
+                
+                // 处理加载错误
+                img.addEventListener('error', function() {
+                    console.warn('图片加载失败:', this.src);
+                    // onerror 属性已经处理了错误显示
+                });
+            }
+        });
     }
 
     formatDate(dateString) {
