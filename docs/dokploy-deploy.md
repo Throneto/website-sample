@@ -70,6 +70,14 @@ graph TD
 
 详细步骤请继续阅读下文。
 
+> [!NOTE]
+> **关于 GitHub 和 Vercel**
+> 
+> 如果你的 GitHub 仓库关联了 Vercel,推送代码时会触发 Vercel 自动构建。
+> 本项目已配置 `vercel.json` 支持 Vercel 部署,无需额外设置。
+> 
+> 如果只使用 Dokploy 部署,可以在 Vercel 面板中断开 GitHub 连接。
+
 ---
 
 ## 🚀 部署步骤
