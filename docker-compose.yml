@@ -17,14 +17,12 @@ services:
       - db
     networks:
       - together-network
-      - traefik-network
     restart: unless-stopped
     labels:
       # Enable Traefik
       - "traefik.enable=true"
       
-      # Docker network to use
-      - "traefik.docker.network=traefik-network"
+
       
       # HTTP Router - Main domain
       - "traefik.http.routers.together-web.rule=Host(`${DOMAIN:-171780.xyz}`)"
@@ -97,9 +95,6 @@ networks:
   together-network:
     driver: bridge
     name: together-internal
-  traefik-network:
-    external: true
-    name: traefik-network
 
 volumes:
   postgres_data:

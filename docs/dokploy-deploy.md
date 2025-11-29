@@ -25,17 +25,13 @@
 - ✅ Docker installed
 - ✅ Docker Compose installed  
 - ✅ Dokploy platform configured
-- ✅ **Traefik proxy** running
-- ✅ **traefik-network** external network created
+- ✅ **Traefik proxy** running (Dokploy 自带)
 - ✅ 域名已配置: `171780.xyz`
 
 > [!IMPORTANT]
-> ### Traefik网络要求
-> 本项目使用Traefik进行路由管理。首次部署前需要创建外部网络:
-> ```bash
-> docker network create traefik-network
-> ```
-> 如果使用Dokploy,该网络通常已自动创建。
+> ### Dokploy 网络配置
+> Dokploy 平台自带 Traefik 反向代理,会自动管理容器网络和路由配置。
+> **无需手动创建** `traefik-network`,Dokploy 会自动处理所有网络设置。
 
 ---
 
@@ -577,6 +573,33 @@ node tools/generate-sitemap.js
 # 访问: https://search.google.com/search-console
 # 提交 URL: https://171780.xyz/sitemap.xml
 ```
+
+### 问题5: 网络连接错误
+
+> [!NOTE]
+> **Dokploy 网络配置说明**
+> 
+> Dokploy 平台会自动管理 Docker 网络和 Traefik 路由配置。
+> 如果遇到网络相关错误,请确认:
+
+```bash
+# 检查 docker-compose.yml 配置
+# ❌ 不要手动引用 traefik-network 外部网络
+# ✅ 使用项目内部网络即可
+
+# 正确配置示例:
+networks:
+  together-network:
+    driver: bridge
+    name: together-internal
+
+# Dokploy 会自动处理 Traefik 路由
+# 无需在 docker-compose.yml 中配置外部网络
+```
+
+**常见错误:**
+- `network traefik-network not found` → 移除 docker-compose.yml 中对外部 traefik-network 的引用
+- `Could not attach to network` → 检查 networks 配置是否正确
 
 ---
 
