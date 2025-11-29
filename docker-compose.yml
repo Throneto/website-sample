@@ -4,7 +4,7 @@
 
 services:
   # Frontend - Nginx web server
-  frontend:
+  web:
     build:
       context: .
       dockerfile: Dockerfile
@@ -27,16 +27,16 @@ services:
       - "traefik.docker.network=dokploy-network"
       
       # HTTP Router - Main domain
-      - "traefik.http.routers.together-frontend.rule=Host(`${DOMAIN:-171780.xyz}`)"
-      - "traefik.http.routers.together-frontend.entrypoints=web"
-      - "traefik.http.routers.together-frontend.service=together-frontend"
+      - "traefik.http.routers.together-web.rule=Host(`${DOMAIN:-171780.xyz}`)"
+      - "traefik.http.routers.together-web.entrypoints=web"
+      - "traefik.http.routers.together-web.service=together-web"
       
       # HTTPS Router - Main domain with TLS
-      - "traefik.http.routers.together-frontend-secure.rule=Host(`${DOMAIN:-171780.xyz}`)"
-      - "traefik.http.routers.together-frontend-secure.entrypoints=websecure"
-      - "traefik.http.routers.together-frontend-secure.tls=true"
-      - "traefik.http.routers.together-frontend-secure.tls.certresolver=letsencrypt"
-      - "traefik.http.routers.together-frontend-secure.service=together-frontend"
+      - "traefik.http.routers.together-web-secure.rule=Host(`${DOMAIN:-171780.xyz}`)"
+      - "traefik.http.routers.together-web-secure.entrypoints=websecure"
+      - "traefik.http.routers.together-web-secure.tls=true"
+      - "traefik.http.routers.together-web-secure.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.together-web-secure.service=together-web"
       
       # Optional: WWW redirect
       - "traefik.http.routers.together-www.rule=Host(`www.${DOMAIN:-171780.xyz}`)"
@@ -49,7 +49,7 @@ services:
       # HTTP to HTTPS redirect
       - "traefik.http.middlewares.together-https-redirect.redirectscheme.scheme=https"
       - "traefik.http.middlewares.together-https-redirect.redirectscheme.permanent=true"
-      - "traefik.http.routers.together-frontend.middlewares=together-https-redirect"
+      - "traefik.http.routers.together-web.middlewares=together-https-redirect"
       
       # Security headers middleware
       - "traefik.http.middlewares.together-security.headers.frameDeny=true"
@@ -60,15 +60,15 @@ services:
       - "traefik.http.middlewares.together-security.headers.stsPreload=true"
       
       # Apply security headers to HTTPS router
-      - "traefik.http.routers.together-frontend-secure.middlewares=together-security"
+      - "traefik.http.routers.together-web-secure.middlewares=together-security"
       
       # Service - Port configuration
-      - "traefik.http.services.together-frontend.loadbalancer.server.port=80"
+      - "traefik.http.services.together-web.loadbalancer.server.port=80"
       
       # Health check
-      - "traefik.http.services.together-frontend.loadbalancer.healthcheck.path=/"
-      - "traefik.http.services.together-frontend.loadbalancer.healthcheck.interval=30s"
-      - "traefik.http.services.together-frontend.loadbalancer.healthcheck.timeout=5s"
+      - "traefik.http.services.together-web.loadbalancer.healthcheck.path=/"
+      - "traefik.http.services.together-web.loadbalancer.healthcheck.interval=30s"
+      - "traefik.http.services.together-web.loadbalancer.healthcheck.timeout=5s"
 
   # Database - PostgreSQL (optional for statistics)
   db:
