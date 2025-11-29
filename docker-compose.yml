@@ -18,11 +18,13 @@ services:
     depends_on:
       - db
     networks:
-      - blog-network
+      - dokploy-network
+      - together-network-v2
     restart: unless-stopped
     labels:
       # Enable Traefik
       - "traefik.enable=true"
+      - "traefik.docker.network=dokploy-network"
       
       # HTTP Router - Main domain
       - "traefik.http.routers.together-web.rule=Host(`${DOMAIN:-171780.xyz}`)"
@@ -79,7 +81,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
-      - blog-network
+      - together-network-v2
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-together_user}"]
@@ -91,8 +93,10 @@ services:
       - "traefik.enable=false"
 
 networks:
-  blog-network:
+  together-network-v2:
     driver: bridge
+  dokploy-network:
+    external: true
 
 volumes:
   postgres_data:
