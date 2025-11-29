@@ -19,13 +19,12 @@
 
 ```yaml
 networks:
-  together-network:     # 内部网络(web↔db通信)
-    name: together-internal
-  traefik-network:      # Traefik外部网络
-    external: true
+  blog-network:         # 应用内部网络
+    driver: bridge
+    # ✅ 让 Docker 自动生成网络名称
 ```
 
-**重要**: `traefik-network`必须在Dokploy中预先创建
+**说明**: Dokploy 会自动处理 Traefik 网络连接,无需手动配置外部网络。
 
 ### 3. 路由规则
 
@@ -50,11 +49,7 @@ traefik.http.routers.together-web-secure.tls.certresolver=letsencrypt
 
 ### 步骤1: 创建Traefik网络(仅首次)
 
-```bash
-docker network create traefik-network
-```
-
-或在Dokploy管理界面创建外部网络。
+Dokploy 平台会自动管理网络,此步骤通常不需要手动执行。
 
 ### 步骤2: 设置环境变量
 
@@ -155,12 +150,12 @@ docker logs traefik
 # 验证网络连接
 docker network inspect traefik-network
 
-# 检查容器标签
-docker inspect together-web | grep traefik
+# 检查容器标签 (使用实际容器名)
+docker inspect [container-name] | grep traefik
 ```
 
 **解决**:
-- 确认`traefik-network`已创建
+- 确认容器已正常启动
 - 验证域名DNS已指向服务器
 - 检查Traefik配置文件
 
@@ -206,8 +201,8 @@ https://traefik.your-domain.com/dashboard/
 # Traefik日志
 docker logs -f traefik
 
-# 应用日志
-docker logs -f together-web
+# 应用日志 (使用实际容器名)
+docker logs -f [container-name]
 ```
 
 ---

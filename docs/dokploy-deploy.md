@@ -211,7 +211,8 @@ docker-compose down
    
    > [!TIP]
    > **App Name 说明**
-   > - 填写 `together` 后,容器会自动命名为 `together-web-1`, `together-db-1`
+   > - App Name 用于生成容器名称前缀
+   > - 容器名称将自动生成,例如 `[project-name]-web-1`
    > - 必须使用小写字母和连字符,不能有空格
    
    填写完成后点击 **Create** 创建服务
@@ -223,7 +224,7 @@ docker-compose down
    > - ✅ **web** (Nginx 静态网站)
    > - ✅ **db** (PostgreSQL 数据库)
    > 
-   > 部署后会同时启动两个容器:`together-web-1` 和 `together-db-1`
+   > 部署后会同时启动两个容器(web 和 db)
    > 
    > ❌ **不要单独创建 Database 服务**,否则会导致服务冲突和配置混乱!
 
@@ -425,13 +426,12 @@ curl https://171780.xyz/sitemap.xml
 # 查看所有容器
 docker ps
 
-# 应该看到两个容器:
-# - together-web (Nginx)
-# - together-db (PostgreSQL)
+# 应该看到两个容器(名称可能包含随机后缀):
+# - [project-name]-web-1 (Nginx)
+# - [project-name]-db-1 (PostgreSQL)
 
-# 查看容器日志
-docker logs together-web
-docker logs together-db
+# 查看容器日志 (使用实际容器名)
+docker logs [container-name]
 ```
 
 #### 5.4 验证数据库连接
@@ -623,9 +623,10 @@ node tools/generate-sitemap.js
 
 # 正确配置示例:
 networks:
-  together-network:
+  blog-network:
     driver: bridge
-    name: together-internal
+    # ❌ 不要指定 name: together-internal
+    # ✅ 让 Docker 自动生成网络名称
 
 # Dokploy 会自动处理 Traefik 路由
 # 无需在 docker-compose.yml 中配置外部网络
@@ -647,9 +648,10 @@ networks:
 在服务器终端执行以下命令清理网络(需要 SSH 权限或通过 Dokploy 的 Shell 工具):
 
 ```bash
-# 1. 停止并删除相关容器
-docker stop together-web together-db || true
-docker rm together-web together-db || true
+# 1. 停止并删除相关容器 (使用 docker ps 查看实际名称)
+docker ps | grep together
+docker stop [container-id]
+docker rm [container-id]
 
 # 2. 清理未使用的网络(关键步骤)
 docker network prune -f
