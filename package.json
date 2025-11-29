@@ -5,6 +5,10 @@
   "main": "tools/md-to-json.js",
   "scripts": {
     "convert": "node tools/md-to-json.js",
+    "convert:incremental": "node tools/md-to-json-incremental.js",
+    "generate:pages": "node tools/generate-article-pages.js",
+    "generate:sitemap": "node tools/generate-sitemap.js",
+    "build": "npm run convert:incremental && npm run generate:pages && npm run generate:sitemap",
     "backup": "node tools/backup.js create",
     "backup:list": "node tools/backup.js list",
     "backup:clean": "node tools/backup.js clean",
@@ -23,4 +27,3 @@
     "node": ">=16.0.0"
   }
 }
-

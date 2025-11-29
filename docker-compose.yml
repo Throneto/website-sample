@@ -1,0 +1,106 @@
+version: '3.8'
+
+services:
+  # Frontend - Nginx web server
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: together-web
+    environment:
+      - DOMAIN=${DOMAIN:-171780.xyz}
+      - TZ=Asia/Shanghai
+    volumes:
+      - ./data:/usr/share/nginx/html/data:ro
+      - ./pages/blog:/usr/share/nginx/html/pages/blog:ro
+    depends_on:
+      - db
+    networks:
+      - together-network
+      - traefik-network
+    restart: unless-stopped
+    labels:
+      # Enable Traefik
+      - "traefik.enable=true"
+      
+      # Docker network to use
+      - "traefik.docker.network=traefik-network"
+      
+      # HTTP Router - Main domain
+      - "traefik.http.routers.together-web.rule=Host(`${DOMAIN:-171780.xyz}`)"
+      - "traefik.http.routers.together-web.entrypoints=web"
+      - "traefik.http.routers.together-web.service=together-web"
+      
+      # HTTPS Router - Main domain with TLS
+      - "traefik.http.routers.together-web-secure.rule=Host(`${DOMAIN:-171780.xyz}`)"
+      - "traefik.http.routers.together-web-secure.entrypoints=websecure"
+      - "traefik.http.routers.together-web-secure.tls=true"
+      - "traefik.http.routers.together-web-secure.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.together-web-secure.service=together-web"
+      
+      # Optional: WWW redirect
+      - "traefik.http.routers.together-www.rule=Host(`www.${DOMAIN:-171780.xyz}`)"
+      - "traefik.http.routers.together-www.entrypoints=web"
+      - "traefik.http.routers.together-www.middlewares=together-www-redirect"
+      - "traefik.http.middlewares.together-www-redirect.redirectregex.regex=^https?://www\\.(.+)"
+      - "traefik.http.middlewares.together-www-redirect.redirectregex.replacement=https://$${1}"
+      - "traefik.http.middlewares.together-www-redirect.redirectregex.permanent=true"
+      
+      # HTTP to HTTPS redirect
+      - "traefik.http.middlewares.together-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.together-https-redirect.redirectscheme.permanent=true"
+      - "traefik.http.routers.together-web.middlewares=together-https-redirect"
+      
+      # Security headers middleware
+      - "traefik.http.middlewares.together-security.headers.frameDeny=true"
+      - "traefik.http.middlewares.together-security.headers.contentTypeNosniff=true"
+      - "traefik.http.middlewares.together-security.headers.browserXssFilter=true"
+      - "traefik.http.middlewares.together-security.headers.stsSeconds=31536000"
+      - "traefik.http.middlewares.together-security.headers.stsIncludeSubdomains=true"
+      - "traefik.http.middlewares.together-security.headers.stsPreload=true"
+      
+      # Apply security headers to HTTPS router
+      - "traefik.http.routers.together-web-secure.middlewares=together-security"
+      
+      # Service - Port configuration
+      - "traefik.http.services.together-web.loadbalancer.server.port=80"
+      
+      # Health check
+      - "traefik.http.services.together-web.loadbalancer.healthcheck.path=/"
+      - "traefik.http.services.together-web.loadbalancer.healthcheck.interval=30s"
+      - "traefik.http.services.together-web.loadbalancer.healthcheck.timeout=5s"
+
+  # Database - PostgreSQL (optional for statistics)
+  db:
+    image: postgres:15-alpine
+    container_name: together-db
+    environment:
+      - POSTGRES_DB=${DB_NAME:-together}
+      - POSTGRES_USER=${DB_USER:-together_user}
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-change_this_password}
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - together-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-together_user}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    labels:
+      # Disable Traefik for database (internal only)
+      - "traefik.enable=false"
+
+networks:
+  together-network:
+    driver: bridge
+    name: together-internal
+  traefik-network:
+    external: true
+    name: traefik-network
+
+volumes:
+  postgres_data:
+    driver: local
