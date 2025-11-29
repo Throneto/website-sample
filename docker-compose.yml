@@ -1,4 +1,6 @@
-version: '3.8'
+# Docker Compose configuration for TOGETHER Blog System
+# This file defines two services: web (Nginx) and db (PostgreSQL)
+# Managed by Dokploy platform with Traefik reverse proxy
 
 services:
   # Frontend - Nginx web server

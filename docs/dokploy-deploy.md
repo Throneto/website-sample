@@ -285,18 +285,48 @@ docker-compose down
 
 #### 4.5 配置域名
 
-1. **添加域名**
-   - 在服务设置中找到 **Domains** 或 **域名** 选项
-   - 点击 **Add Domain** 添加新域名
-   - 输入主域名: `171780.xyz`
+域名配置是让外部用户能够访问你的网站的关键步骤。
 
-2. **配置 SSL 证书**
-   - 启用 **HTTPS**
-   - 选择 **Let's Encrypt** 自动获取免费 SSL 证书
+1. **进入域名配置页面**
+   - 在服务详情页面,找到 **Domains** 或 **域名** 选项卡
+   - 点击 **Add Domain** 添加新域名
+
+2. **填写域名配置表单**
+
+   ![Dokploy 域名配置界面](/home/valar/.gemini/antigravity/brain/60598f15-0de5-4a12-9879-4bf801355694/uploaded_image_1764426614114.png)
+
+   | 字段 | 填写内容 | 说明 |
+   |------|---------|------|
+   | **Service Name** | `web` | 从下拉列表选择要暴露的服务,选择 web 服务 |
+   | **Host** | `171780.xyz` | 你的域名,不需要添加 `https://` 前缀 |
+   | **Path** | `/` | 外部访问路径,默认 `/` 表示根路径 |
+   | **Internal Path** | `/` | 应用内部期望接收请求的路径,通常保持默认 `/` |
+   | **Strip Path** | 关闭 | 是否在转发前移除外部路径,通常保持关闭 |
+   | **Container Port** | `80` | 容器内应用监听的端口,Nginx 使用 80 端口 |
+   | **HTTPS** | 启用 | 启用 HTTPS 和 SSL 证书 |
+
+   > [!IMPORTANT]
+   > **Container Port 说明**
+   > - 本项目使用 Nginx,容器内监听端口为 **80**
+   > - 不要填写 3000、8080 等其他端口
+   > - Dockerfile 中 Nginx 暴露的就是 80 端口
+
+   > [!TIP]
+   > **Path 和 Internal Path 说明**
+   > - **Path**: 用户在浏览器访问的路径,例如 `https://171780.xyz/`
+   > - **Internal Path**: 容器内应用接收的路径,通常与 Path 相同
+   > - **Strip Path**: 如果 Path 是 `/blog`,启用后会将 `/blog/post` 转发为 `/post`
+   > - 对于本项目,两者都保持默认 `/` 即可
+
+3. **配置 SSL 证书**
+   - 勾选 **HTTPS** 启用 HTTPS
+   - 证书类型选择 **Let's Encrypt**(自动获取免费 SSL 证书)
    - Dokploy 会自动配置并续期证书
 
-3. **DNS 配置**
+4. **DNS 配置**
+   
    在你的 DNS 提供商(如 Cloudflare、阿里云等)添加 A 记录:
+   
    ```
    类型: A
    名称: @
@@ -306,6 +336,10 @@ docker-compose down
    
    > [!TIP]
    > 如果使用 Cloudflare,可以启用代理(橙色云朵),获得额外的 CDN 和安全防护。
+
+5. **保存配置**
+   - 填写完成后,点击 **Save** 或 **Create** 保存域名配置
+   - Dokploy 会自动配置 Traefik 路由规则
 
 #### 4.6 部署服务
 
@@ -600,6 +634,28 @@ networks:
 **常见错误:**
 - `network traefik-network not found` → 移除 docker-compose.yml 中对外部 traefik-network 的引用
 - `Could not attach to network` → 检查 networks 配置是否正确
+
+### 问题6: 部署报错 "endpoint not found"
+
+**错误信息**:
+`failed to set up container networking: ... endpoint not found`
+
+**原因**:
+旧容器的网络残留导致 Docker 无法分配新网络。这是 Docker 的一个常见状态同步问题。
+
+**解决方法**:
+在服务器终端执行以下命令清理网络(需要 SSH 权限或通过 Dokploy 的 Shell 工具):
+
+```bash
+# 1. 停止并删除相关容器
+docker stop together-web together-db || true
+docker rm together-web together-db || true
+
+# 2. 清理未使用的网络(关键步骤)
+docker network prune -f
+
+# 3. 回到 Dokploy 面板重新点击 Deploy
+```
 
 ---
 
