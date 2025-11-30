@@ -1,33 +1,57 @@
 # robots.txt for 171780.xyz
-# 允许所有搜索引擎抓取（默认行为）
-User-agent: *
+# This file tells search engines which pages or files they can or can't request from your site.
+# Learn more: https://www.robotstxt.org/
 
-# 禁止抓取敏感区域和后台管理
+# Allow all search engines to crawl all public content (default behavior)
+User-agent: *
+Allow: /
+
+# Disallow sensitive areas and backend administration
 Disallow: /pages/admin.html
 Disallow: /tools/
 Disallow: /data/
+Disallow: /includes/
 
-# 禁止抓取配置和系统文件
+# Disallow configuration and system files
 Disallow: /*.env$
 Disallow: /.git/
 Disallow: /package.json
 Disallow: /vercel.json
 Disallow: /Dockerfile
 Disallow: /*.conf$
+Disallow: /.github/
 
-# 站点地图位置
+# Sitemap location for all crawlers
 Sitemap: https://171780.xyz/sitemap.xml
 
-# 针对特定搜索引擎的抓取延迟
-User-agent: Bingbot
-Crawl-delay: 1
+# Specific rules for major search engines
 
-User-agent: Yandex
-Crawl-delay: 1
-
-# 针对常见爬虫的优化
+# Google Googlebot
 User-agent: Googlebot
 Allow: /
+Crawl-delay: 0
 
-User-agent: Baiduspider
+# Google Image Search
+User-agent: Googlebot-Image
 Allow: /
+
+# Google Mobile
+User-agent: Googlebot-Mobile
+Allow: /
+
+# Bing
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# Yandex
+User-agent: Yandex
+Allow: /
+Crawl-delay: 1
+
+# DuckDuckGo
+User-agent: DuckDuckBot
+Allow: /
+
+# Note: Crawl-delay helps prevent server overload
+# A delay of 1 second between requests is reasonable for most sites
