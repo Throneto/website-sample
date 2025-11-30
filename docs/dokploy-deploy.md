@@ -498,6 +498,41 @@ cat backup_20250120.sql | docker exec -i together-db psql -U together_user toget
 
 ### 添加新文章
 
+项目已配置 **GitHub Actions 自动构建**，大大简化了发布流程。
+
+#### ✨ 推荐方式：自动构建（简单）
+
+```bash
+# 1. 在 posts/ 目录创建新的 .md 文件
+nano posts/new-article.md
+
+# 2. 提交并推送（GitHub Actions 会自动构建）
+git add posts/new-article.md
+git commit -m "Add new article: <title>"
+git push origin main
+
+# 3. 等待 GitHub Actions 完成构建（约 1-2 分钟）
+# 4. Dokploy 自动部署（如已配置 webhook）
+```
+
+**就这么简单！** GitHub Actions 会自动执行以下步骤：
+- ✅ 运行 `md-to-json-incremental.js` 转换为 JSON
+- ✅ 运行 `generate-article-pages.js` 生成 HTML 页面
+- ✅ 运行 `generate-sitemap.js` 更新站点地图
+- ✅ 自动提交生成的文件回仓库
+- ✅ 触发 Dokploy 部署
+
+> [!TIP]
+> **查看构建状态**
+> 
+> 访问 GitHub 仓库的 **Actions** 选项卡，查看自动构建进度和日志。
+
+---
+
+#### 备选方式：本地构建（可选）
+
+如果您希望在本地预览构建结果：
+
 ```bash
 # 1. 在posts/目录创建新的.md文件
 nano posts/new-article.md
@@ -507,6 +542,9 @@ node tools/md-to-json-incremental.js
 node tools/generate-article-pages.js
 node tools/generate-sitemap.js
 
+# 或使用快捷命令
+npm run build
+
 # 3. 提交并部署
 git add .
 git commit -m "Add new article: <title>"
@@ -514,6 +552,13 @@ git push origin main
 
 # Dokploy自动部署
 ```
+
+> [!NOTE]
+> **GitHub Actions 配置**
+> 
+> - 详细使用说明：[GitHub Actions 使用指南](./github-actions-guide.md)
+> - Workflow 配置文件：`.github/workflows/build-blog.yml`
+> - 如遇构建问题，查看 Actions 页面的错误日志
 
 ### 自动化脚本
 

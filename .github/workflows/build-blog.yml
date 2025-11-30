@@ -1,0 +1,112 @@
+name: Build Blog Articles
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'posts/**/*.md'
+      - 'tools/**/*.js'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Required for pushing changes back to repo
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0 # Fetch all history for proper git operations
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies (if needed)
+        run: |
+          if [ -f package.json ]; then
+            npm ci --prefer-offline --no-audit
+          fi
+      
+      - name: Check for new Markdown files
+        id: check_changes
+        run: |
+          # Check if there are new or modified .md files in posts/
+          if git diff --name-only HEAD~1 HEAD | grep -q '^posts/.*\.md$'; then
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+            echo "✓ New or modified Markdown files detected"
+          else
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+            echo "ℹ No Markdown file changes detected"
+          fi
+      
+      - name: Build blog articles
+        if: steps.check_changes.outputs.has_changes == 'true'
+        run: |
+          echo "🔨 Building blog system..."
+          
+          # Convert Markdown to JSON
+          echo "Converting Markdown files to JSON..."
+          node tools/md-to-json-incremental.js
+          
+          # Generate article pages
+          echo "Generating article HTML pages..."
+          node tools/generate-article-pages.js
+          
+          # Generate sitemap
+          echo "Updating sitemap..."
+          node tools/generate-sitemap.js
+          
+          echo "✅ Build completed successfully"
+      
+      - name: Check for generated files
+        if: steps.check_changes.outputs.has_changes == 'true'
+        id: check_generated
+        run: |
+          # Check if build generated new files
+          if [[ -n $(git status --porcelain) ]]; then
+            echo "has_generated=true" >> $GITHUB_OUTPUT
+            echo "Generated files:"
+            git status --short
+          else
+            echo "has_generated=false" >> $GITHUB_OUTPUT
+            echo "No new files generated"
+          fi
+      
+      - name: Commit and push changes
+        if: steps.check_changes.outputs.has_changes == 'true' && steps.check_generated.outputs.has_generated == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          
+          git add data/articles/*.json pages/blog/*.html sitemap.xml
+          git commit -m "chore: auto-build blog articles [skip ci]"
+          git push
+          
+          echo "✅ Changes committed and pushed successfully"
+      
+      - name: Summary
+        if: always()
+        run: |
+          echo "### Build Summary 📊" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ steps.check_changes.outputs.has_changes }}" == "true" ]; then
+            echo "- ✅ Markdown changes detected" >> $GITHUB_STEP_SUMMARY
+            echo "- ✅ Build process executed" >> $GITHUB_STEP_SUMMARY
+            
+            if [ "${{ steps.check_generated.outputs.has_generated }}" == "true" ]; then
+              echo "- ✅ Generated files committed" >> $GITHUB_STEP_SUMMARY
+            else
+              echo "- ℹ️ No new files generated" >> $GITHUB_STEP_SUMMARY
+            fi
+          else
+            echo "- ℹ️ No Markdown changes detected" >> $GITHUB_STEP_SUMMARY
+            echo "- ⏭️ Build skipped" >> $GITHUB_STEP_SUMMARY
+          fi
