@@ -1,10 +1,12 @@
 # Docker Compose configuration for TOGETHER Blog System
 # This file defines two services: web (Nginx) and db (PostgreSQL)
 # Managed by Dokploy platform with Traefik reverse proxy
+# Optimized for network stability and deployment reliability
 
 services:
   # Frontend - Nginx web server
   web:
+    container_name: ${COMPOSE_PROJECT_NAME:-together-blog}-web
     build:
       context: .
       dockerfile: Dockerfile
@@ -15,13 +17,30 @@ services:
     volumes:
       - ./data:/usr/share/nginx/html/data:ro
       - ./pages/blog:/usr/share/nginx/html/pages/blog:ro
+    
+    # Wait for database to be healthy before starting
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+    
+    # Dokploy automatically manages network routing
     networks:
       - dokploy-network
-      - together-network-v3
+    
     restart: unless-stopped
+    
+    # Enhanced health check
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 5s
+      start_period: 15s
+      retries: 3
     labels:
+      # Project identification
+      - "com.together.project=blog"
+      - "com.together.version=1.0"
+      
       # Enable Traefik
       - "traefik.enable=true"
       - "traefik.docker.network=dokploy-network"
@@ -65,13 +84,14 @@ services:
       # Service - Port configuration
       - "traefik.http.services.together-web.loadbalancer.server.port=80"
       
-      # Health check
-      - "traefik.http.services.together-web.loadbalancer.healthcheck.path=/"
+      # Health check (using dedicated endpoint)
+      - "traefik.http.services.together-web.loadbalancer.healthcheck.path=/health"
       - "traefik.http.services.together-web.loadbalancer.healthcheck.interval=30s"
       - "traefik.http.services.together-web.loadbalancer.healthcheck.timeout=5s"
 
   # Database - PostgreSQL (optional for statistics)
   db:
+    container_name: ${COMPOSE_PROJECT_NAME:-together-blog}-db
     image: postgres:15-alpine
     environment:
       - POSTGRES_DB=${DB_NAME:-together}
@@ -80,23 +100,35 @@ services:
       - PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    
+    # Dokploy automatically manages network routing
     networks:
-      - together-network-v3
+      - dokploy-network
+    
     restart: unless-stopped
+    
+    # Enhanced health check with startup grace period
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-together_user}"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-together_user} -d ${DB_NAME:-together}"]
       interval: 10s
       timeout: 5s
+      start_period: 30s
       retries: 5
+    
     labels:
+      # Project identification
+      - "com.together.project=blog"
+      - "com.together.version=1.0"
       # Disable Traefik for database (internal only)
       - "traefik.enable=false"
 
+# Network configuration
+# Dokploy automatically injects containers into the dokploy-network
+# This allows Traefik to route traffic to containers
 networks:
-  together-network-v3:
-    driver: bridge
   dokploy-network:
     external: true
+    name: dokploy-network
 
 volumes:
   postgres_data:

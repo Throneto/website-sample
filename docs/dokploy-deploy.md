@@ -644,20 +644,96 @@ networks:
 **原因**:
 旧容器的网络残留导致 Docker 无法分配新网络。这是 Docker 的一个常见状态同步问题。
 
-**解决方法**:
-在服务器终端执行以下命令清理网络(需要 SSH 权限或通过 Dokploy 的 Shell 工具):
+**✅ 推荐解决方法（自动化脚本）**:
+
+项目已提供自动化清理脚本，可快速解决网络端点问题：
 
 ```bash
-# 1. 停止并删除相关容器 (使用 docker ps 查看实际名称)
-docker ps | grep together
-docker stop [container-id]
-docker rm [container-id]
+# 在项目根目录执行网络清理脚本
+./scripts/network-cleanup.sh together-blog-5rcstl
 
-# 2. 清理未使用的网络(关键步骤)
+# 或使用自定义项目名称
+./scripts/network-cleanup.sh your-project-name
+```
+
+脚本会自动执行：
+1. 查找并停止项目相关的所有容器
+2. 删除已停止的容器
+3. 清理未使用的 Docker 网络
+4. 验证清理结果
+
+清理完成后，在 Dokploy 面板重新点击 **Deploy** 即可。
+
+---
+
+**🔧 手动解决方法（需要 SSH 权限）**:
+
+如果无法使用脚本或需要手动操作：
+
+```bash
+# 1. 查看当前项目的所有容器
+docker ps -a | grep together-blog
+
+# 2. 停止并删除相关容器 (替换为实际容器名称)
+docker stop together-blog-5rcstl-web-1 together-blog-5rcstl-db-1
+docker rm together-blog-5rcstl-web-1 together-blog-5rcstl-db-1
+
+# 3. 清理未使用的网络（关键步骤）
 docker network prune -f
 
-# 3. 回到 Dokploy 面板重新点击 Deploy
+# 4. 查看剩余网络
+docker network ls | grep together
+
+# 5. 回到 Dokploy 面板重新点击 Deploy
 ```
+
+---
+
+**🛡️ 预防措施（推荐配置）**:
+
+自 v1.1 版本起，项目已优化 Docker Compose 配置以减少网络端点错误：
+
+1. **简化网络配置**
+   - 移除了双网络配置，统一使用 `dokploy-network`
+   - 减少网络端点冲突的可能性
+
+2. **增强健康检查**
+   - Web 和 DB 服务都配置了严格的健康检查
+   - 添加了 `/health` 专用端点，提高检查效率
+
+3. **优化服务依赖**
+   - Web 服务等待 DB 健康检查通过后再启动
+   - 避免启动顺序问题导致的网络异常
+
+4. **显式容器命名**
+   - 使用环境变量控制容器名称
+   - 避免自动生成名称导致的冲突
+
+**部署前检查（可选）**:
+
+在 Dokploy 部署前，可以运行预检查脚本验证环境：
+
+```bash
+# 在项目根目录执行
+./scripts/pre-deploy-check.sh
+```
+
+预检查脚本会验证：
+- Docker 和 Docker Compose 安装
+- 配置文件语法正确性
+- 环境变量设置
+- 网络和端口冲突
+- 磁盘空间充足性
+
+---
+
+**📝 部署最佳实践**:
+
+1. **首次部署**：直接在 Dokploy 面板部署即可
+2. **重新部署时**：
+   - 优先使用 Dokploy 的 "Redeploy" 功能
+   - 如遇网络端点错误，运行清理脚本后重试
+3. **定期维护**：建议每月运行一次 `docker network prune -f` 清理未使用的网络
 
 ---
 
