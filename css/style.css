@@ -32,6 +32,9 @@
     --shadow-glow: 0 0 20px rgba(255, 215, 0, 0.2);
     --shadow-glow-strong: 0 0 35px rgba(255, 215, 0, 0.4);
     --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+
+    /* Accessibility - Minimum touch target size */
+    --min-touch-target: 44px;
 }
 
 html {
@@ -51,6 +54,27 @@ body {
     -webkit-overflow-scrolling: touch;
     will-change: scroll-position;
     text-rendering: optimizeLegibility;
+}
+
+/* ========== 无障碍性：跳过导航链接 ========== */
+.skip-to-main {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: 9999;
+    padding: 1rem 1.5rem;
+    background: var(--primary-color);
+    color: #000;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 0 0 8px 0;
+    transition: var(--transition-fast);
+}
+
+.skip-to-main:focus {
+    left: 0;
+    outline: 3px solid var(--accent-color);
+    outline-offset: 2px;
 }
 
 /* ========== 背景容器 ========== */
@@ -153,7 +177,11 @@ body {
     font-size: 1rem;
     font-weight: 500;
     position: relative;
-    padding: 0.5rem 0;
+    padding: 0.75rem 0.5rem;
+    /* 确保最小触摸目标 44x44px */
+    min-height: var(--min-touch-target);
+    display: inline-flex;
+    align-items: center;
     transition: var(--transition-smooth);
     /* 改进可访问性 */
     outline-offset: 4px;
@@ -161,6 +189,12 @@ body {
 
 .nav-link:focus {
     outline: 2px solid var(--primary-color);
+}
+
+.nav-link:focus-visible {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 4px;
+    border-radius: 4px;
 }
 
 .nav-link::after {
@@ -190,6 +224,24 @@ body {
     flex-direction: column;
     cursor: pointer;
     gap: 0.4rem;
+    /* 确保最小触摸目标 44x44px */
+    min-width: var(--min-touch-target);
+    min-height: var(--min-touch-target);
+    justify-content: center;
+    align-items: center;
+    padding: 0.75rem;
+    margin: -0.75rem;
+    border-radius: 8px;
+    transition: var(--transition-smooth);
+}
+
+.hamburger:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 4px;
+}
+
+.hamburger:hover {
+    background: rgba(255, 215, 0, 0.1);
 }
 
 .hamburger .bar {
@@ -262,8 +314,11 @@ body {
 .cta-button {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 0.8rem;
     padding: 1.2rem 3rem;
+    /* 确保最小触摸目标 44x44px */
+    min-height: var(--min-touch-target);
     background: rgba(255, 215, 0, 0.1);
     border: 1px solid var(--primary-color);
     border-radius: 50px;
@@ -284,6 +339,11 @@ body {
 .cta-button:focus {
     outline: 2px solid var(--primary-color);
     outline-offset: 4px;
+}
+
+.cta-button:focus-visible {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 6px;
 }
 
 .cta-button::before {
@@ -551,8 +611,9 @@ body {
 }
 
 .social-link {
-    width: 40px;
-    height: 40px;
+    /* 确保最小触摸目标 44x44px */
+    width: var(--min-touch-target);
+    height: var(--min-touch-target);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -561,6 +622,11 @@ body {
     border: 1px solid var(--glass-border);
     color: var(--text-light);
     transition: var(--transition-smooth);
+}
+
+.social-link:focus-visible {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 4px;
 }
 
 /* 涟漪效果容器与动画 */
@@ -1140,4 +1206,18 @@ a:focus-visible {
 ::-moz-selection {
     background: rgba(0, 243, 255, 0.3);
     color: var(--text-light);
+}
+
+/* ========== 无障碍性工具类 ========== */
+/* Visually Hidden - 保留元素在屏幕阅读器中可用但在视觉上隐藏 */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
 }

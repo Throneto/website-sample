@@ -1,5 +1,5 @@
 // 导航交互脚本
-(function() {
+(function () {
     'use strict';
 
     // ========== 工具函数 ==========
@@ -19,7 +19,7 @@
     // 节流函数
     function throttle(func, limit) {
         let inThrottle;
-        return function(...args) {
+        return function (...args) {
             if (!inThrottle) {
                 func.apply(this, args);
                 inThrottle = true;
@@ -37,10 +37,34 @@
     // 汉堡菜单切换
     if (hamburger) {
         hamburger.addEventListener('click', () => {
+            const isExpanded = hamburger.getAttribute('aria-expanded') === 'true';
+
             hamburger.classList.toggle('active');
             navMenu.classList.toggle('active');
+            // Update ARIA attribute
+            hamburger.setAttribute('aria-expanded', !isExpanded);
+
             // 防止背景滚动
             document.body.classList.toggle('menu-open');
+
+            // Focus management: focus first menu item when opening
+            if (!isExpanded) {
+                const firstMenuItem = navMenu.querySelector('.nav-link');
+                if (firstMenuItem) {
+                    setTimeout(() => firstMenuItem.focus(), 100);
+                }
+            }
+        });
+
+        // ESC key to close menu
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+                hamburger.setAttribute('aria-expanded', 'false');
+                document.body.classList.remove('menu-open');
+                hamburger.focus(); // Return focus to hamburger button
+            }
         });
     }
 
@@ -49,6 +73,7 @@
         link.addEventListener('click', () => {
             hamburger.classList.remove('active');
             navMenu.classList.remove('active');
+            hamburger.setAttribute('aria-expanded', 'false');
             document.body.classList.remove('menu-open');
         });
     });
@@ -64,7 +89,7 @@
     // 滚动时添加导航栏背景（使用节流优化性能）
     let lastScrollY = window.scrollY;
     let ticking = false;
-    
+
     function updateNavbar() {
         if (window.scrollY > 100) {
             navbar.classList.add('scrolled');
@@ -91,20 +116,20 @@
     // 当前页面链接高亮
     function highlightActiveLink() {
         const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-        
+
         navLinks.forEach(link => {
             link.classList.remove('active');
             const linkHref = link.getAttribute('href');
-            
+
             // 高亮当前页面的导航链接
-            if (linkHref === currentPage || 
+            if (linkHref === currentPage ||
                 (currentPage === '' && linkHref === 'index.html') ||
                 (currentPage === 'index.html' && linkHref === 'index.html')) {
                 link.classList.add('active');
             }
         });
     }
-    
+
     // 页面加载时高亮当前页面
     highlightActiveLink();
 
@@ -118,7 +143,7 @@
         anchor.addEventListener('click', function (e) {
             const targetId = this.getAttribute('href');
             if (targetId === '#') return;
-            
+
             const targetElement = document.querySelector(targetId);
             if (targetElement) {
                 e.preventDefault();
@@ -135,6 +160,7 @@
         if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
             hamburger.classList.remove('active');
             navMenu.classList.remove('active');
+            hamburger.setAttribute('aria-expanded', 'false');
             document.body.classList.remove('menu-open');
         }
     });
@@ -144,6 +170,8 @@
         if (window.innerWidth > 768) {
             hamburger.classList.remove('active');
             navMenu.classList.remove('active');
+            hamburger.setAttribute('aria-expanded', 'false');
+            document.body.classList.remove('menu-open');
         }
     }, 250);
 
@@ -151,7 +179,7 @@
 
     // 为卡片添加视差滚动效果（性能优化版本）
     const cards = document.querySelectorAll('.glass-card');
-    
+
     const observerOptions = {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
@@ -180,19 +208,19 @@
 
     // 为section标题添加视差效果
     const sectionTitles = document.querySelectorAll('.section-title');
-    
+
     const titleObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.style.opacity = '0';
                 entry.target.style.transform = 'translateY(30px)';
-                
+
                 setTimeout(() => {
                     entry.target.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
                     entry.target.style.opacity = '1';
                     entry.target.style.transform = 'translateY(0)';
                 }, 50);
-                
+
                 titleObserver.unobserve(entry.target);
             }
         });
@@ -204,22 +232,22 @@
 
     // 鼠标移动时为CTA按钮添加3D效果
     const ctaButton = document.querySelector('.cta-button');
-    
+
     if (ctaButton) {
         ctaButton.addEventListener('mousemove', (e) => {
             const rect = ctaButton.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
-            
+
             const centerX = rect.width / 2;
             const centerY = rect.height / 2;
-            
+
             const rotateX = (y - centerY) / 10;
             const rotateY = (centerX - x) / 10;
-            
+
             ctaButton.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-2px)`;
         });
-        
+
         ctaButton.addEventListener('mouseleave', () => {
             ctaButton.style.transform = '';
         });
@@ -227,22 +255,22 @@
 
     // 为社交链接添加波纹效果
     const socialLinks = document.querySelectorAll('.social-link');
-    
+
     socialLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
+        link.addEventListener('click', function (e) {
             const ripple = document.createElement('span');
             const rect = this.getBoundingClientRect();
             const size = Math.max(rect.width, rect.height);
             const x = e.clientX - rect.left - size / 2;
             const y = e.clientY - rect.top - size / 2;
-            
+
             ripple.style.width = ripple.style.height = size + 'px';
             ripple.style.left = x + 'px';
             ripple.style.top = y + 'px';
             ripple.classList.add('ripple');
-            
+
             this.appendChild(ripple);
-            
+
             setTimeout(() => ripple.remove(), 600);
         });
     });

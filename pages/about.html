@@ -73,33 +73,39 @@
 </head>
 
 <body class="notranslate" translate="no">
+    <!-- Skip to main content link for accessibility -->
+    <a href="#main-content" class="skip-to-main">跳转到主内容</a>
+
     <!-- Background: Nebula and Fluid -->
-    <div class="bg-container">
-        <canvas id="canvas"></canvas>
-        <canvas id="fluidCanvas"></canvas>
+    <div class="bg-container" aria-hidden="true">
+        <canvas id="canvas" aria-hidden="true"></canvas>
+        <canvas id="fluidCanvas" aria-hidden="true"></canvas>
     </div>
 
     <!-- Navigation Bar -->
-    <nav class="navbar">
+    <nav class="navbar" role="navigation" aria-label="主导航">
         <div class="nav-container">
-            <a href="/" class="logo">TOGETHER</a>
-            <ul class="nav-menu">
-                <li class="nav-item"><a href="/" class="nav-link">首页</a></li>
-                <li class="nav-item"><a href="/pages/knowledge.html" class="nav-link">知识库</a></li>
-                <li class="nav-item"><a href="/pages/development.html" class="nav-link">开发地带</a></li>
-                <li class="nav-item"><a href="/pages/blog.html" class="nav-link">博客</a></li>
-                <li class="nav-item"><a href="/pages/about.html" class="nav-link active">关于</a></li>
+            <a href="/" class="logo" aria-label="TOGETHER 首页">TOGETHER</a>
+            <ul class="nav-menu" id="navMenu" role="menubar">
+                <li class="nav-item" role="none"><a href="/" class="nav-link" role="menuitem">首页</a></li>
+                <li class="nav-item" role="none"><a href="/pages/knowledge.html" class="nav-link"
+                        role="menuitem">知识库</a></li>
+                <li class="nav-item" role="none"><a href="/pages/development.html" class="nav-link"
+                        role="menuitem">开发地带</a></li>
+                <li class="nav-item" role="none"><a href="/pages/blog.html" class="nav-link" role="menuitem">博客</a></li>
+                <li class="nav-item" role="none"><a href="/pages/about.html" class="nav-link active" role="menuitem"
+                        aria-current="page">关于</a></li>
             </ul>
-            <div class="hamburger">
+            <button class="hamburger" aria-label="切换导航菜单" aria-expanded="false" aria-controls="navMenu">
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
-            </div>
+            </button>
         </div>
     </nav>
 
     <!-- Main Content -->
-    <main class="main-content">
+    <main class="main-content" id="main-content">
         <section class="content-section">
             <div class="section-container">
                 <h1 class="section-title">关于我</h1>

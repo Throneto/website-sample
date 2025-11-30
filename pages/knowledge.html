@@ -1,47 +1,49 @@
 <!doctype html>
 <html lang="zh-CN" translate="no">
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="google" content="notranslate">
-<meta http-equiv="Content-Language" content="zh-CN">
-<title>知识库 - TOGETHER | 精选技术文档、开发工具、学习资源导航 - 全栈开发者资源中心</title>
-<meta name="description" content="TOGETHER知识库是一个精心整理的技术资源导航平台，涵盖Web开发、前端框架、后端技术、数据库、DevOps、人工智能、设计工具等领域。收录优质技术文档、开源项目、在线工具、学习教程，为开发者提供高效的资源查找和学习指南。">
-<meta name="robots" content="index, follow">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google" content="notranslate">
+    <meta http-equiv="Content-Language" content="zh-CN">
+    <title>知识库 - TOGETHER | 精选技术文档、开发工具、学习资源导航 - 全栈开发者资源中心</title>
+    <meta name="description"
+        content="TOGETHER知识库是一个精心整理的技术资源导航平台，涵盖Web开发、前端框架、后端技术、数据库、DevOps、人工智能、设计工具等领域。收录优质技术文档、开源项目、在线工具、学习教程，为开发者提供高效的资源查找和学习指南。">
+    <meta name="robots" content="index, follow">
 
-<!-- Favicon -->
-<link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
-<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
 
-<!-- Theme Color -->
-<meta name="theme-color" content="#667eea">
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#667eea">
 
-<!-- Canonical URL -->
-<link rel="canonical" href="https://171780.xyz/pages/knowledge.html">
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://171780.xyz/pages/knowledge.html">
 
-<!-- Open Graph / Facebook -->
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://171780.xyz/pages/knowledge.html">
-<meta property="og:title" content="知识库 - TOGETHER | 精选技术资源导航">
-<meta property="og:description" content="TOGETHER知识库是一个精心整理的技术资源导航平台，涵盖Web开发、前端框架、后端技术、数据库、DevOps、人工智能、设计工具等领域。">
-<meta property="og:image" content="https://171780.xyz/assets/favicon.ico">
-<meta property="og:site_name" content="TOGETHER">
-<meta property="og:locale" content="zh_CN">
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://171780.xyz/pages/knowledge.html">
+    <meta property="og:title" content="知识库 - TOGETHER | 精选技术资源导航">
+    <meta property="og:description" content="TOGETHER知识库是一个精心整理的技术资源导航平台，涵盖Web开发、前端框架、后端技术、数据库、DevOps、人工智能、设计工具等领域。">
+    <meta property="og:image" content="https://171780.xyz/assets/favicon.ico">
+    <meta property="og:site_name" content="TOGETHER">
+    <meta property="og:locale" content="zh_CN">
 
-<!-- Twitter -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:url" content="https://171780.xyz/pages/knowledge.html">
-<meta name="twitter:title" content="知识库 - TOGETHER | 精选技术资源导航">
-<meta name="twitter:description" content="精选技术文档、开发工具、学习资源导航 - 涵盖Web开发、AI、设计等领域">
-<meta name="twitter:image" content="https://171780.xyz/assets/favicon.ico">
-<meta name="twitter:creator" content="@Vincentcharming">
-<meta name="twitter:site" content="@Vincentcharming">
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://171780.xyz/pages/knowledge.html">
+    <meta name="twitter:title" content="知识库 - TOGETHER | 精选技术资源导航">
+    <meta name="twitter:description" content="精选技术文档、开发工具、学习资源导航 - 涵盖Web开发、AI、设计等领域">
+    <meta name="twitter:image" content="https://171780.xyz/assets/favicon.ico">
+    <meta name="twitter:creator" content="@Vincentcharming">
+    <meta name="twitter:site" content="@Vincentcharming">
 
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="../css/knowledge.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/knowledge.css">
 
-<!-- 结构化数据 - 知识库 -->
-<script type="application/ld+json">
+    <!-- 结构化数据 - 知识库 -->
+    <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "CollectionPage",
@@ -57,34 +59,41 @@
 }
 </script>
 </head>
+
 <body class="notranslate" translate="no">
+    <!-- Skip to main content link for accessibility -->
+    <a href="#main-content" class="skip-to-main">跳转到主内容</a>
+
     <!-- Background: Nebula and Fluid -->
-    <div class="bg-container">
-        <canvas id="canvas"></canvas>
-        <canvas id="fluidCanvas"></canvas>
+    <div class="bg-container" aria-hidden="true">
+        <canvas id="canvas" aria-hidden="true"></canvas>
+        <canvas id="fluidCanvas" aria-hidden="true"></canvas>
     </div>
 
     <!-- Navigation Bar -->
-    <nav class="navbar">
+    <nav class="navbar" role="navigation" aria-label="主导航">
         <div class="nav-container">
-            <a href="/" class="logo">TOGETHER</a>
-            <ul class="nav-menu">
-                <li class="nav-item"><a href="/" class="nav-link">首页</a></li>
-                <li class="nav-item"><a href="/pages/knowledge.html" class="nav-link active">知识库</a></li>
-                <li class="nav-item"><a href="/pages/development.html" class="nav-link">开发地带</a></li>
-                <li class="nav-item"><a href="/pages/blog.html" class="nav-link">博客</a></li>
-                <li class="nav-item"><a href="/pages/about.html" class="nav-link">关于</a></li>
+            <a href="/" class="logo" aria-label="TOGETHER 首页">TOGETHER</a>
+            <ul class="nav-menu" id="navMenu" role="menubar">
+                <li class="nav-item" role="none"><a href="/" class="nav-link" role="menuitem">首页</a></li>
+                <li class="nav-item" role="none"><a href="/pages/knowledge.html" class="nav-link active" role="menuitem"
+                        aria-current="page">知识库</a></li>
+                <li class="nav-item" role="none"><a href="/pages/development.html" class="nav-link"
+                        role="menuitem">开发地带</a></li>
+                <li class="nav-item" role="none"><a href="/pages/blog.html" class="nav-link" role="menuitem">博客</a></li>
+                <li class="nav-item" role="none"><a href="/pages/about.html" class="nav-link" role="menuitem">关于</a>
+                </li>
             </ul>
-            <div class="hamburger">
+            <button class="hamburger" aria-label="切换导航菜单" aria-expanded="false" aria-controls="navMenu">
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
-            </div>
+            </button>
         </div>
     </nav>
 
     <!-- Main Content -->
-    <main class="main-content">
+    <main class="main-content" id="main-content">
         <section class="content-section">
             <div class="section-container">
                 <h1 class="section-title">知识库</h1>
@@ -93,18 +102,21 @@
                 <!-- Search Bar -->
                 <div class="search-container">
                     <div class="search-box">
-                        <input type="text" id="searchInput" placeholder="搜索网站、分类或关键词..." class="search-input">
+                        <label for="searchInput" class="visually-hidden">搜索网站、分类或关键词</label>
+                        <input type="text" id="searchInput" placeholder="搜索网站、分类或关键词..." class="search-input"
+                            aria-label="搜索资源">
                         <button class="search-btn" aria-label="搜索">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                <circle cx="11" cy="11" r="8" stroke-width="2"/>
-                                <path d="m21 21-4.35-4.35" stroke-width="2"/>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                                <circle cx="11" cy="11" r="8" stroke-width="2" />
+                                <path d="m21 21-4.35-4.35" stroke-width="2" />
                             </svg>
                         </button>
                     </div>
                 </div>
 
                 <!-- Categories Section -->
-                <div class="categories-container" id="categoriesContainer">
+                <div class="categories-container" id="categoriesContainer" role="region" aria-label="资源分类"
+                    aria-live="polite">
                     <!-- 内容将通过 JavaScript 动态加载 -->
                 </div>
             </div>
@@ -125,4 +137,5 @@
     <script src="../js/nav.js"></script>
     <script src="../js/knowledge.js"></script>
 </body>
+
 </html>
