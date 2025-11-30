@@ -2,29 +2,29 @@
 function getOptimalStarCount() {
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     const isLowEnd = navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4;
-    
+
     if (isMobile) return 500;
     if (isLowEnd) return 1000;
     return 2000;
 }
 
 var canvas = document.getElementById('canvas'),
-ctx = canvas.getContext('2d'),
-w = canvas.width = window.innerWidth,
-h = canvas.height = window.innerHeight,
-hue = 217,
-stars = [],
-count = 0,
-maxStars = getOptimalStarCount();
+    ctx = canvas.getContext('2d'),
+    w = canvas.width = window.innerWidth,
+    h = canvas.height = window.innerHeight,
+    hue = 260, // Indigo base
+    stars = [],
+    count = 0,
+    maxStars = getOptimalStarCount();
 
 var canvas2 = document.createElement('canvas'),
-ctx2 = canvas2.getContext('2d');
+    ctx2 = canvas2.getContext('2d');
 canvas2.width = 100;
 canvas2.height = 100;
 var half = canvas2.width / 2,
-gradient2 = ctx2.createRadialGradient(half, half, 0, half, half, half);
-gradient2.addColorStop(0.025, '#CCC');
-gradient2.addColorStop(0.1, 'hsl(' + hue + ', 45%, 28%)');
+    gradient2 = ctx2.createRadialGradient(half, half, 0, half, half, half);
+gradient2.addColorStop(0.025, '#FFD700'); // Gold core
+gradient2.addColorStop(0.1, 'hsl(' + hue + ', 60%, 30%)');
 gradient2.addColorStop(0.25, 'hsl(' + hue + ', 64%, 6%)');
 gradient2.addColorStop(1, 'transparent');
 ctx2.fillStyle = gradient2;
@@ -47,11 +47,11 @@ function random(min, max) {
 
 function maxOrbit(x, y) {
     var max = Math.max(x, y),
-    diameter = Math.round(Math.sqrt(max * max + max * max));
+        diameter = Math.round(Math.sqrt(max * max + max * max));
     return diameter / 2.5;
 }
 
-var Star = function() {
+var Star = function () {
     this.orbitRadius = random(maxOrbit(w, h));
     this.radius = random(60, this.orbitRadius) / 8;
     this.orbitX = w / 2;
@@ -63,10 +63,10 @@ var Star = function() {
     stars[count] = this;
 }
 
-Star.prototype.draw = function() {
+Star.prototype.draw = function () {
     var x = Math.sin(this.timePassed) * this.orbitRadius + this.orbitX,
-    y = Math.cos(this.timePassed) * this.orbitRadius + this.orbitY,
-    twinkle = random(20);
+        y = Math.cos(this.timePassed) * this.orbitRadius + this.orbitY,
+        twinkle = random(20);
     if (twinkle === 1 && this.alpha > 0) {
         this.alpha -= 0.03;
     } else if (twinkle === 2 && this.alpha < 1) {
@@ -89,14 +89,14 @@ var fpsInterval = 1000 / fps;
 
 function animation(currentTime) {
     window.requestAnimationFrame(animation);
-    
+
     // 控制帧率
     var elapsed = currentTime - lastFrameTime;
     if (elapsed < fpsInterval) {
         return;
     }
     lastFrameTime = currentTime - (elapsed % fpsInterval);
-    
+
     ctx.globalCompositeOperation = 'source-over';
     ctx.globalAlpha = 0.45;
     ctx.fillStyle = 'hsla(' + hue + ', 50%, 5%, 2)';
@@ -109,9 +109,9 @@ function animation(currentTime) {
 
 // 响应式调整画布大小
 var resizeTimeout;
-window.addEventListener('resize', function() {
+window.addEventListener('resize', function () {
     clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(function() {
+    resizeTimeout = setTimeout(function () {
         w = canvas.width = window.innerWidth;
         h = canvas.height = window.innerHeight;
     }, 250);

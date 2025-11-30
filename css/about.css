@@ -88,7 +88,7 @@
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(0, 243, 255, 0.1), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.1), transparent);
     transition: left 0.5s ease;
 }
 
@@ -98,8 +98,8 @@
 
 .skill-card:hover {
     transform: translateY(-5px) scale(1.02);
-    border-color: rgba(0, 243, 255, 0.3);
-    box-shadow: 0 10px 30px rgba(0, 243, 255, 0.1);
+    border-color: rgba(255, 215, 0, 0.3);
+    box-shadow: 0 10px 30px rgba(255, 215, 0, 0.1);
 }
 
 /* 项目卡片增强 */
@@ -115,9 +115,9 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, 
-        rgba(0, 243, 255, 0.05), 
-        rgba(123, 44, 191, 0.05));
+    background: linear-gradient(135deg,
+            rgba(255, 215, 0, 0.05),
+            rgba(123, 44, 191, 0.05));
     opacity: 0;
     transition: opacity 0.3s ease;
     border-radius: inherit;
@@ -129,8 +129,8 @@
 
 .project-card:hover {
     transform: translateY(-8px) scale(1.03);
-    border-color: rgba(0, 243, 255, 0.4);
-    box-shadow: 0 15px 40px rgba(0, 243, 255, 0.15);
+    border-color: rgba(255, 215, 0, 0.4);
+    box-shadow: 0 15px 40px rgba(255, 215, 0, 0.15);
 }
 
 /* 联系按钮动画 */
@@ -185,8 +185,13 @@
 }
 
 @keyframes rotate {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 /* 文字动画 */
@@ -200,8 +205,15 @@
 }
 
 @keyframes gradientShift {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
+
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
 }
 
 /* 响应式设计 */
@@ -209,25 +221,25 @@
     .timeline {
         padding-left: 1.5rem;
     }
-    
+
     .timeline::before {
         left: 0.75rem;
     }
-    
+
     .timeline-item {
         padding-left: 1.5rem;
     }
-    
+
     .timeline-marker {
         left: -2rem;
         width: 10px;
         height: 10px;
     }
-    
+
     .timeline-content {
         padding: 1.25rem;
     }
-    
+
     .timeline-content:hover {
         transform: translateX(5px);
     }
@@ -237,29 +249,29 @@
     .timeline {
         padding-left: 1rem;
     }
-    
+
     .timeline::before {
         left: 0.5rem;
     }
-    
+
     .timeline-item {
         padding-left: 1rem;
     }
-    
+
     .timeline-marker {
         left: -1.5rem;
         width: 8px;
         height: 8px;
     }
-    
+
     .timeline-content {
         padding: 1rem;
     }
-    
+
     .timeline-content h4 {
         font-size: 1.1rem;
     }
-    
+
     .timeline-content p {
         font-size: 0.9rem;
     }

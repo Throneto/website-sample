@@ -860,10 +860,15 @@
     }
 
     function generateColor() {
-        let c = HSVtoRGB(Math.random(), 1.0, 1.0);
-        c.r *= 0.10;
-        c.g *= 0.10;
-        c.b *= 0.10;
+        // Randomly choose between Gold (approx 0.12) and Indigo (approx 0.75)
+        let h = Math.random() > 0.5 ? 0.12 : 0.75;
+        // Add slight variation
+        h += (Math.random() * 0.05 - 0.025);
+        let c = HSVtoRGB(h, 1.0, 1.0);
+        // Increase brightness for better visibility on dark background
+        c.r *= 0.15;
+        c.g *= 0.15;
+        c.b *= 0.15;
         return c;
     }
 

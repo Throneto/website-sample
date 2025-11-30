@@ -54,7 +54,9 @@
 }
 
 @keyframes spin {
-    to { transform: rotate(360deg); }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .article-loading p {
@@ -212,10 +214,10 @@
 }
 
 .article-tag-detail:hover {
-    background: rgba(0, 243, 255, 0.2);
+    background: rgba(255, 215, 0, 0.2);
     border-color: var(--primary-color);
     transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0, 243, 255, 0.2);
+    box-shadow: 0 4px 10px rgba(255, 215, 0, 0.2);
 }
 
 /* 文章正文 */
@@ -241,7 +243,7 @@
 
 .article-body h1 {
     font-size: 2.2rem;
-    border-bottom: 2px solid rgba(0, 243, 255, 0.3);
+    border-bottom: 2px solid rgba(255, 215, 0, 0.3);
     padding-bottom: 0.5rem;
 }
 
@@ -280,7 +282,7 @@
     margin: 2rem auto !important;
     border-radius: 12px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-    border: 1px solid rgba(0, 243, 255, 0.2);
+    border: 1px solid rgba(255, 215, 0, 0.2);
     opacity: 0;
     transition: opacity 0.3s ease;
     visibility: visible !important;
@@ -318,7 +320,7 @@
 
 .article-body pre {
     background: rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(0, 243, 255, 0.2);
+    border: 1px solid rgba(255, 215, 0, 0.2);
     border-radius: 12px;
     padding: 1.5rem;
     overflow-x: auto;
@@ -593,4 +595,3 @@
         font-size: 0.95rem;
     }
 }
-
