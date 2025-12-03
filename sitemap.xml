@@ -4,63 +4,53 @@
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
   
-  <!-- 主页 - 最高优先级 -->
   <url>
     <loc>https://171780.xyz/</loc>
-    <lastmod>2025-11-04T00:00:00+00:00</lastmod>
+    <lastmod>2025-12-03</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   
-  <!-- 主要页面 -->
   <url>
     <loc>https://171780.xyz/pages/blog.html</loc>
-    <lastmod>2025-11-04T00:00:00+00:00</lastmod>
+    <lastmod>2025-12-03</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
     <loc>https://171780.xyz/pages/knowledge.html</loc>
-    <lastmod>2025-11-04T00:00:00+00:00</lastmod>
+    <lastmod>2025-12-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
     <loc>https://171780.xyz/pages/development.html</loc>
-    <lastmod>2025-11-04T00:00:00+00:00</lastmod>
+    <lastmod>2025-12-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
     <loc>https://171780.xyz/pages/about.html</loc>
-    <lastmod>2025-11-04T00:00:00+00:00</lastmod>
+    <lastmod>2025-12-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   
-  <!-- 博客文章 - 按发布日期排序 -->
-  <!-- 注意：已移除带查询参数的博客文章URL，改为只索引博客列表页 -->
-  <!-- 个别文章页面会通过博客列表页自然被发现和索引 -->
-  
-  <!-- 法律页面 - 只包含最终URL，不包含重定向URL -->
   <url>
     <loc>https://171780.xyz/privacy-policy.html</loc>
-    <lastmod>2025-11-04T00:00:00+00:00</lastmod>
+    <lastmod>2025-12-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   
   <url>
     <loc>https://171780.xyz/terms-of-service.html</loc>
-    <lastmod>2025-11-04T00:00:00+00:00</lastmod>
+    <lastmod>2025-12-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
-  
-  <!-- 注意：已移除重定向URL（terms.html, privacy.html, about.html）
-       这些URL会自动重定向到最终页面，不需要在sitemap中列出 -->
   
 </urlset>
