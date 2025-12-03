@@ -12,6 +12,11 @@ Disallow: /tools/
 Disallow: /data/
 Disallow: /includes/
 
+# Disallow redirect pages (these redirect to canonical URLs)
+Disallow: /terms.html
+Disallow: /privacy.html
+Disallow: /about.html
+
 # Disallow configuration and system files
 Disallow: /*.env$
 Disallow: /.git/
