@@ -1,0 +1,508 @@
+<!doctype html>
+<html lang="zh-CN" translate="no">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google" content="notranslate">
+<meta http-equiv="Content-Language" content="zh-CN">
+
+<title>Ubuntu 系统安装配置 Docker - TOGETHER博客</title>
+<meta name="description" content="详细讲解在Ubuntu系统上安装和配置Docker的完整流程，包括系统要求检查、Docker CE安装、服务启动配置以及IPv6支持设置，让你快速掌握Docker容器技术。">
+<meta name="keywords" content="Docker, Ubuntu, 容器, 服务器部署, TOGETHER, 博客, 技术">
+<meta name="author" content="TOGETHER">
+<meta name="robots" content="index, follow">
+
+<!-- Open Graph -->
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://171780.xyz/pages/blog/ubuntu-7-3-7-9-5-89-8-3-85-9-85-8-7-docker.html">
+<meta property="og:title" content="Ubuntu 系统安装配置 Docker - TOGETHER博客">
+<meta property="og:description" content="详细讲解在Ubuntu系统上安装和配置Docker的完整流程，包括系统要求检查、Docker CE安装、服务启动配置以及IPv6支持设置，让你快速掌握Docker容器技术。">
+<meta property="og:image" content="https://171780.xyz/assets/favicon.ico">
+<meta property="og:site_name" content="TOGETHER">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-08-20">
+<meta property="article:author" content="TOGETHER">
+<meta property="article:section" content="技术">
+<meta property="article:tag" content="Docker">
+<meta property="article:tag" content="Ubuntu">
+<meta property="article:tag" content="容器">
+<meta property="article:tag" content="服务器部署">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://171780.xyz/pages/blog/ubuntu-7-3-7-9-5-89-8-3-85-9-85-8-7-docker.html">
+<meta name="twitter:title" content="Ubuntu 系统安装配置 Docker - TOGETHER博客">
+<meta name="twitter:description" content="详细讲解在Ubuntu系统上安装和配置Docker的完整流程，包括系统要求检查、Docker CE安装、服务启动配置以及IPv6支持设置，让你快速掌握Docker容器技术。">
+<meta name="twitter:image" content="https://171780.xyz/assets/favicon.ico">
+<meta name="twitter:creator" content="@Vincentcharming">
+<!-- SEO meta tags will be injected here -->
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="../../assets/favicon.ico">
+<link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+
+<!-- Theme Color -->
+<meta name="theme-color" content="#667eea">
+
+<link rel="canonical" href="https://171780.xyz/pages/blog/ubuntu-7-3-7-9-5-89-8-3-85-9-85-8-7-docker.html">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Ubuntu 系统安装配置 Docker",
+  "description": "详细讲解在Ubuntu系统上安装和配置Docker的完整流程，包括系统要求检查、Docker CE安装、服务启动配置以及IPv6支持设置，让你快速掌握Docker容器技术。",
+  "image": "https://171780.xyz/assets/favicon.ico",
+  "author": {
+    "@type": "Person",
+    "name": "WANG",
+    "url": "https://171780.xyz/pages/about.html"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "TOGETHER",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://171780.xyz/assets/favicon.ico"
+    }
+  },
+  "datePublished": "2024-08-20",
+  "dateModified": "2024-08-20",
+  "url": "https://171780.xyz/pages/blog/ubuntu-7-3-7-9-5-89-8-3-85-9-85-8-7-docker.html",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://171780.xyz/pages/blog/ubuntu-7-3-7-9-5-89-8-3-85-9-85-8-7-docker.html"
+  },
+  "keywords": "Docker, Ubuntu, 容器, 服务器部署",
+  "articleSection": "技术",
+  "inLanguage": "zh-CN"
+}
+</script>
+
+<!-- Stylesheets -->
+<link rel="stylesheet" href="../../css/style.css">
+<link rel="stylesheet" href="../../css/blog.css">
+
+<!-- Custom styles for article page -->
+<style>
+.article-content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: linear-gradient(135deg, 
+        rgba(10, 10, 30, 0.85),
+        rgba(20, 20, 50, 0.75)
+    );
+    border-radius: 24px;
+    border: 2px solid rgba(0, 243, 255, 0.2);
+    backdrop-filter: blur(15px);
+}
+
+.article-hero {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid rgba(0, 243, 255, 0.2);
+}
+
+.article-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    filter: drop-shadow(0 0 20px rgba(0, 243, 255, 0.4));
+}
+
+.article-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, 
+        var(--primary-color),
+        var(--accent-color)
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1.5rem;
+    line-height: 1.3;
+}
+
+.article-excerpt {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.6;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.article-metadata {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.article-metadata span {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.article-body {
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.05rem;
+}
+
+.article-body h1, .article-body h2, .article-body h3 {
+    color: var(--text-light);
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.article-body h2 {
+    font-size: 1.8rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid rgba(0, 243, 255, 0.3);
+}
+
+.article-body h3 {
+    font-size: 1.4rem;
+    color: var(--primary-color);
+}
+
+.article-body p {
+    margin-bottom: 1.5rem;
+}
+
+.article-body ul, .article-body ol {
+    margin-bottom: 1.5rem;
+    padding-left: 2rem;
+}
+
+.article-body li {
+    margin-bottom: 0.5rem;
+}
+
+.article-body code {
+    background: rgba(0, 243, 255, 0.1);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95em;
+    color: var(--primary-color);
+}
+
+.article-body pre {
+    background: rgba(10, 10, 30, 0.9);
+    padding: 1.5rem;
+    border-radius: 12px;
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(0, 243, 255, 0.2);
+}
+
+.article-body pre code {
+    background: transparent;
+    padding: 0;
+    color: var(--text-light);
+}
+
+.article-body blockquote {
+    border-left: 4px solid var(--primary-color);
+    padding-left: 1.5rem;
+    margin: 1.5rem 0;
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.article-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 2px solid rgba(0, 243, 255, 0.2);
+}
+
+.tag-item {
+    background: rgba(0, 243, 255, 0.1);
+    border: 2px solid rgba(0, 243, 255, 0.3);
+    color: var(--primary-color);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.tag-item:hover {
+    background: rgba(0, 243, 255, 0.2);
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 243, 255, 0.3);
+}
+
+.article-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 3rem;
+}
+
+.action-btn {
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg,
+        rgba(0, 243, 255, 0.2),
+        rgba(123, 44, 191, 0.2)
+    );
+    border: 2px solid rgba(0, 243, 255, 0.4);
+    border-radius: 25px;
+    color: var(--primary-color);
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.action-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 20px rgba(0, 243, 255, 0.4);
+    border-color: var(--primary-color);
+}
+
+@media (max-width: 768px) {
+    .article-content {
+        padding: 1.5rem;
+    }
+    
+    .article-title {
+        font-size: 1.8rem;
+    }
+    
+    .article-excerpt {
+        font-size: 1rem;
+    }
+}
+</style>
+</head>
+<body class="notranslate" translate="no">
+    <!-- Background: Nebula and Fluid -->
+    <div class="bg-container">
+        <canvas id="canvas"></canvas>
+        <canvas id="fluidCanvas"></canvas>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">TOGETHER</a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="/" class="nav-link">首页</a></li>
+                <li class="nav-item"><a href="/pages/knowledge.html" class="nav-link">知识库</a></li>
+                <li class="nav-item"><a href="/pages/development.html" class="nav-link">开发地带</a></li>
+                <li class="nav-item"><a href="/pages/blog.html" class="nav-link active">博客</a></li>
+                <li class="nav-item"><a href="/pages/about.html" class="nav-link">关于</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <section class="content-section">
+            <div class="section-container">
+                <div class="article-content">
+    <div class="article-hero">
+        <div class="article-icon">🐳</div>
+        <h1 class="article-title">Ubuntu 系统安装配置 Docker</h1>
+        <p class="article-excerpt">详细讲解在Ubuntu系统上安装和配置Docker的完整流程，包括系统要求检查、Docker CE安装、服务启动配置以及IPv6支持设置，让你快速掌握Docker容器技术。</p>
+        <div class="article-metadata">
+            <span>📅 2024-08-20</span>
+            <span>📂 技术</span>
+            <span>⏱️ 12分钟</span>
+        </div>
+    </div>
+    
+    <div class="article-body">
+        <p>为了安装并配置 Docker ，你的系统必须满足下列最低要求：64 位 Linux 或 Windows 系统 如果使用 Linux ，内核版本必须不低于 3.10 能够使用 sudo 权限的用户 在你系统 BIOS 上启用了 VT（虚拟化技术）支持 on your system BIOS（参考: 如何查看 CPU 支持 虚拟化技术（VT）） 你的系统应该联网 在 Linux ，在终端上运行以下命令验证内核以及架构详细信息：</p>
+<p>    uname -a
+    </p>
+<p>输出样例：</p>
+<p>    Linux Ubuntu22CT 5.15.35-3-pve #1 SMP PVE 5.15.35-6 (Fri, 17 Jun 2022 13:42:35 +0200) x86_64 x86_64 x86_64 GNU/Linux
+    </p>
+<p>正如上面你看到的那样，我的 Ubuntu 系统内核版本是 5.15.35-3-pve 并且系统架构是 64 位（x86\_64 x86\_64 x86\_64 GNU/Linux）。 注意： 这里，我在 Proxmox 中使用 Ubuntu 22.04 容器。这是你看到上方内核版本中有 “pve” 字符的原因。如果你正在使用 Ubuntu 实体（或者虚拟）机，你将看到系统版本为 5.15.35-3-generic 。 内核版本需要不低于最低要求的版本，并且是 64 位机器。这样不会有任何问题，我们能顺利安装并使用 Docker 。</p>
+<p>只要你的系统内核版本不低于 3.10 ，并且是 64 位系统，Docker 都会正常运行。</p>
+<p>1.  首先更新你的 Ubuntu 系统。 打开终端，依次运行下列命令：
+    
+         sudo apt update
+         sudo apt upgrade
+         sudo apt full-upgrade
+        
+    
+2.  安装必要的证书并允许 apt 包管理器使用以下命令通过 HTTPS 使用存储库：
+    
+        sudo apt install apt-transport-https ca-certificates curl software-properties-common gnupg lsb-release
+        
+        
+    
+3.  运行下列命令添加 Docker 的官方 GPG 密钥：
+    
+        curl -fsSL <https://download.docker.com/linux/ubuntu/gpg> | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+        
+    
+4.  添加 Docker 官方库：
+    
+        echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] <https://download.docker.com/linux/ubuntu> $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+        
+    
+5.  使用命令更新 Ubuntu 源列表：
+    
+        sudo apt update
+        
+    
+6.  最后，运行下列命令在 Ubuntu 22.04 LTS 服务器中安装最新 Docker CE：
+    
+        sudo apt install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+        
+    
+7.  安装完成后，运行如下命令验证 Docker 服务是否在运行：
+    
+        systemctl status docker
+        
+    
+8.  你会看到类似下面的输出：
+    
+        docker.service - Docker Application Container Engine
+        Loaded: loaded (/lib/systemd/system/docker.service; enabled; vendor preset: enabled)
+        Active: active (running) since Mon 2022-06-27 13:07:43 UTC; 3min 4s ago
+        TriggeredBy: * docker.socket
+        Docs: https://docs.docker.com
+        Main PID: 2208 (dockerd)
+        Tasks: 8
+        Memory: 29.6M
+        CPU: 126ms
+        CGroup: /system.slice/docker.service
+        <code>-2208 /usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
+        Jun 27 13:07:43 Ubuntu22CT dockerd[2208]: time="2022-06-27T13:07:43.071453522Z" level=info msg="ccResolverWrapper: sending update to cc: {[{unix:>
+        Jun 27 13:07:43 Ubuntu22CT dockerd[2208]: time="2022-06-27T13:07:43.071459974Z" level=info msg="ClientConn switching balancer to \"pick_first\"" >
+        Jun 27 13:07:43 Ubuntu22CT dockerd[2208]: time="2022-06-27T13:07:43.130989294Z" level=info msg="Loading containers: start."
+        Jun 27 13:07:43 Ubuntu22CT dockerd[2208]: time="2022-06-27T13:07:43.187439756Z" level=info msg="Default bridge (docker0) is assigned with an IP a>
+        Jun 27 13:07:43 Ubuntu22CT dockerd[2208]: time="2022-06-27T13:07:43.235966874Z" level=info msg="Loading containers: done."
+        Jun 27 13:07:43 Ubuntu22CT dockerd[2208]: time="2022-06-27T13:07:43.240149866Z" level=warning msg="Not using native diff for overlay2, this may c>
+        Jun 27 13:07:43 Ubuntu22CT dockerd[2208]: time="2022-06-27T13:07:43.240281966Z" level=info msg="Docker daemon" commit=a89b842 graphdriver(s)=over>
+        Jun 27 13:07:43 Ubuntu22CT dockerd[2208]: time="2022-06-27T13:07:43.240386856Z" level=info msg="Daemon has completed initialization"
+        Jun 27 13:07:43 Ubuntu22CT systemd[1]: Started Docker Application Container Engine.
+        Jun 27 13:07:43 Ubuntu22CT dockerd[2208]: time="2022-06-27T13:07:43.276336600Z" level=info msg="API listen on /run/docker.sock"
+    
+9.  好极了！Docker 服务已启动并运行！
+    
+    如果没有运行，运行以下命令运行 Docker 服务：
+    
+    </code>sudo systemctl start docker<code>
+    
+    使 Docker 服务在每次重启时自动启动：
+    
+    </code>sudo systemctl enable docker<code>
+    
+    可以使用以下命令查看已安装的 Docker 版本：
+    
+    </code>sudo docker version`
+    
+    输出样例：
+    
+        Client: Docker Engine - Community
+        Version: 20.10.17
+        API version: 1.41
+        Go version: go1.17.11
+        Git commit: 100c701
+        Built: Mon Jun 6 23:02:46 2022
+        OS/Arch: linux/amd64
+        Context: default
+        Experimental: true
+        Server: Docker Engine - Community Engine:
+        Version: 20.10.17
+        API version: 1.41 (minimum version 1.12)
+        Go version: go1.17.11
+        Git commit: a89b842
+        Built: Mon Jun 6 23:00:51 2022
+        OS/Arch: linux/amd64
+        Experimental: false
+        containerd: Version: 1.6.6
+        GitCommit: 10c12954828e7c7c9b6e0ea9b0c02b01407d3ae1
+        runc: Version: 1.1.2
+        GitCommit: v1.1.2-0-ga916309
+        docker-init: Version: 0.19.0
+        GitCommit: de40ad0
+    
+10.  让我们继续，测试 Docker 是否运行正常：
+    
+        sudo docker run hello-world
+        
+    
+    上述命令会下载一个 Docker 测试镜像，并在容器内执行一个 “hello\_world” 样例程序。 如果你看到类似下方的输出，那么祝贺你！Docker 正常运行在你的 Ubuntu 系统中了。
+    
+        Unable to find image 'hello-world:latest' locally
+        latest: Pulling from library/hello-world
+        2db29710123e: Pull complete
+        Digest: sha256:13e367d31ae85359f42d637adf6da428f76d75dc9afeb3c21faea0d976f5c651
+        Status: Downloaded newer image for hello-world:latestHello from Docker!
+        This message shows that your installation appears to be working correctly.To generate this message, Docker took the following steps: 1. The Docker client contacted the Docker daemon. 2. The Docker daemon pulled the "hello-world" image from the Docker Hub. (amd64) 3. The Docker daemon created a new container from that image which runs the executable that produces the output you are currently reading. 4. The Docker daemon streamed that output to the Docker client, which sent it to your terminal.To try something more ambitious, you can run an Ubuntu container with: $ docker run -it ubuntu bashShare images, automate workflows, and more with a free Docker ID: https://hub.docker.com/For more examples and ideas, visit: https://docs.docker.com/get-started/
+    
+11.  最后，如果您的服务器是ipv6服务器，需要明确您的宿主机是否已禁用IPv6。可以通过以下命令检查：
+    
+        cat /proc/sys/net/ipv6/conf/all/disable_ipv6
+    
+    如果输出为“1”，则表明IPv6已被禁用。
+    
+    配置Docker以支持IPv6
+    
+    编辑Docker守护进程配置文件： 通常位于/etc/docker/daemon.json，如果文件不存在则创建之：
+    
+        sudo nano /etc/docker/daemon.json
+    
+    添加以下配置以启用IPv6：
+    
+        { "ipv6": true, "fixed-cidr-v6": "2001:db8:1::/64" }
+    
+    这里2001:db8:1::/64是一个示例IPv6子网，您可以根据实际情况进行替换。</p>
+    </div>
+    
+    <div class="article-tags">
+                <a href="/pages/blog.html?tag=Docker" class="tag-item">Docker</a><a href="/pages/blog.html?tag=Ubuntu" class="tag-item">Ubuntu</a><a href="/pages/blog.html?tag=%E5%AE%B9%E5%99%A8" class="tag-item">容器</a><a href="/pages/blog.html?tag=%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2" class="tag-item">服务器部署</a>
+               </div>
+    
+    <div class="article-actions">
+        <a href="/pages/blog.html" class="action-btn">← 返回博客列表</a>
+        <a href="/" class="action-btn">回到首页</a>
+    </div>
+</div>
+                <!-- Article content will be injected here -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 TOGETHER. 保留所有权利。</p>
+            <p class="footer-tagline">用热情和技术构建</p>
+            <div class="footer-links">
+                <a href="/privacy-policy.html">隐私政策</a>
+                <span>·</span>
+                <a href="/terms-of-service.html">服务条款</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../js/galaxy.js"></script>
+    <script src="../../js/fluid.js"></script>
+    <script src="../../js/nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="zh-CN" translate="no">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google" content="notranslate">
+<meta http-equiv="Content-Language" content="zh-CN">
+
+<title>Linux报swap空间占用过高，但物理内存还有空余 - TOGETHER博客</title>
+<meta name="description" content="遇到swap空间占用过高的问题？本文详细分析swap配置对性能的影响，提供实用的解决方案，通过调整swappiness参数优化系统内存使用策略。">
+<meta name="keywords" content="Linux, swap, 系统优化, 服务器运维, TOGETHER, 博客, 技术">
+<meta name="author" content="TOGETHER">
+<meta name="robots" content="index, follow">
+
+<!-- Open Graph -->
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://171780.xyz/pages/blog/linux-6-8-5swap-7-9-9-97-4-5-8-0-7-94-8-8-87-9-98-4-86-7-89-9-7-90-86-5-86-85-5-98-8-98-6-9-89-7-9-4-99.html">
+<meta property="og:title" content="Linux报swap空间占用过高，但物理内存还有空余 - TOGETHER博客">
+<meta property="og:description" content="遇到swap空间占用过高的问题？本文详细分析swap配置对性能的影响，提供实用的解决方案，通过调整swappiness参数优化系统内存使用策略。">
+<meta property="og:image" content="https://171780.xyz/assets/favicon.ico">
+<meta property="og:site_name" content="TOGETHER">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-10-15">
+<meta property="article:author" content="TOGETHER">
+<meta property="article:section" content="技术">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="swap">
+<meta property="article:tag" content="系统优化">
+<meta property="article:tag" content="服务器运维">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://171780.xyz/pages/blog/linux-6-8-5swap-7-9-9-97-4-5-8-0-7-94-8-8-87-9-98-4-86-7-89-9-7-90-86-5-86-85-5-98-8-98-6-9-89-7-9-4-99.html">
+<meta name="twitter:title" content="Linux报swap空间占用过高，但物理内存还有空余 - TOGETHER博客">
+<meta name="twitter:description" content="遇到swap空间占用过高的问题？本文详细分析swap配置对性能的影响，提供实用的解决方案，通过调整swappiness参数优化系统内存使用策略。">
+<meta name="twitter:image" content="https://171780.xyz/assets/favicon.ico">
+<meta name="twitter:creator" content="@Vincentcharming">
+<!-- SEO meta tags will be injected here -->
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="../../assets/favicon.ico">
+<link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+
+<!-- Theme Color -->
+<meta name="theme-color" content="#667eea">
+
+<link rel="canonical" href="https://171780.xyz/pages/blog/linux-6-8-5swap-7-9-9-97-4-5-8-0-7-94-8-8-87-9-98-4-86-7-89-9-7-90-86-5-86-85-5-98-8-98-6-9-89-7-9-4-99.html">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Linux报swap空间占用过高，但物理内存还有空余",
+  "description": "遇到swap空间占用过高的问题？本文详细分析swap配置对性能的影响，提供实用的解决方案，通过调整swappiness参数优化系统内存使用策略。",
+  "image": "https://171780.xyz/assets/favicon.ico",
+  "author": {
+    "@type": "Person",
+    "name": "WANG",
+    "url": "https://171780.xyz/pages/about.html"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "TOGETHER",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://171780.xyz/assets/favicon.ico"
+    }
+  },
+  "datePublished": "2024-10-15",
+  "dateModified": "2024-10-15",
+  "url": "https://171780.xyz/pages/blog/linux-6-8-5swap-7-9-9-97-4-5-8-0-7-94-8-8-87-9-98-4-86-7-89-9-7-90-86-5-86-85-5-98-8-98-6-9-89-7-9-4-99.html",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://171780.xyz/pages/blog/linux-6-8-5swap-7-9-9-97-4-5-8-0-7-94-8-8-87-9-98-4-86-7-89-9-7-90-86-5-86-85-5-98-8-98-6-9-89-7-9-4-99.html"
+  },
+  "keywords": "Linux, swap, 系统优化, 服务器运维",
+  "articleSection": "技术",
+  "inLanguage": "zh-CN"
+}
+</script>
+
+<!-- Stylesheets -->
+<link rel="stylesheet" href="../../css/style.css">
+<link rel="stylesheet" href="../../css/blog.css">
+
+<!-- Custom styles for article page -->
+<style>
+.article-content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: linear-gradient(135deg, 
+        rgba(10, 10, 30, 0.85),
+        rgba(20, 20, 50, 0.75)
+    );
+    border-radius: 24px;
+    border: 2px solid rgba(0, 243, 255, 0.2);
+    backdrop-filter: blur(15px);
+}
+
+.article-hero {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid rgba(0, 243, 255, 0.2);
+}
+
+.article-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    filter: drop-shadow(0 0 20px rgba(0, 243, 255, 0.4));
+}
+
+.article-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, 
+        var(--primary-color),
+        var(--accent-color)
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1.5rem;
+    line-height: 1.3;
+}
+
+.article-excerpt {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.6;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.article-metadata {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.article-metadata span {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.article-body {
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.05rem;
+}
+
+.article-body h1, .article-body h2, .article-body h3 {
+    color: var(--text-light);
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.article-body h2 {
+    font-size: 1.8rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid rgba(0, 243, 255, 0.3);
+}
+
+.article-body h3 {
+    font-size: 1.4rem;
+    color: var(--primary-color);
+}
+
+.article-body p {
+    margin-bottom: 1.5rem;
+}
+
+.article-body ul, .article-body ol {
+    margin-bottom: 1.5rem;
+    padding-left: 2rem;
+}
+
+.article-body li {
+    margin-bottom: 0.5rem;
+}
+
+.article-body code {
+    background: rgba(0, 243, 255, 0.1);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95em;
+    color: var(--primary-color);
+}
+
+.article-body pre {
+    background: rgba(10, 10, 30, 0.9);
+    padding: 1.5rem;
+    border-radius: 12px;
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(0, 243, 255, 0.2);
+}
+
+.article-body pre code {
+    background: transparent;
+    padding: 0;
+    color: var(--text-light);
+}
+
+.article-body blockquote {
+    border-left: 4px solid var(--primary-color);
+    padding-left: 1.5rem;
+    margin: 1.5rem 0;
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.article-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 2px solid rgba(0, 243, 255, 0.2);
+}
+
+.tag-item {
+    background: rgba(0, 243, 255, 0.1);
+    border: 2px solid rgba(0, 243, 255, 0.3);
+    color: var(--primary-color);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.tag-item:hover {
+    background: rgba(0, 243, 255, 0.2);
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 243, 255, 0.3);
+}
+
+.article-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 3rem;
+}
+
+.action-btn {
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg,
+        rgba(0, 243, 255, 0.2),
+        rgba(123, 44, 191, 0.2)
+    );
+    border: 2px solid rgba(0, 243, 255, 0.4);
+    border-radius: 25px;
+    color: var(--primary-color);
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.action-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 20px rgba(0, 243, 255, 0.4);
+    border-color: var(--primary-color);
+}
+
+@media (max-width: 768px) {
+    .article-content {
+        padding: 1.5rem;
+    }
+    
+    .article-title {
+        font-size: 1.8rem;
+    }
+    
+    .article-excerpt {
+        font-size: 1rem;
+    }
+}
+</style>
+</head>
+<body class="notranslate" translate="no">
+    <!-- Background: Nebula and Fluid -->
+    <div class="bg-container">
+        <canvas id="canvas"></canvas>
+        <canvas id="fluidCanvas"></canvas>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">TOGETHER</a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="/" class="nav-link">首页</a></li>
+                <li class="nav-item"><a href="/pages/knowledge.html" class="nav-link">知识库</a></li>
+                <li class="nav-item"><a href="/pages/development.html" class="nav-link">开发地带</a></li>
+                <li class="nav-item"><a href="/pages/blog.html" class="nav-link active">博客</a></li>
+                <li class="nav-item"><a href="/pages/about.html" class="nav-link">关于</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <section class="content-section">
+            <div class="section-container">
+                <div class="article-content">
+    <div class="article-hero">
+        <div class="article-icon">🖥️</div>
+        <h1 class="article-title">Linux报swap空间占用过高，但物理内存还有空余</h1>
+        <p class="article-excerpt">遇到swap空间占用过高的问题？本文详细分析swap配置对性能的影响，提供实用的解决方案，通过调整swappiness参数优化系统内存使用策略。</p>
+        <div class="article-metadata">
+            <span>📅 2024-10-15</span>
+            <span>📂 技术</span>
+            <span>⏱️ 8分钟</span>
+        </div>
+    </div>
+    
+    <div class="article-body">
+        <p>收到报警，swap空间占用过高，登录到系统查看内存使用详情，看到物理内存还有很多未使用</p>
+<p>输入代码<code>free -m</code> ，可确认。</p>
+<h2> <strong>问题分析</strong></h2>
+<p> Swap配置对性能的影响  
+分配太多的Swap空间会浪费磁盘空间，而Swap空间太少，则系统会发生错误。如果系统的物理内存用光了，系统就会跑得很慢，但仍能运行；如果Swap空间用光了，那么系统就会发生错误。例如，Web服务器能根据不同的请求数量衍生出多个服务进程（或线程），如果Swap空间用完，则服务进程无法启动，通常会出现“application is out of memory”的错误，严重时会造成服务进程的死锁。因此Swap空间的分配是很重要的。  
+通常情况下，Swap空间应大于或等于物理内存的大小，最小不应小于64M，通常Swap空间的大小应是物理内存的2-2.5倍。但根据不同的应用，应有不同的配置：如果是小的桌面系统，则只需要较小的Swap空间，而大的服务器系统则视情况不同需要不同大小的Swap空间。特别是数据库服务器和Web服务器，随着访问量的增加，对Swap空间的要求也会增加，一般来说对于4G 以下的物理内存，配置2倍的swap，4G 以上配置1倍。  
+另外，Swap分区的数量对性能也有很大的影响。因为Swap交换的操作是磁盘IO的操作，如果有多个Swap交换区，Swap空间的分配会以轮流的方式操作于所有的Swap，这样会大大均衡IO的负载，加快Swap交换的速度。如果只有一个交换区，所有的交换操作会使交换区变得很忙，使系统大多数时间处于等待状态，效率很低。用性能监视工具就会发现，此时的CPU并不很忙，而系统却慢。这说明，瓶颈在IO上，依靠提高CPU的速度是解决不了问题的。</p>
+<h2><strong>问题解决</strong></h2>
+<p>swap配置优化：</p>
+<p>控制swap使用的系统参数：swappiness，wappiness的值的大小对如何使用swap分区是有着很大的联系的。</p>
+<p>swappiness=0的时候表示最大限度使用物理内存，然后才是 swap空间，swappiness＝100的时候表示积极的使用swap分区，并且把内存上的数据及时的搬运到swap空间里面。linux的基本默认设置为60，具体如下：</p>
+<p>一般默认值都是60   </p>
+<p>\[root@swnode2 ~\]# <code>cat /proc/sys/vm/swappiness</code>  
+60</p>
+<p>也就是说，你的内存在使用到100-60=40%的时候，就开始出现有交换分区的使用。大家知道，内存的速度会比磁盘快很多，这样子会加大系统io，同时造的成大量页的换进换出，严重影响系统的性能，所以我们在操作系统层面，要尽可能使用内存，对该参数进行调整。</p>
+<p>临时调整的方法如下，我们调成10：  
+\[root@swnode2 ~\]# <code>sysctl vm.swappiness=10</code>  
+vm.swappiness = 10  
+\[root@swnode2 ~\]# <code>cat /proc/sys/vm/swappiness</code>  
+10  
+这只是临时调整的方法，重启后会回到默认设置的</p>
+<p> 要想永久调整的话，需要将  
+需要在/etc/sysctl.conf修改，加上：  
+\[root@swnode2 ~\]# <code>cat /etc/sysctl.conf</code></p>
+<p>\# Controls the maximum number of shared memory segments, in pages  
+kernel.shmall = 4294967296  
+vm.swappiness=10</p>
+<p>激活设置：</p>
+<p>#<code>sysctl -p</code></p>
+<p> <strong>知识点</strong></p>
+<p>简单地说这个参数定义了系统对swap的使用倾向，默认值为60，值越大表示越倾向于使用swap。可以设为0，这样做并不会禁止对swap的使用，只是最大限度地降低了使用swap的可能性。</p>
+<p>通过sysctl -q vm.swappiness可以查看参数的当前设置。</p>
+<p>修改参数的方法是修改/etc/sysctl.conf文件，加入vm.swappiness=xxx，并重起系统。这个操作相当于是修改虚拟系统中的/proc/sys/vm/swappiness文件，将值改为XXX数值。</p>
+<p>参考链接：https://blog.csdn.net/lufeisan/article/details/53339991</p>
+<p>https://blog.csdn.net/ly890700/article/details/73695750</p>
+    </div>
+    
+    <div class="article-tags">
+                <a href="/pages/blog.html?tag=Linux" class="tag-item">Linux</a><a href="/pages/blog.html?tag=swap" class="tag-item">swap</a><a href="/pages/blog.html?tag=%E7%B3%BB%E7%BB%9F%E4%BC%98%E5%8C%96" class="tag-item">系统优化</a><a href="/pages/blog.html?tag=%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%BF%90%E7%BB%B4" class="tag-item">服务器运维</a>
+               </div>
+    
+    <div class="article-actions">
+        <a href="/pages/blog.html" class="action-btn">← 返回博客列表</a>
+        <a href="/" class="action-btn">回到首页</a>
+    </div>
+</div>
+                <!-- Article content will be injected here -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 TOGETHER. 保留所有权利。</p>
+            <p class="footer-tagline">用热情和技术构建</p>
+            <div class="footer-links">
+                <a href="/privacy-policy.html">隐私政策</a>
+                <span>·</span>
+                <a href="/terms-of-service.html">服务条款</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../js/galaxy.js"></script>
+    <script src="../../js/fluid.js"></script>
+    <script src="../../js/nav.js"></script>
+</body>
+</html>

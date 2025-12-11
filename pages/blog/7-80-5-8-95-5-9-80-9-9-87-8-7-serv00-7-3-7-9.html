@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="zh-CN" translate="no">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google" content="notranslate">
+<meta http-equiv="Content-Language" content="zh-CN">
+
+<title>简单快速重置Serv00系统 - TOGETHER博客</title>
+<meta name="description" content="简单三步快速重置Serv00免费主机空间，适合新手练手和折腾。使用一键脚本即可完成系统清理和重置，让你的Serv00焕然一新。">
+<meta name="keywords" content="Serv00, 免费主机, VPS, 系统重置, TOGETHER, 博客, 技术">
+<meta name="author" content="TOGETHER">
+<meta name="robots" content="index, follow">
+
+<!-- Open Graph -->
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://171780.xyz/pages/blog/7-80-5-8-95-5-9-80-9-9-87-8-7-serv00-7-3-7-9.html">
+<meta property="og:title" content="简单快速重置Serv00系统 - TOGETHER博客">
+<meta property="og:description" content="简单三步快速重置Serv00免费主机空间，适合新手练手和折腾。使用一键脚本即可完成系统清理和重置，让你的Serv00焕然一新。">
+<meta property="og:image" content="https://171780.xyz/assets/favicon.ico">
+<meta property="og:site_name" content="TOGETHER">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-07-10">
+<meta property="article:author" content="TOGETHER">
+<meta property="article:section" content="技术">
+<meta property="article:tag" content="Serv00">
+<meta property="article:tag" content="免费主机">
+<meta property="article:tag" content="VPS">
+<meta property="article:tag" content="系统重置">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://171780.xyz/pages/blog/7-80-5-8-95-5-9-80-9-9-87-8-7-serv00-7-3-7-9.html">
+<meta name="twitter:title" content="简单快速重置Serv00系统 - TOGETHER博客">
+<meta name="twitter:description" content="简单三步快速重置Serv00免费主机空间，适合新手练手和折腾。使用一键脚本即可完成系统清理和重置，让你的Serv00焕然一新。">
+<meta name="twitter:image" content="https://171780.xyz/assets/favicon.ico">
+<meta name="twitter:creator" content="@Vincentcharming">
+<!-- SEO meta tags will be injected here -->
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="../../assets/favicon.ico">
+<link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+
+<!-- Theme Color -->
+<meta name="theme-color" content="#667eea">
+
+<link rel="canonical" href="https://171780.xyz/pages/blog/7-80-5-8-95-5-9-80-9-9-87-8-7-serv00-7-3-7-9.html">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "简单快速重置Serv00系统",
+  "description": "简单三步快速重置Serv00免费主机空间，适合新手练手和折腾。使用一键脚本即可完成系统清理和重置，让你的Serv00焕然一新。",
+  "image": "https://171780.xyz/assets/favicon.ico",
+  "author": {
+    "@type": "Person",
+    "name": "WANG",
+    "url": "https://171780.xyz/pages/about.html"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "TOGETHER",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://171780.xyz/assets/favicon.ico"
+    }
+  },
+  "datePublished": "2024-07-10",
+  "dateModified": "2024-07-10",
+  "url": "https://171780.xyz/pages/blog/7-80-5-8-95-5-9-80-9-9-87-8-7-serv00-7-3-7-9.html",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://171780.xyz/pages/blog/7-80-5-8-95-5-9-80-9-9-87-8-7-serv00-7-3-7-9.html"
+  },
+  "keywords": "Serv00, 免费主机, VPS, 系统重置",
+  "articleSection": "技术",
+  "inLanguage": "zh-CN"
+}
+</script>
+
+<!-- Stylesheets -->
+<link rel="stylesheet" href="../../css/style.css">
+<link rel="stylesheet" href="../../css/blog.css">
+
+<!-- Custom styles for article page -->
+<style>
+.article-content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: linear-gradient(135deg, 
+        rgba(10, 10, 30, 0.85),
+        rgba(20, 20, 50, 0.75)
+    );
+    border-radius: 24px;
+    border: 2px solid rgba(0, 243, 255, 0.2);
+    backdrop-filter: blur(15px);
+}
+
+.article-hero {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid rgba(0, 243, 255, 0.2);
+}
+
+.article-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    filter: drop-shadow(0 0 20px rgba(0, 243, 255, 0.4));
+}
+
+.article-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, 
+        var(--primary-color),
+        var(--accent-color)
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1.5rem;
+    line-height: 1.3;
+}
+
+.article-excerpt {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.6;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.article-metadata {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.article-metadata span {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.article-body {
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.05rem;
+}
+
+.article-body h1, .article-body h2, .article-body h3 {
+    color: var(--text-light);
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.article-body h2 {
+    font-size: 1.8rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid rgba(0, 243, 255, 0.3);
+}
+
+.article-body h3 {
+    font-size: 1.4rem;
+    color: var(--primary-color);
+}
+
+.article-body p {
+    margin-bottom: 1.5rem;
+}
+
+.article-body ul, .article-body ol {
+    margin-bottom: 1.5rem;
+    padding-left: 2rem;
+}
+
+.article-body li {
+    margin-bottom: 0.5rem;
+}
+
+.article-body code {
+    background: rgba(0, 243, 255, 0.1);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95em;
+    color: var(--primary-color);
+}
+
+.article-body pre {
+    background: rgba(10, 10, 30, 0.9);
+    padding: 1.5rem;
+    border-radius: 12px;
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(0, 243, 255, 0.2);
+}
+
+.article-body pre code {
+    background: transparent;
+    padding: 0;
+    color: var(--text-light);
+}
+
+.article-body blockquote {
+    border-left: 4px solid var(--primary-color);
+    padding-left: 1.5rem;
+    margin: 1.5rem 0;
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.article-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 2px solid rgba(0, 243, 255, 0.2);
+}
+
+.tag-item {
+    background: rgba(0, 243, 255, 0.1);
+    border: 2px solid rgba(0, 243, 255, 0.3);
+    color: var(--primary-color);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.tag-item:hover {
+    background: rgba(0, 243, 255, 0.2);
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 243, 255, 0.3);
+}
+
+.article-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 3rem;
+}
+
+.action-btn {
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg,
+        rgba(0, 243, 255, 0.2),
+        rgba(123, 44, 191, 0.2)
+    );
+    border: 2px solid rgba(0, 243, 255, 0.4);
+    border-radius: 25px;
+    color: var(--primary-color);
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.action-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 20px rgba(0, 243, 255, 0.4);
+    border-color: var(--primary-color);
+}
+
+@media (max-width: 768px) {
+    .article-content {
+        padding: 1.5rem;
+    }
+    
+    .article-title {
+        font-size: 1.8rem;
+    }
+    
+    .article-excerpt {
+        font-size: 1rem;
+    }
+}
+</style>
+</head>
+<body class="notranslate" translate="no">
+    <!-- Background: Nebula and Fluid -->
+    <div class="bg-container">
+        <canvas id="canvas"></canvas>
+        <canvas id="fluidCanvas"></canvas>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">TOGETHER</a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="/" class="nav-link">首页</a></li>
+                <li class="nav-item"><a href="/pages/knowledge.html" class="nav-link">知识库</a></li>
+                <li class="nav-item"><a href="/pages/development.html" class="nav-link">开发地带</a></li>
+                <li class="nav-item"><a href="/pages/blog.html" class="nav-link active">博客</a></li>
+                <li class="nav-item"><a href="/pages/about.html" class="nav-link">关于</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <section class="content-section">
+            <div class="section-container">
+                <div class="article-content">
+    <div class="article-hero">
+        <div class="article-icon">🔄</div>
+        <h1 class="article-title">简单快速重置Serv00系统</h1>
+        <p class="article-excerpt">简单三步快速重置Serv00免费主机空间，适合新手练手和折腾。使用一键脚本即可完成系统清理和重置，让你的Serv00焕然一新。</p>
+        <div class="article-metadata">
+            <span>📅 2024-07-10</span>
+            <span>📂 技术</span>
+            <span>⏱️ 3分钟</span>
+        </div>
+    </div>
+    
+    <div class="article-body">
+        <p>相信很多朋友都会热衷于薅Serv00主机空间，由于空间免费时间长，当然限制也会非常多，不能root,不时会重启，影响部署程序的正常运行。</p>
+<p>但是这种免费的空间，特别适合小白练手和折腾。</p>
+<p>当一番骚操作后，怎么还原重置系统呢？</p>
+<p>1. 首先下载脚本：
+   
+       curl -O https://raw.githubusercontent.com/SamueruTokeisou/serv00/main/system-cleanup-script.sh</p>
+<p>2. 添加执行权限：
+   
+       chmod +x system-cleanup-script.sh</p>
+<p>3. 运行脚本：
+   
+       ./system-cleanup-script.sh</p>
+<p>再重新登录，是不是焕然一新了？</p>
+    </div>
+    
+    <div class="article-tags">
+                <a href="/pages/blog.html?tag=Serv00" class="tag-item">Serv00</a><a href="/pages/blog.html?tag=%E5%85%8D%E8%B4%B9%E4%B8%BB%E6%9C%BA" class="tag-item">免费主机</a><a href="/pages/blog.html?tag=VPS" class="tag-item">VPS</a><a href="/pages/blog.html?tag=%E7%B3%BB%E7%BB%9F%E9%87%8D%E7%BD%AE" class="tag-item">系统重置</a>
+               </div>
+    
+    <div class="article-actions">
+        <a href="/pages/blog.html" class="action-btn">← 返回博客列表</a>
+        <a href="/" class="action-btn">回到首页</a>
+    </div>
+</div>
+                <!-- Article content will be injected here -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 TOGETHER. 保留所有权利。</p>
+            <p class="footer-tagline">用热情和技术构建</p>
+            <div class="footer-links">
+                <a href="/privacy-policy.html">隐私政策</a>
+                <span>·</span>
+                <a href="/terms-of-service.html">服务条款</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../js/galaxy.js"></script>
+    <script src="../../js/fluid.js"></script>
+    <script src="../../js/nav.js"></script>
+</body>
+</html>

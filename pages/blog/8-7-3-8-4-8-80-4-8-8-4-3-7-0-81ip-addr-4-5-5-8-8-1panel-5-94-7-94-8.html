@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="zh-CN" translate="no">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google" content="notranslate">
+<meta http-equiv="Content-Language" content="zh-CN">
+
+<title>解读一下代码ip addr以及1panel应用 - TOGETHER博客</title>
+<meta name="description" content="深入解读Linux的ip addr命令输出，包括网络接口、MTU、IPv4/IPv6地址等信息，并详细讲解如何在1panel面板中配置IPv6网络。">
+<meta name="keywords" content="Linux, ip addr, 1panel, 网络配置, IPv6, TOGETHER, 博客, 技术">
+<meta name="author" content="TOGETHER">
+<meta name="robots" content="index, follow">
+
+<!-- Open Graph -->
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://171780.xyz/pages/blog/8-7-3-8-4-8-80-4-8-8-4-3-7-0-81ip-addr-4-5-5-8-8-1panel-5-94-7-94-8.html">
+<meta property="og:title" content="解读一下代码ip addr以及1panel应用 - TOGETHER博客">
+<meta property="og:description" content="深入解读Linux的ip addr命令输出，包括网络接口、MTU、IPv4/IPv6地址等信息，并详细讲解如何在1panel面板中配置IPv6网络。">
+<meta property="og:image" content="https://171780.xyz/assets/favicon.ico">
+<meta property="og:site_name" content="TOGETHER">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-08-25">
+<meta property="article:author" content="TOGETHER">
+<meta property="article:section" content="技术">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="ip addr">
+<meta property="article:tag" content="1panel">
+<meta property="article:tag" content="网络配置">
+<meta property="article:tag" content="IPv6">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://171780.xyz/pages/blog/8-7-3-8-4-8-80-4-8-8-4-3-7-0-81ip-addr-4-5-5-8-8-1panel-5-94-7-94-8.html">
+<meta name="twitter:title" content="解读一下代码ip addr以及1panel应用 - TOGETHER博客">
+<meta name="twitter:description" content="深入解读Linux的ip addr命令输出，包括网络接口、MTU、IPv4/IPv6地址等信息，并详细讲解如何在1panel面板中配置IPv6网络。">
+<meta name="twitter:image" content="https://171780.xyz/assets/favicon.ico">
+<meta name="twitter:creator" content="@Vincentcharming">
+<!-- SEO meta tags will be injected here -->
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="../../assets/favicon.ico">
+<link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+
+<!-- Theme Color -->
+<meta name="theme-color" content="#667eea">
+
+<link rel="canonical" href="https://171780.xyz/pages/blog/8-7-3-8-4-8-80-4-8-8-4-3-7-0-81ip-addr-4-5-5-8-8-1panel-5-94-7-94-8.html">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "解读一下代码ip addr以及1panel应用",
+  "description": "深入解读Linux的ip addr命令输出，包括网络接口、MTU、IPv4/IPv6地址等信息，并详细讲解如何在1panel面板中配置IPv6网络。",
+  "image": "https://171780.xyz/assets/favicon.ico",
+  "author": {
+    "@type": "Person",
+    "name": "WANG",
+    "url": "https://171780.xyz/pages/about.html"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "TOGETHER",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://171780.xyz/assets/favicon.ico"
+    }
+  },
+  "datePublished": "2024-08-25",
+  "dateModified": "2024-08-25",
+  "url": "https://171780.xyz/pages/blog/8-7-3-8-4-8-80-4-8-8-4-3-7-0-81ip-addr-4-5-5-8-8-1panel-5-94-7-94-8.html",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://171780.xyz/pages/blog/8-7-3-8-4-8-80-4-8-8-4-3-7-0-81ip-addr-4-5-5-8-8-1panel-5-94-7-94-8.html"
+  },
+  "keywords": "Linux, ip addr, 1panel, 网络配置, IPv6",
+  "articleSection": "技术",
+  "inLanguage": "zh-CN"
+}
+</script>
+
+<!-- Stylesheets -->
+<link rel="stylesheet" href="../../css/style.css">
+<link rel="stylesheet" href="../../css/blog.css">
+
+<!-- Custom styles for article page -->
+<style>
+.article-content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: linear-gradient(135deg, 
+        rgba(10, 10, 30, 0.85),
+        rgba(20, 20, 50, 0.75)
+    );
+    border-radius: 24px;
+    border: 2px solid rgba(0, 243, 255, 0.2);
+    backdrop-filter: blur(15px);
+}
+
+.article-hero {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid rgba(0, 243, 255, 0.2);
+}
+
+.article-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    filter: drop-shadow(0 0 20px rgba(0, 243, 255, 0.4));
+}
+
+.article-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, 
+        var(--primary-color),
+        var(--accent-color)
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1.5rem;
+    line-height: 1.3;
+}
+
+.article-excerpt {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.6;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.article-metadata {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.article-metadata span {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.article-body {
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.05rem;
+}
+
+.article-body h1, .article-body h2, .article-body h3 {
+    color: var(--text-light);
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.article-body h2 {
+    font-size: 1.8rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid rgba(0, 243, 255, 0.3);
+}
+
+.article-body h3 {
+    font-size: 1.4rem;
+    color: var(--primary-color);
+}
+
+.article-body p {
+    margin-bottom: 1.5rem;
+}
+
+.article-body ul, .article-body ol {
+    margin-bottom: 1.5rem;
+    padding-left: 2rem;
+}
+
+.article-body li {
+    margin-bottom: 0.5rem;
+}
+
+.article-body code {
+    background: rgba(0, 243, 255, 0.1);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95em;
+    color: var(--primary-color);
+}
+
+.article-body pre {
+    background: rgba(10, 10, 30, 0.9);
+    padding: 1.5rem;
+    border-radius: 12px;
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(0, 243, 255, 0.2);
+}
+
+.article-body pre code {
+    background: transparent;
+    padding: 0;
+    color: var(--text-light);
+}
+
+.article-body blockquote {
+    border-left: 4px solid var(--primary-color);
+    padding-left: 1.5rem;
+    margin: 1.5rem 0;
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.article-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 2px solid rgba(0, 243, 255, 0.2);
+}
+
+.tag-item {
+    background: rgba(0, 243, 255, 0.1);
+    border: 2px solid rgba(0, 243, 255, 0.3);
+    color: var(--primary-color);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.tag-item:hover {
+    background: rgba(0, 243, 255, 0.2);
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 243, 255, 0.3);
+}
+
+.article-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 3rem;
+}
+
+.action-btn {
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg,
+        rgba(0, 243, 255, 0.2),
+        rgba(123, 44, 191, 0.2)
+    );
+    border: 2px solid rgba(0, 243, 255, 0.4);
+    border-radius: 25px;
+    color: var(--primary-color);
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.action-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 20px rgba(0, 243, 255, 0.4);
+    border-color: var(--primary-color);
+}
+
+@media (max-width: 768px) {
+    .article-content {
+        padding: 1.5rem;
+    }
+    
+    .article-title {
+        font-size: 1.8rem;
+    }
+    
+    .article-excerpt {
+        font-size: 1rem;
+    }
+}
+</style>
+</head>
+<body class="notranslate" translate="no">
+    <!-- Background: Nebula and Fluid -->
+    <div class="bg-container">
+        <canvas id="canvas"></canvas>
+        <canvas id="fluidCanvas"></canvas>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">TOGETHER</a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="/" class="nav-link">首页</a></li>
+                <li class="nav-item"><a href="/pages/knowledge.html" class="nav-link">知识库</a></li>
+                <li class="nav-item"><a href="/pages/development.html" class="nav-link">开发地带</a></li>
+                <li class="nav-item"><a href="/pages/blog.html" class="nav-link active">博客</a></li>
+                <li class="nav-item"><a href="/pages/about.html" class="nav-link">关于</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <section class="content-section">
+            <div class="section-container">
+                <div class="article-content">
+    <div class="article-hero">
+        <div class="article-icon">🔍</div>
+        <h1 class="article-title">解读一下代码ip addr以及1panel应用</h1>
+        <p class="article-excerpt">深入解读Linux的ip addr命令输出，包括网络接口、MTU、IPv4/IPv6地址等信息，并详细讲解如何在1panel面板中配置IPv6网络。</p>
+        <div class="article-metadata">
+            <span>📅 2024-08-25</span>
+            <span>📂 技术</span>
+            <span>⏱️ 9分钟</span>
+        </div>
+    </div>
+    
+    <div class="article-body">
+        <p>使用 <code>ip addr</code> 命令在Linux系统上获取的网络接口配置信息。以下是对每部分内容的详细解读：</p>
+<h3><strong>网络接口编号和名称</strong></h3>
+<p>1: lo: <LOOPBACK,UP,LOWER\_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000 2: sit0@NONE: mtu 1480 qdisc noop state DOWN group default qlen 1000 3: eth0@if10547: <BROADCAST,MULTICAST,UP,LOWER\_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000 4: warp: <POINTOPOINT,NOARP,UP,LOWER\_UP> mtu 1400 qdisc noqueue state UNKNOWN group default qlen 1000 5: docker0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN group default 6: br-b700d3bee0cc: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN group default</p>
+<ul><li>  每个部分开头的数字（如 <code>1:</code>、<code>2:</code> 等）是网络接口的编号。</li>
+</ul>    
+<ul><li>  冒号后面的名称（如 <code>lo</code>、<code>sit0</code>、<code>eth0</code> 等）是网络接口的名称。</li>
+</ul>    
+<h3><strong>接口标志</strong></h3>
+<p><LOOPBACK,UP,LOWER\_UP> <BROADCAST,MULTICAST,UP,LOWER\_UP> <POINTOPOINT,NOARP,UP,LOWER\_UP> <NO-CARRIER,BROADCAST,MULTICAST,UP></p>
+<p>这些标志描述了接口的状态和特性：</p>
+<ul><li>  <code>LOOPBACK</code>：表示这是一个环回接口，主要用于本地通信。</li>
+</ul>    
+<ul><li>  <code>UP</code>：表示接口已启用。</li>
+</ul>    
+<ul><li>  <code>LOWER_UP</code>：表示底层链路已启用。</li>
+</ul>    
+<ul><li>  <code>NOARP</code>：表示该接口不使用ARP协议。</li>
+</ul>    
+<ul><li>  <code>BROADCAST</code>：表示该接口支持广播。</li>
+</ul>    
+<ul><li>  <code>MULTICAST</code>：表示该接口支持多播。</li>
+</ul>    
+<ul><li>  <code>POINTOPOINT</code>：表示该接口是点到点连接。</li>
+</ul>    
+<ul><li>  <code>NO-CARRIER</code>：表示没有检测到载波信号，通常意味着链路没有连接。</li>
+</ul>    
+<h3><strong>MTU（最大传输单元）</strong></h3>
+<p>mtu 65536 mtu 1480 mtu 1500 mtu 1400 mtu 1500 mtu 1500</p>
+<p>MTU 定义了在该接口上能够传输的最大数据包大小。</p>
+<h3><strong>队列规则（qdisc）</strong></h3>
+<p>qdisc noqueue qdisc noop qdisc noqueue qdisc noqueue qdisc noqueue qdisc noqueue</p>
+<p>队列规则（qdisc）用于管理数据包在接口上的排队和调度。<code>noqueue</code> 表示不使用队列，<code>noop</code> 表示不进行任何操作。</p>
+<h3><strong>接口状态</strong></h3>
+<p>state UNKNOWN state DOWN state UP state UNKNOWN state DOWN state DOWN</p>
+<p>接口状态表示接口当前的运行状态，<code>UP</code> 表示正常运行，<code>DOWN</code> 表示接口已禁用，<code>UNKNOWN</code> 表示状态未知。</p>
+<h3><strong>链路层信息</strong></h3>
+<p>link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00 link/sit 0.0.0.0 brd 0.0.0.0 link/ether bc:24:11:80:40:0e brd ff:ff:ff:ff:ff:ff link-netnsid 0 link/none link/ether 02:42:0e:af:1a:3d brd ff:ff:ff:ff:ff:ff link/ether 02:42:6a:f8:21:fd brd ff:ff:ff:ff:ff:ff</p>
+<p>这些信息描述了接口的链路层协议和硬件地址（MAC地址）：</p>
+<ul><li>  <code>link/loopback</code>：环回接口的链路层类型。</li>
+</ul>    
+<ul><li>  <code>link/sit</code>：表示IPv6-in-IPv4隧道接口。</li>
+</ul>    
+<ul><li>  <code>link/ether</code>：表示以太网接口，后面跟着MAC地址和广播地址。</li>
+</ul>    
+<ul><li>  <code>link-netnsid</code>：表示网络命名空间ID。</li>
+</ul>    
+<h3><strong>IP地址信息</strong></h3>
+<p>inet....</p>
+<p>这些信息列出了接口配置的IPv4和IPv6地址：</p>
+<ul><li>  <code>inet</code>：表示IPv4地址，格式为 <code>地址/子网掩码</code>，<code>scope</code> 表示地址的作用域。</li>
+</ul>    
+<ul><li>  <code>inet6</code>：表示IPv6地址，格式为 <code>地址/子网前缀长度</code>，<code>scope</code> 表示地址的作用域。</li>
+</ul>    
+<ul><li>  <code>brd</code>：表示广播地址。</li>
+</ul>    
+<ul><li>  <code>nodad</code>：表示无状态自动配置（Stateless Address Autoconfiguration）。</li>
+</ul>    
+<h3><strong>有效期</strong></h3>
+<p>valid\_lft forever preferred\_lft forever</p>
+<p><code>valid_lft</code> 和 <code>preferred_lft</code> 分别表示地址的有效期限和首选期限。<code>forever</code> 表示地址的有效期是无限的。</p>
+<p>通过这些信息，可以全面了解系统中各个网络接口的配置和状态。</p>
+<h3><strong>然后利用ipv6地址转化子网地址，可以在 1panel 面板中进行 ipv6 设置。</strong></h3>
+<p>1.  删除容器网络
+    
+    首先点击路径：容器 - 网络 - 1panel-network，  
+    我们可以看到 <code>"EnableIPv6": false</code> ，ipv6 未启用。 这边我们将它直接删除。
+    
+2.  设置子网
+    
+    还记得我们开头查询过本机的 ipv6 地址为 <code>2a01:484:222:1d0e::1111:60/64</code>，我们可知它的子网是 <code>2a01:484:222:1d0e::/64</code>（具体怎么转化推荐<a href="https://ip-calculator.wcode.net/" target="_blank" rel="noopener noreferrer"><strong>IPv4/IPv6 地址转换计算器</strong></a>）。  
+    点击路径：容器 - 配置，  
+    子网填入 <code>2a01:484:222:1d0e::/64</code>，把高级设置里的 ip6tables 和 experimental 勾上。  
+    然后会自动进行一次重启。
+    
+3.  添加容器网络
+    
+    我们回到路径：容器 - 网络 - 1panel-network，  
+    将网络 <code>1panel-network</code> 添加回来，  
+    模式：bridge  
+    IPv4 子网：172.18.0.0/16  
+    IPv4 网关：172.18.0.1  
+    勾选 IPv6（子网地址可随意）  
+    IPv6 子网：fc00:0:0:1::/64  
+    IPv6 网关：fc00:0:0:1::1
+    
+4.  这样1panel的IPV6设置就完成了。</p>
+    </div>
+    
+    <div class="article-tags">
+                <a href="/pages/blog.html?tag=Linux" class="tag-item">Linux</a><a href="/pages/blog.html?tag=ip%20addr" class="tag-item">ip addr</a><a href="/pages/blog.html?tag=1panel" class="tag-item">1panel</a><a href="/pages/blog.html?tag=%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE" class="tag-item">网络配置</a><a href="/pages/blog.html?tag=IPv6" class="tag-item">IPv6</a>
+               </div>
+    
+    <div class="article-actions">
+        <a href="/pages/blog.html" class="action-btn">← 返回博客列表</a>
+        <a href="/" class="action-btn">回到首页</a>
+    </div>
+</div>
+                <!-- Article content will be injected here -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 TOGETHER. 保留所有权利。</p>
+            <p class="footer-tagline">用热情和技术构建</p>
+            <div class="footer-links">
+                <a href="/privacy-policy.html">隐私政策</a>
+                <span>·</span>
+                <a href="/terms-of-service.html">服务条款</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../js/galaxy.js"></script>
+    <script src="../../js/fluid.js"></script>
+    <script src="../../js/nav.js"></script>
+</body>
+</html>

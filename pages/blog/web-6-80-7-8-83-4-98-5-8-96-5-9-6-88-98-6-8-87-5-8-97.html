@@ -1,0 +1,539 @@
+<!doctype html>
+<html lang="zh-CN" translate="no">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google" content="notranslate">
+<meta http-equiv="Content-Language" content="zh-CN">
+
+<title>Web性能优化实战指南 - TOGETHER博客</title>
+<meta name="description" content="深入探讨现代Web应用的性能优化策略，从代码层面到部署优化，让您的网站飞起来。">
+<meta name="keywords" content="性能优化, Web开发, 前端, 最佳实践, TOGETHER, 博客, 技术">
+<meta name="author" content="TOGETHER">
+<meta name="robots" content="index, follow">
+
+<!-- Open Graph -->
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://171780.xyz/pages/blog/web-6-80-7-8-83-4-98-5-8-96-5-9-6-88-98-6-8-87-5-8-97.html">
+<meta property="og:title" content="Web性能优化实战指南 - TOGETHER博客">
+<meta property="og:description" content="深入探讨现代Web应用的性能优化策略，从代码层面到部署优化，让您的网站飞起来。">
+<meta property="og:image" content="https://171780.xyz/assets/favicon.ico">
+<meta property="og:site_name" content="TOGETHER">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-01-20">
+<meta property="article:author" content="TOGETHER">
+<meta property="article:section" content="技术">
+<meta property="article:tag" content="性能优化">
+<meta property="article:tag" content="Web开发">
+<meta property="article:tag" content="前端">
+<meta property="article:tag" content="最佳实践">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://171780.xyz/pages/blog/web-6-80-7-8-83-4-98-5-8-96-5-9-6-88-98-6-8-87-5-8-97.html">
+<meta name="twitter:title" content="Web性能优化实战指南 - TOGETHER博客">
+<meta name="twitter:description" content="深入探讨现代Web应用的性能优化策略，从代码层面到部署优化，让您的网站飞起来。">
+<meta name="twitter:image" content="https://171780.xyz/assets/favicon.ico">
+<meta name="twitter:creator" content="@Vincentcharming">
+<!-- SEO meta tags will be injected here -->
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="../../assets/favicon.ico">
+<link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+
+<!-- Theme Color -->
+<meta name="theme-color" content="#667eea">
+
+<link rel="canonical" href="https://171780.xyz/pages/blog/web-6-80-7-8-83-4-98-5-8-96-5-9-6-88-98-6-8-87-5-8-97.html">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Web性能优化实战指南",
+  "description": "深入探讨现代Web应用的性能优化策略，从代码层面到部署优化，让您的网站飞起来。",
+  "image": "https://171780.xyz/assets/favicon.ico",
+  "author": {
+    "@type": "Person",
+    "name": "WANG",
+    "url": "https://171780.xyz/pages/about.html"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "TOGETHER",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://171780.xyz/assets/favicon.ico"
+    }
+  },
+  "datePublished": "2025-01-20",
+  "dateModified": "2025-01-20",
+  "url": "https://171780.xyz/pages/blog/web-6-80-7-8-83-4-98-5-8-96-5-9-6-88-98-6-8-87-5-8-97.html",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://171780.xyz/pages/blog/web-6-80-7-8-83-4-98-5-8-96-5-9-6-88-98-6-8-87-5-8-97.html"
+  },
+  "keywords": "性能优化, Web开发, 前端, 最佳实践",
+  "articleSection": "技术",
+  "inLanguage": "zh-CN"
+}
+</script>
+
+<!-- Stylesheets -->
+<link rel="stylesheet" href="../../css/style.css">
+<link rel="stylesheet" href="../../css/blog.css">
+
+<!-- Custom styles for article page -->
+<style>
+.article-content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: linear-gradient(135deg, 
+        rgba(10, 10, 30, 0.85),
+        rgba(20, 20, 50, 0.75)
+    );
+    border-radius: 24px;
+    border: 2px solid rgba(0, 243, 255, 0.2);
+    backdrop-filter: blur(15px);
+}
+
+.article-hero {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid rgba(0, 243, 255, 0.2);
+}
+
+.article-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    filter: drop-shadow(0 0 20px rgba(0, 243, 255, 0.4));
+}
+
+.article-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, 
+        var(--primary-color),
+        var(--accent-color)
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1.5rem;
+    line-height: 1.3;
+}
+
+.article-excerpt {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.6;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.article-metadata {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.article-metadata span {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.article-body {
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.05rem;
+}
+
+.article-body h1, .article-body h2, .article-body h3 {
+    color: var(--text-light);
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.article-body h2 {
+    font-size: 1.8rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid rgba(0, 243, 255, 0.3);
+}
+
+.article-body h3 {
+    font-size: 1.4rem;
+    color: var(--primary-color);
+}
+
+.article-body p {
+    margin-bottom: 1.5rem;
+}
+
+.article-body ul, .article-body ol {
+    margin-bottom: 1.5rem;
+    padding-left: 2rem;
+}
+
+.article-body li {
+    margin-bottom: 0.5rem;
+}
+
+.article-body code {
+    background: rgba(0, 243, 255, 0.1);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95em;
+    color: var(--primary-color);
+}
+
+.article-body pre {
+    background: rgba(10, 10, 30, 0.9);
+    padding: 1.5rem;
+    border-radius: 12px;
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(0, 243, 255, 0.2);
+}
+
+.article-body pre code {
+    background: transparent;
+    padding: 0;
+    color: var(--text-light);
+}
+
+.article-body blockquote {
+    border-left: 4px solid var(--primary-color);
+    padding-left: 1.5rem;
+    margin: 1.5rem 0;
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.article-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 2px solid rgba(0, 243, 255, 0.2);
+}
+
+.tag-item {
+    background: rgba(0, 243, 255, 0.1);
+    border: 2px solid rgba(0, 243, 255, 0.3);
+    color: var(--primary-color);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.tag-item:hover {
+    background: rgba(0, 243, 255, 0.2);
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 243, 255, 0.3);
+}
+
+.article-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 3rem;
+}
+
+.action-btn {
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg,
+        rgba(0, 243, 255, 0.2),
+        rgba(123, 44, 191, 0.2)
+    );
+    border: 2px solid rgba(0, 243, 255, 0.4);
+    border-radius: 25px;
+    color: var(--primary-color);
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.action-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 20px rgba(0, 243, 255, 0.4);
+    border-color: var(--primary-color);
+}
+
+@media (max-width: 768px) {
+    .article-content {
+        padding: 1.5rem;
+    }
+    
+    .article-title {
+        font-size: 1.8rem;
+    }
+    
+    .article-excerpt {
+        font-size: 1rem;
+    }
+}
+</style>
+</head>
+<body class="notranslate" translate="no">
+    <!-- Background: Nebula and Fluid -->
+    <div class="bg-container">
+        <canvas id="canvas"></canvas>
+        <canvas id="fluidCanvas"></canvas>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">TOGETHER</a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="/" class="nav-link">首页</a></li>
+                <li class="nav-item"><a href="/pages/knowledge.html" class="nav-link">知识库</a></li>
+                <li class="nav-item"><a href="/pages/development.html" class="nav-link">开发地带</a></li>
+                <li class="nav-item"><a href="/pages/blog.html" class="nav-link active">博客</a></li>
+                <li class="nav-item"><a href="/pages/about.html" class="nav-link">关于</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <section class="content-section">
+            <div class="section-container">
+                <div class="article-content">
+    <div class="article-hero">
+        <div class="article-icon">⚡</div>
+        <h1 class="article-title">Web性能优化实战指南</h1>
+        <p class="article-excerpt">深入探讨现代Web应用的性能优化策略，从代码层面到部署优化，让您的网站飞起来。</p>
+        <div class="article-metadata">
+            <span>📅 2025-01-20</span>
+            <span>📂 技术</span>
+            <span>⏱️ 3分钟</span>
+        </div>
+    </div>
+    
+    <div class="article-body">
+        <h1>Web性能优化实战指南</h1>
+
+在当今互联网时代，网站性能直接影响用户体验和业务转化率。研究表明，页面加载时间每增加1秒，转化率就会下降7%。本文将分享一些实用的Web性能优化策略。
+
+<h2>为什么性能优化如此重要？</h2>
+
+<h3>用户体验</h3>
+
+<ul><li><strong>更快的加载速度</strong> = 更好的用户体验</li></ul>
+<ul><li><strong>更流畅的交互</strong> = 更高的用户满意度</li></ul>
+<ul><li><strong>更低的跳出率</strong> = 更多的转化机会</li></ul>
+
+<h3>搜索引擎优化</h3>
+
+Google已将页面速度作为排名因素之一。Core Web Vitals指标包括：
+
+<ul><li><strong>LCP</strong> (Largest Contentful Paint) - 最大内容绘制时间</li></ul>
+<ul><li><strong>FID</strong> (First Input Delay) - 首次输入延迟</li></ul>
+<ul><li><strong>CLS</strong> (Cumulative Layout Shift) - 累积布局偏移</li></ul>
+
+<h2>优化策略</h2>
+
+<h3>1. 代码层面优化</h3>
+
+#### JavaScript优化
+
+``<code>javascript
+// ❌ 避免：阻塞主线程的长任务
+function heavyCalculation() {
+    for (let i = 0; i < 1000000000; i++) {
+        // 计算密集型操作
+    }
+}
+
+// ✅ 推荐：使用 Web Worker
+const worker = new Worker('worker.js');
+worker.postMessage({ task: 'calculate' });
+worker.onmessage = (e) => {
+    console.log('计算结果:', e.data);
+};
+</code>`<code>
+
+#### CSS优化
+
+</code>`<code>css
+/<em> ❌ 避免：复杂的选择器 </em>/
+div.container > ul > li:nth-child(odd) > a:hover {
+    color: red;
+}
+
+/<em> ✅ 推荐：简化选择器 </em>/
+.nav-link:hover {
+    color: red;
+}
+</code>`<code>
+
+<h3>2. 资源加载优化</h3>
+
+#### 图片优化
+
+<ul><li>使用现代图片格式（WebP、AVIF）</li></ul>
+<ul><li>实现懒加载</li></ul>
+<ul><li>使用响应式图片</li></ul>
+
+</code>`<code>html
+<picture>
+    <source srcset="image.avif" type="image/avif">
+    <source srcset="image.webp" type="image/webp">
+    <img src="image.jpg" alt="描述" loading="lazy">
+</picture>
+</code>`<code>
+
+#### 代码分割
+
+</code>`<code>javascript
+// 动态导入
+const loadModule = async () => {
+    const module = await import('./heavy-module.js');
+    module.init();
+};
+
+// 路由级别的代码分割
+const routes = [
+    {
+        path: '/blog',
+        component: () => import('./views/Blog.vue')
+    }
+];
+</code>`<code>
+
+<h3>3. 缓存策略</h3>
+
+#### HTTP缓存
+
+</code>`<code>nginx
+<h1>Nginx配置示例</h1>
+location ~* \.(js|css|png|jpg|jpeg|gif|ico)$ {
+    expires 1y;
+    add_header Cache-Control "public, immutable";
+}
+</code>`<code>
+
+#### Service Worker缓存
+
+</code>`<code>javascript
+self.addEventListener('fetch', (event) => {
+    event.respondWith(
+        caches.match(event.request).then((response) => {
+            return response || fetch(event.request);
+        })
+    );
+});
+</code>`<code>
+
+<h3>4. 网络优化</h3>
+
+<ul><li>使用 CDN 加速静态资源</li></ul>
+<ul><li>启用 HTTP/2 或 HTTP/3</li></ul>
+<ul><li>实现 DNS 预解析</li></ul>
+
+</code>`<code>html
+<link rel="dns-prefetch" href="//cdn.example.com">
+<link rel="preconnect" href="https://api.example.com">
+</code>``
+
+<h2>性能监测工具</h2>
+
+<h3>开发阶段</h3>
+
+1. <strong>Chrome DevTools Performance</strong> - 详细的性能分析
+2. <strong>Lighthouse</strong> - 综合性能评分
+3. <strong>WebPageTest</strong> - 多地域测试
+
+<h3>生产环境</h3>
+
+1. <strong>Google Analytics</strong> - 用户行为分析
+2. <strong>Sentry</strong> - 性能监控和错误追踪
+3. <strong>New Relic</strong> - 应用性能管理
+
+<h2>实战案例</h2>
+
+我们的网站通过以下优化，将首屏加载时间从 <strong>3.5秒</strong> 降低到 <strong>1.2秒</strong>：
+
+1. 图片格式转换为 WebP，体积减少 <strong>65%</strong>
+2. 实现路由级代码分割，初始包体积减少 <strong>40%</strong>
+3. 启用 CDN 和 Brotli 压缩
+4. 优化关键渲染路径，移除阻塞资源
+
+<h2>最佳实践清单</h2>
+
+<ul><li>✅ 压缩和合并资源文件</li></ul>
+<ul><li>✅ 使用现代图片格式</li></ul>
+<ul><li>✅ 实现懒加载和预加载</li></ul>
+<ul><li>✅ 优化字体加载</li></ul>
+<ul><li>✅ 减少第三方脚本</li></ul>
+<ul><li>✅ 使用 CDN</li></ul>
+<ul><li>✅ 启用 Gzip/Brotli 压缩</li></ul>
+<ul><li>✅ 实现有效的缓存策略</li></ul>
+<ul><li>✅ 持续监控性能指标</li></ul>
+
+<h2>结语</h2>
+
+性能优化是一个持续的过程，而不是一次性的任务。定期审查和监测网站性能，根据实际数据制定优化策略，才能确保为用户提供最佳体验。
+
+记住：<strong>每一毫秒的优化，都是对用户体验的尊重。</strong>
+
+---
+
+<strong>相关阅读</strong>
+<ul><li><a href="https://developer.mozilla.org/zh-CN/docs/Web/Performance" target="_blank" rel="noopener noreferrer">MDN Web性能指南</a></li></ul>
+<ul><li><a href="https://web.dev/performance/" target="_blank" rel="noopener noreferrer">Web.dev性能优化</a></li></ul>
+<ul><li><a href="https://web.dev/vitals/" target="_blank" rel="noopener noreferrer">Google Core Web Vitals</a></li></ul>
+    </div>
+    
+    <div class="article-tags">
+                <a href="/pages/blog.html?tag=%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96" class="tag-item">性能优化</a><a href="/pages/blog.html?tag=Web%E5%BC%80%E5%8F%91" class="tag-item">Web开发</a><a href="/pages/blog.html?tag=%E5%89%8D%E7%AB%AF" class="tag-item">前端</a><a href="/pages/blog.html?tag=%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5" class="tag-item">最佳实践</a>
+               </div>
+    
+    <div class="article-actions">
+        <a href="/pages/blog.html" class="action-btn">← 返回博客列表</a>
+        <a href="/" class="action-btn">回到首页</a>
+    </div>
+</div>
+                <!-- Article content will be injected here -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 TOGETHER. 保留所有权利。</p>
+            <p class="footer-tagline">用热情和技术构建</p>
+            <div class="footer-links">
+                <a href="/privacy-policy.html">隐私政策</a>
+                <span>·</span>
+                <a href="/terms-of-service.html">服务条款</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../js/galaxy.js"></script>
+    <script src="../../js/fluid.js"></script>
+    <script src="../../js/nav.js"></script>
+</body>
+</html>

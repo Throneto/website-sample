@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="zh-CN" translate="no">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google" content="notranslate">
+<meta http-equiv="Content-Language" content="zh-CN">
+
+<title>单ipv6小鸡怎么开局？ - TOGETHER博客</title>
+<meta name="description" content="详细教你如何配置单IPv6服务器（小鸡），从路由器设置、DNS配置到添加IPv4双栈网络，还包括3x-ui和x-ui代理面板的部署方法。">
+<meta name="keywords" content="IPv6, VPS, 服务器配置, 网络, TOGETHER, 博客, 技术">
+<meta name="author" content="TOGETHER">
+<meta name="robots" content="index, follow">
+
+<!-- Open Graph -->
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://171780.xyz/pages/blog/5-8-95ipv6-5-0-8-9-8-1-6-80-8-4-9-88-5-80-5-1-80.html">
+<meta property="og:title" content="单ipv6小鸡怎么开局？ - TOGETHER博客">
+<meta property="og:description" content="详细教你如何配置单IPv6服务器（小鸡），从路由器设置、DNS配置到添加IPv4双栈网络，还包括3x-ui和x-ui代理面板的部署方法。">
+<meta property="og:image" content="https://171780.xyz/assets/favicon.ico">
+<meta property="og:site_name" content="TOGETHER">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-08-05">
+<meta property="article:author" content="TOGETHER">
+<meta property="article:section" content="技术">
+<meta property="article:tag" content="IPv6">
+<meta property="article:tag" content="VPS">
+<meta property="article:tag" content="服务器配置">
+<meta property="article:tag" content="网络">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://171780.xyz/pages/blog/5-8-95ipv6-5-0-8-9-8-1-6-80-8-4-9-88-5-80-5-1-80.html">
+<meta name="twitter:title" content="单ipv6小鸡怎么开局？ - TOGETHER博客">
+<meta name="twitter:description" content="详细教你如何配置单IPv6服务器（小鸡），从路由器设置、DNS配置到添加IPv4双栈网络，还包括3x-ui和x-ui代理面板的部署方法。">
+<meta name="twitter:image" content="https://171780.xyz/assets/favicon.ico">
+<meta name="twitter:creator" content="@Vincentcharming">
+<!-- SEO meta tags will be injected here -->
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="../../assets/favicon.ico">
+<link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+
+<!-- Theme Color -->
+<meta name="theme-color" content="#667eea">
+
+<link rel="canonical" href="https://171780.xyz/pages/blog/5-8-95ipv6-5-0-8-9-8-1-6-80-8-4-9-88-5-80-5-1-80.html">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "单ipv6小鸡怎么开局？",
+  "description": "详细教你如何配置单IPv6服务器（小鸡），从路由器设置、DNS配置到添加IPv4双栈网络，还包括3x-ui和x-ui代理面板的部署方法。",
+  "image": "https://171780.xyz/assets/favicon.ico",
+  "author": {
+    "@type": "Person",
+    "name": "WANG",
+    "url": "https://171780.xyz/pages/about.html"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "TOGETHER",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://171780.xyz/assets/favicon.ico"
+    }
+  },
+  "datePublished": "2024-08-05",
+  "dateModified": "2024-08-05",
+  "url": "https://171780.xyz/pages/blog/5-8-95ipv6-5-0-8-9-8-1-6-80-8-4-9-88-5-80-5-1-80.html",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://171780.xyz/pages/blog/5-8-95ipv6-5-0-8-9-8-1-6-80-8-4-9-88-5-80-5-1-80.html"
+  },
+  "keywords": "IPv6, VPS, 服务器配置, 网络",
+  "articleSection": "技术",
+  "inLanguage": "zh-CN"
+}
+</script>
+
+<!-- Stylesheets -->
+<link rel="stylesheet" href="../../css/style.css">
+<link rel="stylesheet" href="../../css/blog.css">
+
+<!-- Custom styles for article page -->
+<style>
+.article-content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: linear-gradient(135deg, 
+        rgba(10, 10, 30, 0.85),
+        rgba(20, 20, 50, 0.75)
+    );
+    border-radius: 24px;
+    border: 2px solid rgba(0, 243, 255, 0.2);
+    backdrop-filter: blur(15px);
+}
+
+.article-hero {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid rgba(0, 243, 255, 0.2);
+}
+
+.article-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    filter: drop-shadow(0 0 20px rgba(0, 243, 255, 0.4));
+}
+
+.article-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, 
+        var(--primary-color),
+        var(--accent-color)
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1.5rem;
+    line-height: 1.3;
+}
+
+.article-excerpt {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.6;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.article-metadata {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.article-metadata span {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.article-body {
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.05rem;
+}
+
+.article-body h1, .article-body h2, .article-body h3 {
+    color: var(--text-light);
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.article-body h2 {
+    font-size: 1.8rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid rgba(0, 243, 255, 0.3);
+}
+
+.article-body h3 {
+    font-size: 1.4rem;
+    color: var(--primary-color);
+}
+
+.article-body p {
+    margin-bottom: 1.5rem;
+}
+
+.article-body ul, .article-body ol {
+    margin-bottom: 1.5rem;
+    padding-left: 2rem;
+}
+
+.article-body li {
+    margin-bottom: 0.5rem;
+}
+
+.article-body code {
+    background: rgba(0, 243, 255, 0.1);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95em;
+    color: var(--primary-color);
+}
+
+.article-body pre {
+    background: rgba(10, 10, 30, 0.9);
+    padding: 1.5rem;
+    border-radius: 12px;
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(0, 243, 255, 0.2);
+}
+
+.article-body pre code {
+    background: transparent;
+    padding: 0;
+    color: var(--text-light);
+}
+
+.article-body blockquote {
+    border-left: 4px solid var(--primary-color);
+    padding-left: 1.5rem;
+    margin: 1.5rem 0;
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.article-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 2px solid rgba(0, 243, 255, 0.2);
+}
+
+.tag-item {
+    background: rgba(0, 243, 255, 0.1);
+    border: 2px solid rgba(0, 243, 255, 0.3);
+    color: var(--primary-color);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.tag-item:hover {
+    background: rgba(0, 243, 255, 0.2);
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 243, 255, 0.3);
+}
+
+.article-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 3rem;
+}
+
+.action-btn {
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg,
+        rgba(0, 243, 255, 0.2),
+        rgba(123, 44, 191, 0.2)
+    );
+    border: 2px solid rgba(0, 243, 255, 0.4);
+    border-radius: 25px;
+    color: var(--primary-color);
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.action-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 20px rgba(0, 243, 255, 0.4);
+    border-color: var(--primary-color);
+}
+
+@media (max-width: 768px) {
+    .article-content {
+        padding: 1.5rem;
+    }
+    
+    .article-title {
+        font-size: 1.8rem;
+    }
+    
+    .article-excerpt {
+        font-size: 1rem;
+    }
+}
+</style>
+</head>
+<body class="notranslate" translate="no">
+    <!-- Background: Nebula and Fluid -->
+    <div class="bg-container">
+        <canvas id="canvas"></canvas>
+        <canvas id="fluidCanvas"></canvas>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">TOGETHER</a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="/" class="nav-link">首页</a></li>
+                <li class="nav-item"><a href="/pages/knowledge.html" class="nav-link">知识库</a></li>
+                <li class="nav-item"><a href="/pages/development.html" class="nav-link">开发地带</a></li>
+                <li class="nav-item"><a href="/pages/blog.html" class="nav-link active">博客</a></li>
+                <li class="nav-item"><a href="/pages/about.html" class="nav-link">关于</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <section class="content-section">
+            <div class="section-container">
+                <div class="article-content">
+    <div class="article-hero">
+        <div class="article-icon">🐔</div>
+        <h1 class="article-title">单ipv6小鸡怎么开局？</h1>
+        <p class="article-excerpt">详细教你如何配置单IPv6服务器（小鸡），从路由器设置、DNS配置到添加IPv4双栈网络，还包括3x-ui和x-ui代理面板的部署方法。</p>
+        <div class="article-metadata">
+            <span>📅 2024-08-05</span>
+            <span>📂 技术</span>
+            <span>⏱️ 10分钟</span>
+        </div>
+    </div>
+    
+    <div class="article-body">
+        <p>1. 本机环境配置，详见<a href="https://pokerbounce.cc/posts/tplink-ipv6-settings" target="_blank" rel="noopener noreferrer">TP-link路由器设置</a>，开启ipv6功能，WAN口连接类型选择桥模式，保存即可。</p>
+<p>2. 先执行以下命令更新系统(ubuntu系统）：
+   
+       apt update && apt upgrade -y</p>
+<p>3. 再安装必要命令curl：
+   
+       apt install curl
+   
+   （出现Y/N，输入y并回车）</p>
+<p>4. 使用以下命令查看系统DNS配置，一般不用做修改：
+   
+       cat /etc/resolv.conf
+   
+   如果和图中不一样，可执行命令修改：
+   
+       cp /etc/resolv.conf{,.bak}; echo -e "nameserver 2a00:1098:2b::1\\nnameserver 2a01:4f9:c010:3f02::1\\nnameserver 2a01:4f8:c2c:123f::1\\nnameserver 2a00:1098:2c::1" > /etc/resolv.conf
+   
+   执行效果验证
+   
+   <code>#检查备份文件：</code>
+   
+       ls -l /etc/resolv.conf*
+   
+   <code># 确认 nameserver 条目换行正确</code>
+   
+       cat /etc/resolv.conf
+   
+   <code># 测试 IPv6 DNS 解析</code>
+   
+        ping -6 google.com </p>
+<p>5. 看个人是否有需求获取ipv4，使得服务器有双栈网络环境，执行命令选择中文或英文，然后选择<strong>为ipv6单栈添加ipv4</strong>，除了选择<strong>ipv6优先</strong>外其余回车即可：
+   
+       wget -N <https://gitlab.com/fscarmen/warp/-/raw/main/menu.sh> && bash menu.sh
+   
+   最新版本：
+   
+       wget -N https://gitlab.com/fscarmen/warp/-/raw/main/menu.sh && bash menu.sh [option] [lisence/url/token]
+   
+   !<a href="https://cdn.jsdelivr.net/gh/Throneto/image@main/2025-02-08%20190905.png" target="_blank" rel="noopener noreferrer">2025-02-08 190905.png</a></p>
+<p>6. 最后，祝各位玩鸡快乐！可以搭建代理节点，安装docker，构建自己的网站博客等等</p>
+<p>7. 代理
+   
+   <a href="https://github.com/MHSanaei/3x-ui" target="_blank" rel="noopener noreferrer"><strong>3x-ui面板:</strong></a>
+   
+       bash <(curl -Ls <https://raw.githubusercontent.com/mhsanaei/3x-ui/master/install.sh>)
+   
+   <a href="https://github.com/sing-web/x-ui" target="_blank" rel="noopener noreferrer"><strong>x-ui面板:</strong></a>
+   
+       bash <(wget -qO- <https://raw.githubusercontent.com/sing-web/x-ui/main/install.sh>)
+   
+   添加入站节点
+   
+   Vless 协议（vless + ws）
+   
+   备注：自己填，协议：vless，端口：自己填（或者默认，cloudflare cdn 的参考上面端口）
+   
+   点击添加用户 的 + 号，email 可留空（默认也可）
+   
+   下面一栏中，找到网络 选择 ws，路径 填入 / 用户 ID 前半部分
+   
+   最后，点击添加即可
+   
+   注意：例如这个用户 IDfaf5a80b-b4bd-4af7-fec2-20a97a16270a 的 / 用户 ID 前半部分 指的是 /faf5a80b
+   
+   端口问题
+   
+   > Cloudflare HTTPS 流量可以使用的回源端口 如下：443、2053、2083、2087、2096、8443
+   > 
+   > Cloudflare HTTP 流量可以使用的回源端口 如下：80、8080、8880、2052、2082、2086、2095</p>
+    </div>
+    
+    <div class="article-tags">
+                <a href="/pages/blog.html?tag=IPv6" class="tag-item">IPv6</a><a href="/pages/blog.html?tag=VPS" class="tag-item">VPS</a><a href="/pages/blog.html?tag=%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%85%8D%E7%BD%AE" class="tag-item">服务器配置</a><a href="/pages/blog.html?tag=%E7%BD%91%E7%BB%9C" class="tag-item">网络</a>
+               </div>
+    
+    <div class="article-actions">
+        <a href="/pages/blog.html" class="action-btn">← 返回博客列表</a>
+        <a href="/" class="action-btn">回到首页</a>
+    </div>
+</div>
+                <!-- Article content will be injected here -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 TOGETHER. 保留所有权利。</p>
+            <p class="footer-tagline">用热情和技术构建</p>
+            <div class="footer-links">
+                <a href="/privacy-policy.html">隐私政策</a>
+                <span>·</span>
+                <a href="/terms-of-service.html">服务条款</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../js/galaxy.js"></script>
+    <script src="../../js/fluid.js"></script>
+    <script src="../../js/nav.js"></script>
+</body>
+</html>

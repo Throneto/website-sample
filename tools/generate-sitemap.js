@@ -66,49 +66,57 @@ class SitemapGenerator {
 
     /**
      * Generate sitemap XML
+     * Note: changefreq and priority are deprecated by Google and removed for cleaner output
      */
     generateSitemapXml(articles) {
         const now = new Date().toISOString().split('T')[0];
 
-        // Static pages
+        // Static pages with lastmod dates
         const staticPages = [
-            { loc: '/', priority: '1.0', changefreq: 'daily', lastmod: now },
-            { loc: '/pages/blog.html', priority: '0.9', changefreq: 'daily', lastmod: now },
-            { loc: '/pages/knowledge.html', priority: '0.8', changefreq: 'weekly', lastmod: now },
-            { loc: '/pages/development.html', priority: '0.8', changefreq: 'weekly', lastmod: now },
-            { loc: '/pages/about.html', priority: '0.7', changefreq: 'monthly', lastmod: now },
-            { loc: '/privacy-policy.html', priority: '0.3', changefreq: 'yearly', lastmod: now },
-            { loc: '/terms-of-service.html', priority: '0.3', changefreq: 'yearly', lastmod: now }
+            { loc: '/', lastmod: now },
+            { loc: '/pages/blog.html', lastmod: now },
+            { loc: '/pages/knowledge.html', lastmod: now },
+            { loc: '/pages/development.html', lastmod: now },
+            { loc: '/pages/about.html', lastmod: now },
+            { loc: '/privacy-policy.html', lastmod: now },
+            { loc: '/terms-of-service.html', lastmod: now }
         ];
 
-        // Article pages
+        // Article pages with real publish dates
         const articlePages = articles.map(article => ({
             loc: `/pages/blog/${article.slug}.html`,
-            priority: article.featured ? '0.8' : '0.7',
-            changefreq: 'weekly',
             lastmod: article.publishDate || now
         }));
 
         const allPages = [...staticPages, ...articlePages];
 
         let xml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
-  <!-- Main Pages -->`;
+  <!-- Static Pages -->`;
 
-        for (const page of allPages) {
+        // Add static pages first
+        for (const page of staticPages) {
             xml += `\n  <url>
     <loc>${this.baseUrl}${page.loc}</loc>
     <lastmod>${page.lastmod}</lastmod>
-    <changefreq>${page.changefreq}</changefreq>
-    <priority>${page.priority}</priority>
   </url>`;
         }
 
-        xml += `\n  \n</urlset>`;
+        // Add article pages with comment separator
+        if (articlePages.length > 0) {
+            xml += `\n
+  <!-- Blog Articles -->`;
+            for (const page of articlePages) {
+                xml += `\n  <url>
+    <loc>${this.baseUrl}${page.loc}</loc>
+    <lastmod>${page.lastmod}</lastmod>
+  </url>`;
+            }
+        }
+
+        xml += `\n
+</urlset>`;
 
         return xml;
     }

@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="zh-CN" translate="no">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google" content="notranslate">
+<meta http-equiv="Content-Language" content="zh-CN">
+
+<title>解决 Git 连接报错的两种方法 - TOGETHER博客</title>
+<meta name="description" content="解决 Git 克隆或拉取代码时出现的连接重置错误，提供两种实用方法">
+<meta name="keywords" content="Git, 开发工具, 问题解决, TOGETHER, 博客, 技术">
+<meta name="author" content="TOGETHER">
+<meta name="robots" content="index, follow">
+
+<!-- Open Graph -->
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://171780.xyz/pages/blog/8-7-3-5-86-3-git-8-9-6-8-5-6-8-5-9-94-99-7-9-84-4-8-4-7-7-8-6-96-9-6-3-95.html">
+<meta property="og:title" content="解决 Git 连接报错的两种方法 - TOGETHER博客">
+<meta property="og:description" content="解决 Git 克隆或拉取代码时出现的连接重置错误，提供两种实用方法">
+<meta property="og:image" content="https://171780.xyz/assets/favicon.ico">
+<meta property="og:site_name" content="TOGETHER">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-10-22">
+<meta property="article:author" content="TOGETHER">
+<meta property="article:section" content="技术">
+<meta property="article:tag" content="Git">
+<meta property="article:tag" content="开发工具">
+<meta property="article:tag" content="问题解决">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://171780.xyz/pages/blog/8-7-3-5-86-3-git-8-9-6-8-5-6-8-5-9-94-99-7-9-84-4-8-4-7-7-8-6-96-9-6-3-95.html">
+<meta name="twitter:title" content="解决 Git 连接报错的两种方法 - TOGETHER博客">
+<meta name="twitter:description" content="解决 Git 克隆或拉取代码时出现的连接重置错误，提供两种实用方法">
+<meta name="twitter:image" content="https://171780.xyz/assets/favicon.ico">
+<meta name="twitter:creator" content="@Vincentcharming">
+<!-- SEO meta tags will be injected here -->
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="../../assets/favicon.ico">
+<link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+
+<!-- Theme Color -->
+<meta name="theme-color" content="#667eea">
+
+<link rel="canonical" href="https://171780.xyz/pages/blog/8-7-3-5-86-3-git-8-9-6-8-5-6-8-5-9-94-99-7-9-84-4-8-4-7-7-8-6-96-9-6-3-95.html">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "解决 Git 连接报错的两种方法",
+  "description": "解决 Git 克隆或拉取代码时出现的连接重置错误，提供两种实用方法",
+  "image": "https://171780.xyz/assets/favicon.ico",
+  "author": {
+    "@type": "Person",
+    "name": "WANG",
+    "url": "https://171780.xyz/pages/about.html"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "TOGETHER",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://171780.xyz/assets/favicon.ico"
+    }
+  },
+  "datePublished": "2025-10-22",
+  "dateModified": "2025-10-22",
+  "url": "https://171780.xyz/pages/blog/8-7-3-5-86-3-git-8-9-6-8-5-6-8-5-9-94-99-7-9-84-4-8-4-7-7-8-6-96-9-6-3-95.html",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://171780.xyz/pages/blog/8-7-3-5-86-3-git-8-9-6-8-5-6-8-5-9-94-99-7-9-84-4-8-4-7-7-8-6-96-9-6-3-95.html"
+  },
+  "keywords": "Git, 开发工具, 问题解决",
+  "articleSection": "技术",
+  "inLanguage": "zh-CN"
+}
+</script>
+
+<!-- Stylesheets -->
+<link rel="stylesheet" href="../../css/style.css">
+<link rel="stylesheet" href="../../css/blog.css">
+
+<!-- Custom styles for article page -->
+<style>
+.article-content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: linear-gradient(135deg, 
+        rgba(10, 10, 30, 0.85),
+        rgba(20, 20, 50, 0.75)
+    );
+    border-radius: 24px;
+    border: 2px solid rgba(0, 243, 255, 0.2);
+    backdrop-filter: blur(15px);
+}
+
+.article-hero {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid rgba(0, 243, 255, 0.2);
+}
+
+.article-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    filter: drop-shadow(0 0 20px rgba(0, 243, 255, 0.4));
+}
+
+.article-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, 
+        var(--primary-color),
+        var(--accent-color)
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1.5rem;
+    line-height: 1.3;
+}
+
+.article-excerpt {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.6;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.article-metadata {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.article-metadata span {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.article-body {
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.05rem;
+}
+
+.article-body h1, .article-body h2, .article-body h3 {
+    color: var(--text-light);
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.article-body h2 {
+    font-size: 1.8rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid rgba(0, 243, 255, 0.3);
+}
+
+.article-body h3 {
+    font-size: 1.4rem;
+    color: var(--primary-color);
+}
+
+.article-body p {
+    margin-bottom: 1.5rem;
+}
+
+.article-body ul, .article-body ol {
+    margin-bottom: 1.5rem;
+    padding-left: 2rem;
+}
+
+.article-body li {
+    margin-bottom: 0.5rem;
+}
+
+.article-body code {
+    background: rgba(0, 243, 255, 0.1);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95em;
+    color: var(--primary-color);
+}
+
+.article-body pre {
+    background: rgba(10, 10, 30, 0.9);
+    padding: 1.5rem;
+    border-radius: 12px;
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(0, 243, 255, 0.2);
+}
+
+.article-body pre code {
+    background: transparent;
+    padding: 0;
+    color: var(--text-light);
+}
+
+.article-body blockquote {
+    border-left: 4px solid var(--primary-color);
+    padding-left: 1.5rem;
+    margin: 1.5rem 0;
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.article-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 2px solid rgba(0, 243, 255, 0.2);
+}
+
+.tag-item {
+    background: rgba(0, 243, 255, 0.1);
+    border: 2px solid rgba(0, 243, 255, 0.3);
+    color: var(--primary-color);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.tag-item:hover {
+    background: rgba(0, 243, 255, 0.2);
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 243, 255, 0.3);
+}
+
+.article-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 3rem;
+}
+
+.action-btn {
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg,
+        rgba(0, 243, 255, 0.2),
+        rgba(123, 44, 191, 0.2)
+    );
+    border: 2px solid rgba(0, 243, 255, 0.4);
+    border-radius: 25px;
+    color: var(--primary-color);
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.action-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 20px rgba(0, 243, 255, 0.4);
+    border-color: var(--primary-color);
+}
+
+@media (max-width: 768px) {
+    .article-content {
+        padding: 1.5rem;
+    }
+    
+    .article-title {
+        font-size: 1.8rem;
+    }
+    
+    .article-excerpt {
+        font-size: 1rem;
+    }
+}
+</style>
+</head>
+<body class="notranslate" translate="no">
+    <!-- Background: Nebula and Fluid -->
+    <div class="bg-container">
+        <canvas id="canvas"></canvas>
+        <canvas id="fluidCanvas"></canvas>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">TOGETHER</a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="/" class="nav-link">首页</a></li>
+                <li class="nav-item"><a href="/pages/knowledge.html" class="nav-link">知识库</a></li>
+                <li class="nav-item"><a href="/pages/development.html" class="nav-link">开发地带</a></li>
+                <li class="nav-item"><a href="/pages/blog.html" class="nav-link active">博客</a></li>
+                <li class="nav-item"><a href="/pages/about.html" class="nav-link">关于</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <section class="content-section">
+            <div class="section-container">
+                <div class="article-content">
+    <div class="article-hero">
+        <div class="article-icon">🔧</div>
+        <h1 class="article-title">解决 Git 连接报错的两种方法</h1>
+        <p class="article-excerpt">解决 Git 克隆或拉取代码时出现的连接重置错误，提供两种实用方法</p>
+        <div class="article-metadata">
+            <span>📅 2025-10-22</span>
+            <span>📂 技术</span>
+            <span>⏱️ 5分钟</span>
+        </div>
+    </div>
+    
+    <div class="article-body">
+        <h1>解决 Git 连接报错的两种方法</h1>
+<p>使用 Git 进行代码管理时，执行 <code>git clone</code> 或 <code>git pull</code> 操作可能出现 "fatal: unable to access 'https://github.com/.../.git': Recv failure Connection was reset" 报错。这个问题由网络连接问题或代理设置错误引起。本文介绍两种解决方法。</p>
+<h2>方法一：取消代理设置</h2>
+<p>在终端执行以下命令，取消 Git 的代理设置：</p>
+<pre><code class="language-c">git config --global --unset http.proxy
+git config --global --unset https.proxy</code></pre>
+<p>这样可以清除 Git 的代理设置，Git 会直接连接网络。</p>
+<h2>方法二：设置系统代理</h2>
+<p>取消代理设置后仍然报错时，可以设置系统代理。步骤如下：</p>
+<p>打开系统设置，搜索代理设置，点击编辑按钮。</p>
+<p>!<a href="https://cdn.jsdelivr.net/gh/Throneto/image@main/solve-git-error1.png" target="_blank" rel="noopener noreferrer">image.png</a></p>
+<p>在代理服务器中，将端口设置为 7890，点击保存。此端口不影响正常上网。</p>
+<p>!<a href="https://cdn.jsdelivr.net/gh/Throneto/image@main/solve-git-error2.png" target="_blank" rel="noopener noreferrer">image.png</a></p>
+<p>在终端输入以下命令，让 Git 使用本地代理：</p>
+<pre><code class="language-c">git config --global http.proxy <a href="http://127.0.0.1:7890/" target="_blank" rel="noopener noreferrer">http://127.0.0.1:7890</a>
+git config --global http.proxy http://127.0.0.1:10808</code></pre>
+<p>设置完成后，用以下命令检查设置是否成功：</p>
+<pre><code class="language-c">git config --global -l</code></pre>
+    </div>
+    
+    <div class="article-tags">
+                <a href="/pages/blog.html?tag=Git" class="tag-item">Git</a><a href="/pages/blog.html?tag=%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7" class="tag-item">开发工具</a><a href="/pages/blog.html?tag=%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3" class="tag-item">问题解决</a>
+               </div>
+    
+    <div class="article-actions">
+        <a href="/pages/blog.html" class="action-btn">← 返回博客列表</a>
+        <a href="/" class="action-btn">回到首页</a>
+    </div>
+</div>
+                <!-- Article content will be injected here -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 TOGETHER. 保留所有权利。</p>
+            <p class="footer-tagline">用热情和技术构建</p>
+            <div class="footer-links">
+                <a href="/privacy-policy.html">隐私政策</a>
+                <span>·</span>
+                <a href="/terms-of-service.html">服务条款</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../js/galaxy.js"></script>
+    <script src="../../js/fluid.js"></script>
+    <script src="../../js/nav.js"></script>
+</body>
+</html>
