@@ -98,27 +98,15 @@ class DevelopmentManager {
             },
             {
                 id: 5,
-                title: '在线影视中心',
-                description: '聚合式在线视频播放平台。整合了多个视频源，提供电影、电视剧、综艺、动漫等海量影视资源，支持搜索、分类、收藏和播放历史记录。',
+                title: '青囊通 医生助手',
+                description: '基于中西医双轨决策机制的 AI 临床决策辅助系统 (CDSS)。智能挖掘十问主诉，客观感知舌象脉象，在方药计划端部署高危安全红线阻断，并提供高保真三维人体经络与腧穴交互研习学堂，为临床医师提供有温度、有底蕴的智能安全屏障。',
                 status: 'active',
-                icon: '📺',
-                technologies: ['React', 'Node.js', 'Video.js', 'MongoDB'],
-                demoUrl: 'https://tv.171780.xyz',
-                features: ['海量资源', '高清播放', '智能推荐', '断点续播'],
-                startDate: '2024-05-01',
-                lastUpdate: '2025-10-16'
-            },
-            {
-                id: 6,
-                title: '极简倒计时',
-                description: '功能全面的在线时间管理工具。支持世界时钟、倒计时、番茄钟等多种计时模式，内置快速预设（5分钟短休、25分钟番茄钟等），还能显示网络信息和系统时间。',
-                status: 'active',
-                icon: '⏱️',
-                technologies: ['HTML5', 'JavaScript', 'CSS3', 'LocalStorage'],
-                demoUrl: 'https://time.loc.cc',
-                features: ['世界时钟', '倒计时器', '番茄工作法', '主题切换'],
-                startDate: '2024-04-10',
-                lastUpdate: '2025-10-19'
+                icon: '🌿',
+                technologies: ['Next.js', 'React', 'Three.js (3D)', 'AI / LLM', 'TypeScript'],
+                demoUrl: 'https://qing.171780.xyz',
+                features: ['中西双轨', '十问主诉挖掘', '3D经络腧穴研习', '方药安全红线阻断'],
+                startDate: '2024-11-01',
+                lastUpdate: '2025-10-25'
             }
         ];
     }
