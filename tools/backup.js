@@ -27,39 +27,57 @@ class BackupManager {
         this.rootDir = path.join(__dirname, '..');
         this.backupDir = path.join(this.rootDir, 'backups');
         this.articlesPath = path.join(this.rootDir, 'data/articles.json');
+        this.articlesDir = path.join(this.rootDir, 'data/articles');
+        this.articlesIndexPath = path.join(this.rootDir, 'data/articles-index.json');
     }
 
     /**
      * 创建备份
      */
     create() {
-        console.log(`\n${colors.cyan}创建备份...${colors.reset}\n`);
-
-        if (!fs.existsSync(this.articlesPath)) {
-            console.log(`${colors.red}✗ 找不到 articles.json${colors.reset}\n`);
-            return;
-        }
+        console.log(`\n${colors.cyan}创建数据备份...${colors.reset}\n`);
 
         // 确保备份目录存在
         if (!fs.existsSync(this.backupDir)) {
             fs.mkdirSync(this.backupDir, { recursive: true });
         }
 
-        // 生成备份文件名
         const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, -5);
-        const backupPath = path.join(this.backupDir, `articles-${timestamp}.json`);
+        let backedUpCount = 0;
 
-        // 复制文件
-        fs.copyFileSync(this.articlesPath, backupPath);
+        // 1. 备份增量数据
+        if (fs.existsSync(this.articlesDir) || fs.existsSync(this.articlesIndexPath)) {
+            const incBackupSubdir = path.join(this.backupDir, `incremental-${timestamp}`);
+            fs.mkdirSync(incBackupSubdir, { recursive: true });
 
-        // 获取文件大小
-        const stats = fs.statSync(backupPath);
-        const sizeKB = (stats.size / 1024).toFixed(2);
+            if (fs.existsSync(this.articlesIndexPath)) {
+                fs.copyFileSync(this.articlesIndexPath, path.join(incBackupSubdir, 'articles-index.json'));
+                backedUpCount++;
+            }
 
-        console.log(`${colors.green}✓ 备份创建成功${colors.reset}`);
-        console.log(`  ${colors.bright}文件名:${colors.reset} ${path.basename(backupPath)}`);
-        console.log(`  ${colors.bright}大小:${colors.reset} ${sizeKB} KB`);
-        console.log(`  ${colors.bright}位置:${colors.reset} ${backupPath}\n`);
+            if (fs.existsSync(this.articlesDir)) {
+                const articleFiles = fs.readdirSync(this.articlesDir).filter(f => f.endsWith('.json'));
+                for (const af of articleFiles) {
+                    fs.copyFileSync(path.join(this.articlesDir, af), path.join(incBackupSubdir, af));
+                    backedUpCount++;
+                }
+            }
+
+            console.log(`${colors.green}✓ 增量数据备份成功${colors.reset}`);
+            console.log(`  ${colors.bright}归档目录:${colors.reset} ${path.basename(incBackupSubdir)} (${backedUpCount} 个文件)`);
+        }
+
+        // 2. 备份兼容单文件 articles.json（如果存在）
+        if (fs.existsSync(this.articlesPath)) {
+            const backupPath = path.join(this.backupDir, `articles-${timestamp}.json`);
+            fs.copyFileSync(this.articlesPath, backupPath);
+            const stats = fs.statSync(backupPath);
+            const sizeKB = (stats.size / 1024).toFixed(2);
+            console.log(`${colors.green}✓ 单文件备份成功${colors.reset}`);
+            console.log(`  ${colors.bright}文件名:${colors.reset} ${path.basename(backupPath)} (${sizeKB} KB)`);
+        }
+
+        console.log(`\n${colors.green}所有备份已保存至: ${this.backupDir}${colors.reset}\n`);
     }
 
     /**

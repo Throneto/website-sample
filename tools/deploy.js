@@ -78,14 +78,14 @@ class DeployManager {
      */
     async convertMarkdown() {
         console.log(`${colors.cyan}${colors.bright}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${colors.reset}`);
-        console.log(`${colors.cyan}步骤 1/4: 转换 Markdown 文件${colors.reset}`);
+        console.log(`${colors.cyan}步骤 1/4: 执行全流程构建 (增量转换/页面生成/站点地图)${colors.reset}`);
         console.log(`${colors.cyan}${colors.bright}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${colors.reset}\n`);
 
         try {
-            this.exec('node tools/md-to-json.js');
+            this.exec('npm run build');
             return true;
         } catch (error) {
-            console.log(`${colors.red}✗ Markdown 转换失败${colors.reset}\n`);
+            console.log(`${colors.red}✗ 构建流程失败${colors.reset}\n`);
             console.error(error.message);
             return false;
         }
@@ -100,6 +100,9 @@ class DeployManager {
         console.log(`${colors.cyan}${colors.bright}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${colors.reset}\n`);
 
         try {
+            // 添加所有博客文章与生成物
+            this.exec('git add data/ posts/ pages/blog/ sitemap.xml');
+
             // 检查是否有更改
             const status = this.exec('git status --porcelain', { silent: true });
             if (!status || status.trim() === '') {
@@ -108,14 +111,11 @@ class DeployManager {
             }
 
             // 显示将要添加的文件
-            console.log(`${colors.gray}准备添加以下文件:${colors.reset}`);
+            console.log(`${colors.gray}准备提交以下更改:${colors.reset}`);
             status.split('\n').filter(line => line.trim()).forEach(line => {
                 console.log(`  ${colors.gray}${line}${colors.reset}`);
             });
             console.log('');
-
-            // 添加所有更改
-            this.exec('git add data/articles.json posts/');
             console.log(`${colors.green}✓ 文件已添加${colors.reset}\n`);
             return true;
         } catch (error) {

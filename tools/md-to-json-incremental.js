@@ -16,6 +16,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 
 // ANSI 颜色代码
 const colors = {
@@ -120,12 +121,13 @@ class IncrementalMarkdownConverter {
     }
 
     /**
-     * 获取文件的哈希值（用于检测文件是否已处理）
+     * 获取文件的哈希值（基于内容 SHA-256 与相对路径，环境无关）
      */
     getFileHash(filePath) {
-        const stats = fs.statSync(filePath);
+        const relativePath = path.relative(this.postsDir, filePath);
         const content = fs.readFileSync(filePath, 'utf-8');
-        return `${filePath}:${stats.mtime.getTime()}:${content.length}`;
+        const contentHash = crypto.createHash('sha256').update(content).digest('hex').substring(0, 16);
+        return `${relativePath}:${contentHash}`;
     }
 
     /**
@@ -141,6 +143,32 @@ class IncrementalMarkdownConverter {
             console.warn(`${colors.yellow}无法读取已处理文件列表，将重新创建${colors.reset}`);
             return {};
         }
+    }
+
+    /**
+     * 读取所有已有文章，用于去重防刷
+     */
+    getExistingArticles() {
+        const existingArticles = [];
+        if (!fs.existsSync(this.articlesDir)) {
+            return existingArticles;
+        }
+
+        const files = fs.readdirSync(this.articlesDir)
+            .filter(file => file.startsWith('articles-') && file.endsWith('.json'));
+
+        for (const file of files) {
+            try {
+                const data = JSON.parse(fs.readFileSync(path.join(this.articlesDir, file), 'utf-8'));
+                if (Array.isArray(data.articles)) {
+                    existingArticles.push(...data.articles);
+                }
+            } catch (error) {
+                console.warn(`${colors.yellow}读取已有文章文件 ${file} 失败${colors.reset}`);
+            }
+        }
+
+        return existingArticles;
     }
 
     /**
@@ -299,13 +327,37 @@ class IncrementalMarkdownConverter {
 
         // 3. 检查哪些文件是新文件或已修改
         const processedFiles = this.getProcessedFiles();
-        const newOrModifiedFiles = allFiles.filter(file => {
+        const existingArticles = this.getExistingArticles();
+        const existingSourceFiles = new Set(existingArticles.map(a => a.sourceFile).filter(Boolean));
+
+        const newOrModifiedFiles = [];
+        let skippedExisting = 0;
+
+        for (const file of allFiles) {
+            const relKey = path.relative(this.postsDir, file);
+            const baseName = path.basename(file);
             const hash = this.getFileHash(file);
-            return processedFiles[file] !== hash;
-        });
+
+            // 若记录中已存在且哈希一致，直接跳过
+            if (processedFiles[relKey] === hash) {
+                continue;
+            }
+
+            // 防刷与防重复机制：若现有数据中已有该 sourceFile 且未记录，自动记入缓存，防止克隆后重复生成
+            if (existingSourceFiles.has(baseName) && !processedFiles[relKey]) {
+                processedFiles[relKey] = hash;
+                skippedExisting++;
+                continue;
+            }
+
+            newOrModifiedFiles.push(file);
+        }
+
+        // 保存补齐后的已处理文件列表
+        this.saveProcessedFiles(processedFiles);
 
         if (newOrModifiedFiles.length === 0) {
-            console.log(`${colors.green}✓${colors.reset} 所有文件都已是最新的，无需转换\n`);
+            console.log(`${colors.green}✓${colors.reset} 所有文件都已是最新的，无需转换${skippedExisting > 0 ? ` (已校准 ${skippedExisting} 篇历史文章缓存)` : ''}\n`);
             return;
         }
 
@@ -321,7 +373,8 @@ class IncrementalMarkdownConverter {
                 newArticles.push(article);
                 currentId++;
                 // 标记为已处理
-                processedFiles[file] = this.getFileHash(file);
+                const relKey = path.relative(this.postsDir, file);
+                processedFiles[relKey] = this.getFileHash(file);
             }
         }
 

@@ -1,0 +1,32 @@
+# Version control
+.git
+.gitignore
+.github
+
+# Node dependencies and logs
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+
+# Environment variables
+.env
+.env.*
+
+# Development & tools
+tools/
+posts/
+backups/
+*.backup
+*.bak
+*.tmp
+*.temp
+logs/
+.vscode/
+.idea/
+.DS_Store
+
+# Markdown documentation
+*.md
+docs/

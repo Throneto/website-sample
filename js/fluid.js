@@ -40,8 +40,13 @@
 
     let pointers = [new pointerPrototype()];
 
-    const { gl, ext } = getWebGLContext(canvas);
-    if (!ext.supportLinearFiltering) {
+    const contextResult = getWebGLContext(canvas);
+    if (!contextResult || !contextResult.gl) {
+        console.warn('[Fluid] WebGL not supported or disabled. Fluid animation skipped.');
+        return;
+    }
+    const { gl, ext } = contextResult;
+    if (ext && !ext.supportLinearFiltering) {
         config.DYE_RESOLUTION = 256;
         config.SHADING = false;
     }
@@ -57,6 +62,7 @@
         let gl = canvas.getContext('webgl2', params);
         const isWebGL2 = !!gl;
         if (!isWebGL2) gl = canvas.getContext('webgl', params) || canvas.getContext('experimental-webgl', params);
+        if (!gl) return { gl: null, ext: null };
 
         let halfFloat;
         let supportLinearFiltering;

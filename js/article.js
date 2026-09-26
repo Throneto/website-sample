@@ -20,6 +20,12 @@ class ArticleManager {
             const slug = urlParams.get('slug');
             const id = urlParams.get('id');
 
+            // 优先直接使用预渲染的静态文章页面
+            if (slug && !window.location.pathname.endsWith(`/${slug}.html`)) {
+                window.location.replace(`/pages/blog/${encodeURIComponent(slug)}.html`);
+                return;
+            }
+
             if (!slug && !id) {
                 this.showError('缺少文章参数');
                 return;
@@ -190,10 +196,13 @@ class ArticleManager {
             return `<img src="${processedUrl}" alt="${safeAlt}" loading="lazy" class="article-image" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'200\'%3E%3Crect fill=\'%23f0f0f0\' width=\'400\' height=\'200\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' dy=\'.3em\' fill=\'%23999\' font-family=\'Arial\' font-size=\'14\'%3E图片加载失败%3C/text%3E%3C/svg%3E'; this.style.border='1px solid rgba(255,59,48,0.3)'; this.style.background='rgba(255,59,48,0.05)';" onload="this.style.opacity='1'; this.style.transition='opacity 0.3s ease';">`;
         });
 
-        // 处理链接（不带感叹号）
+        // 处理链接（不带感叹号，增加安全协议校验防范 XSS）
         html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, text, url) => {
             const safeText = this.escapeHtml(text);
-            return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="article-link">${safeText}</a>`;
+            const trimmedUrl = url.trim();
+            const isSafeProtocol = /^(https?:|\/|#|mailto:)/i.test(trimmedUrl);
+            const safeUrl = isSafeProtocol ? this.escapeHtml(trimmedUrl) : '#';
+            return `<a href="${safeUrl}" target="_blank" rel="noopener noreferrer" class="article-link">${safeText}</a>`;
         });
 
         // 处理代码块（在其他转义之前）

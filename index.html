@@ -475,7 +475,8 @@
                         const articleCard = document.createElement('article');
                         articleCard.className = 'blog-card glass-card';
                         articleCard.style.cursor = 'pointer';
-                        articleCard.onclick = () => window.location.href = `/pages/blog.html?article=${article.slug}`;
+                        const articleUrl = article.slug ? `/pages/blog/${article.slug}.html` : `/pages/blog/article.html?id=${article.id}`;
+                        articleCard.onclick = () => window.location.href = articleUrl;
 
                         articleCard.innerHTML = `
                             <div class="blog-meta">
@@ -484,7 +485,7 @@
                             </div>
                             <h3>${article.icon || '📝'} ${article.title}</h3>
                             <p>${article.excerpt}</p>
-                            <a href="/pages/blog.html?article=${article.slug}" class="read-more" onclick="event.stopPropagation();">阅读更多 →</a>
+                            <a href="${articleUrl}" class="read-more" onclick="event.stopPropagation();">阅读更多 →</a>
                         `;
 
                         blogList.appendChild(articleCard);

@@ -288,6 +288,7 @@ class BlogManager {
     createArticleHTML(article) {
         const isFeatured = article.featured;
         const featuredClass = isFeatured ? 'featured-article' : '';
+        const articleLink = article.slug ? `/pages/blog/${article.slug}.html` : `/pages/blog/article.html?id=${article.id}`;
         
         return `
             <article class="blog-article ${featuredClass}" data-category="${article.category}">
@@ -327,26 +328,27 @@ class BlogManager {
                 </div>
                 
                 <div class="article-actions">
-                    <a href="/pages/blog/article.html?slug=${article.slug || article.id}" class="read-more" data-slug="${article.slug || article.id}">
-                        阅读更多
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <path d="M5 12h14M12 5l7 7-7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </a>
-                    
-                    <div class="article-stats">
-                        <div class="stat-item">
+                        <a href="${articleLink}" class="read-more" data-slug="${article.slug || article.id}">
+                            阅读更多
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke-width="2"/>
-                                <circle cx="12" cy="12" r="3" stroke-width="2"/>
+                                <path d="M5 12h14M12 5l7 7-7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
-                            ${article.views}
-                        </div>
-                        <div class="stat-item">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke-width="2"/>
-                            </svg>
-                            ${article.likes}
+                        </a>
+                        
+                        <div class="article-stats">
+                            <div class="stat-item">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke-width="2"/>
+                                    <circle cx="12" cy="12" r="3" stroke-width="2"/>
+                                </svg>
+                                ${article.views}
+                            </div>
+                            <div class="stat-item">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke-width="2"/>
+                                </svg>
+                                ${article.likes}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -365,9 +367,10 @@ class BlogManager {
 
     openArticle(article) {
         // 跳转到文章详情页
-        const slug = article.slug || article.id;
-        if (slug) {
-            window.location.href = `/pages/blog/article.html?slug=${encodeURIComponent(slug)}`;
+        if (article.slug) {
+            window.location.href = `/pages/blog/${article.slug}.html`;
+        } else if (article.id) {
+            window.location.href = `/pages/blog/article.html?id=${article.id}`;
         } else {
             console.error('文章缺少slug或id:', article);
         }

@@ -108,6 +108,18 @@
       "source": "/about.html",
       "destination": "/pages/about.html",
       "permanent": true
+    },
+    {
+      "source": "/pages/blog/article.html",
+      "has": [
+        {
+          "type": "query",
+          "key": "slug",
+          "value": "(?<slug>[a-zA-Z0-9\\-]+)"
+        }
+      ],
+      "destination": "/pages/blog/:slug.html",
+      "permanent": true
     }
   ],
   "cleanUrls": true,
